@@ -125,8 +125,6 @@ namespace Arex388.Carmine {
 
 			var response = await GetResponseAsync(request);
 
-			Console.WriteLine(response);
-
 			return JsonConvert.DeserializeObject<IEnumerable<UserResponse>>(response, JsonSerializerSettings);
 		}
 

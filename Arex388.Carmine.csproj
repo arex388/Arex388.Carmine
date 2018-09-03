@@ -1,11 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netstandard1.1</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon />
     <StartupObject />
+    <Authors>Arex388</Authors>
+    <Description>Carmine.io API Implementation in C#</Description>
+    <PackageProjectUrl>https://github.com/arex388/Arex388.Carmine</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/arex388/Arex388.Carmine</RepositoryUrl>
+    <PackageTags>carmine carmine.io</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

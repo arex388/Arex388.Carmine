@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Web;
+using System.Net;
 
 namespace Arex388.Carmine {
 	public sealed class VehiclesRequest :
@@ -11,7 +11,7 @@ namespace Arex388.Carmine {
 				};
 
 				if (!string.IsNullOrEmpty(Search)) {
-					var search = HttpUtility.UrlEncode(Search);
+					var search = WebUtility.UrlEncode(Search);
 
 					parameters.Add($"search={search}");
 				}

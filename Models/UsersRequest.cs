@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Net;
 
 namespace Arex388.Carmine {
 	public sealed class UsersRequest :
@@ -17,7 +17,7 @@ namespace Arex388.Carmine {
 				}
 
 				if (!string.IsNullOrEmpty(Name)) {
-					var name = HttpUtility.UrlEncode(Name);
+					var name = WebUtility.UrlEncode(Name);
 
 					parameters.Add($"name={name}");
 				}
@@ -29,7 +29,7 @@ namespace Arex388.Carmine {
 				}
 
 				if (!string.IsNullOrEmpty(Search)) {
-					var search = HttpUtility.UrlEncode(Search);
+					var search = WebUtility.UrlEncode(Search);
 
 					parameters.Add($"search={search}");
 				}
