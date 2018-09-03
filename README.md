@@ -3,6 +3,8 @@ Carmine.io API Implementation in C#
 
 To use, create a new instance of `CarmineClient` and pass in an instance of `HttpClient` and your API key. The original API documentation can be found [here][0]. For more information, please visit [arex388.com][1].
 
+Available as a NuGet package [here][2].
+
     var carmine = new CarmineClient(httpClient, "{key}");
 
 **Get a List of Vehicles**
@@ -35,3 +37,4 @@ To use, create a new instance of `CarmineClient` and pass in an instance of `Htt
 
 [0]:https://api.carmine.io/v2/docs
 [1]:https://arex388.com
+[2]:https://www.nuget.org/packages/Arex388.Carmine

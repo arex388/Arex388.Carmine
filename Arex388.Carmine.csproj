@@ -10,7 +10,7 @@
     <Description>Carmine.io API Implementation in C#</Description>
     <PackageProjectUrl>https://github.com/arex388/Arex388.Carmine</PackageProjectUrl>
     <RepositoryUrl>https://github.com/arex388/Arex388.Carmine</RepositoryUrl>
-    <PackageTags>carmine carmine.io</PackageTags>
+    <PackageTags>carmine carmine.io arex388</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
