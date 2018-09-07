@@ -33,7 +33,7 @@ Available as a NuGet package [here][2].
 
 **Get Waypoints for a Trip**
 
-    var waypoints = await carming.GetWaypointsAsync("{tripId}");
+    var waypoints = await carmine.GetWaypointsAsync("{tripId}");
 
 [0]:https://api.carmine.io/v2/docs
 [1]:https://arex388.com
