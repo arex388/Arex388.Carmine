@@ -17,8 +17,8 @@ namespace Arex388.Carmine {
 		public CarmineClient(
 			HttpClient client,
 			string key) {
-			Client = client;
-			Key = key;
+			Client = client ?? throw new ArgumentNullException(nameof(client));
+			Key = key ?? throw new ArgumentNullException(nameof(key));
 		}
 
 		public async Task<TripResponse> GetTripAsync(
