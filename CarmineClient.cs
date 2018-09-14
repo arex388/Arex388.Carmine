@@ -195,7 +195,9 @@ namespace Arex388.Carmine {
 			var endpoint = $"{request.Endpoint}&api_key={Key}";
 
 			try {
-				return await Client.GetStringAsync(endpoint);
+				var response = await Client.GetAsync(endpoint);
+
+				return await response.Content.ReadAsStringAsync();
 			} catch (HttpRequestException) {
 				return null;
 			}
