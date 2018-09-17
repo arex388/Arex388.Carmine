@@ -32,7 +32,7 @@ namespace Arex388.Carmine {
 
 		public async Task<TripResponse> GetTripAsync(
 			TripRequest request) {
-			if (request == null) {
+			if (request is null) {
 				return null;
 			}
 
@@ -55,11 +55,11 @@ namespace Arex388.Carmine {
 				StartedAtUtc = startedAtUtc
 			};
 
-			if (driverIds != null) {
+			if (!(driverIds is null)) {
 				request.DriverIds = driverIds;
 			}
 
-			if (vehicleIds != null) {
+			if (!(vehicleIds is null)) {
 				request.VehicleIds = vehicleIds;
 			}
 
@@ -68,7 +68,7 @@ namespace Arex388.Carmine {
 
 		public async Task<IEnumerable<TripResponse>> GetTripsAsync(
 			TripsRequest request) {
-			if (request == null) {
+			if (request is null) {
 				return null;
 			}
 
@@ -88,7 +88,7 @@ namespace Arex388.Carmine {
 
 		public async Task<UserResponse> GetUserAsync(
 			UserRequest request) {
-			if (request == null) {
+			if (request is null) {
 				return null;
 			}
 
@@ -110,7 +110,7 @@ namespace Arex388.Carmine {
 				Search = search
 			};
 
-			if (roles != null) {
+			if (!(roles is null)) {
 				request.Roles = roles;
 			}
 
@@ -119,7 +119,7 @@ namespace Arex388.Carmine {
 
 		public async Task<IEnumerable<UserResponse>> GetUsersAsync(
 			UsersRequest request) {
-			if (request == null) {
+			if (request is null) {
 				return null;
 			}
 
@@ -139,7 +139,7 @@ namespace Arex388.Carmine {
 
 		public async Task<VehicleResponse> GetVehicleAsync(
 			VehicleRequest request) {
-			if (request == null) {
+			if (request is null) {
 				return null;
 			}
 
@@ -161,7 +161,7 @@ namespace Arex388.Carmine {
 
 		public async Task<IEnumerable<VehicleResponse>> GetVehiclesAsync(
 			VehiclesRequest request) {
-			if (request == null) {
+			if (request is null) {
 				return null;
 			}
 
@@ -181,7 +181,7 @@ namespace Arex388.Carmine {
 
 		public async Task<IEnumerable<WaypointResponse>> GetWaypointsAsync(
 			WaypointsRequest request) {
-			if (request == null) {
+			if (request is null) {
 				return null;
 			}
 
