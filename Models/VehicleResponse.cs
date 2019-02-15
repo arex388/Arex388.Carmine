@@ -20,9 +20,9 @@ namespace Arex388.Carmine {
 		[JsonProperty("last_trip")]
 		public string LastTripId { get; set; }
 		[JsonProperty("current_latitude")]
-		public decimal Latitude { get; set; }
+		public decimal? Latitude { get; set; }
 		[JsonProperty("current_longitude")]
-		public decimal Longitude { get; set; }
+		public decimal? Longitude { get; set; }
 		public string Make { get; set; }
 		public string Model { get; set; }
 		[JsonProperty("odometer")]
