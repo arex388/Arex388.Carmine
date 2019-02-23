@@ -5,7 +5,10 @@ To use, create a new instance of `CarmineClient` and pass in an instance of `Htt
 
 Available as a NuGet package [here][2].
 
-    var carmine = new CarmineClient(httpClient, "{key}");
+    var carmine = new CarmineClient(
+        httpClient,
+        "{key}"
+    );
 
 **Get a List of Vehicles**
 
@@ -13,7 +16,9 @@ Available as a NuGet package [here][2].
 
 **Get a Vehicle**
 
-    var vehicle = await carmine.GetVehicleAsync("{vehicleId}");
+    var vehicle = await carmine.GetVehicleAsync(
+        "{vehicleId}"
+    );
 
 **Get a List of Users**
 
@@ -21,7 +26,9 @@ Available as a NuGet package [here][2].
 
 **Get a User**
 
-    var user = await carmine.GetUserAsync("{userId}");
+    var user = await carmine.GetUserAsync(
+        "{userId}"
+    );
 
 **Get a List of Trips**
 
@@ -29,11 +36,15 @@ Available as a NuGet package [here][2].
 
 **Get a Trip**
 
-    var trip = await carmine.GetTripAsync("{tripId}");
+    var trip = await carmine.GetTripAsync(
+        "{tripId}"
+    );
 
 **Get Waypoints for a Trip**
 
-    var waypoints = await carmine.GetWaypointsAsync("{tripId}");
+    var waypoints = await carmine.GetWaypointsAsync(
+        "{tripId}"
+    );
 
 [0]:https://api.carmine.io/v2/docs
 [1]:https://arex388.com
