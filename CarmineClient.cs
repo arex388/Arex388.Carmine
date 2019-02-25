@@ -23,12 +23,10 @@ namespace Arex388.Carmine {
 
 		public async Task<TripResponse> GetTripAsync(
 			string id,
-			string language = Languages.English) {
-			return await GetTripAsync(new TripRequest {
+			string language = Languages.English) => await GetTripAsync(new TripRequest {
 				Id = id,
 				Language = language
 			});
-		}
 
 		public async Task<TripResponse> GetTripAsync(
 			TripRequest request) {
@@ -79,12 +77,10 @@ namespace Arex388.Carmine {
 
 		public async Task<UserResponse> GetUserAsync(
 			string id,
-			string language = Languages.English) {
-			return await GetUserAsync(new UserRequest {
-				Id = id,
-				Language = language
-			});
-		}
+			string language = Languages.English) => await GetUserAsync(new UserRequest {
+			Id = id,
+			Language = language
+		});
 
 		public async Task<UserResponse> GetUserAsync(
 			UserRequest request) {
@@ -130,12 +126,10 @@ namespace Arex388.Carmine {
 
 		public async Task<VehicleResponse> GetVehicleAsync(
 			string id,
-			string language = Languages.English) {
-			return await GetVehicleAsync(new VehicleRequest {
-				Id = id,
-				Language = language
-			});
-		}
+			string language = Languages.English) => await GetVehicleAsync(new VehicleRequest {
+			Id = id,
+			Language = language
+		});
 
 		public async Task<VehicleResponse> GetVehicleAsync(
 			VehicleRequest request) {
@@ -151,13 +145,11 @@ namespace Arex388.Carmine {
 		public async Task<IEnumerable<VehicleResponse>> GetVehiclesAsync(
 			string search = null,
 			string status = null,
-			string language = Languages.English) {
-			return await GetVehiclesAsync(new VehiclesRequest {
-				Search = search,
-				Status = status,
-				Language = language
-			});
-		}
+			string language = Languages.English) => await GetVehiclesAsync(new VehiclesRequest {
+			Search = search,
+			Status = status,
+			Language = language
+		});
 
 		public async Task<IEnumerable<VehicleResponse>> GetVehiclesAsync(
 			VehiclesRequest request) {
@@ -172,12 +164,10 @@ namespace Arex388.Carmine {
 
 		public async Task<IEnumerable<WaypointResponse>> GetWaypointsAsync(
 			string tripId,
-			string language = Languages.English) {
-			return await GetWaypointsAsync(new WaypointsRequest {
-				Language = language,
-				TripId = tripId
-			});
-		}
+			string language = Languages.English) => await GetWaypointsAsync(new WaypointsRequest {
+			Language = language,
+			TripId = tripId
+		});
 
 		public async Task<IEnumerable<WaypointResponse>> GetWaypointsAsync(
 			WaypointsRequest request) {

@@ -6,9 +6,7 @@ namespace Arex388.Carmine {
 	public sealed class VehicleConverter :
 		JsonConverter {
 		public override bool CanConvert(
-			Type objectType) {
-			return objectType == typeof(VehicleResponse);
-		}
+			Type objectType) => objectType == typeof(VehicleResponse);
 
 		public override object ReadJson(
 			JsonReader reader,
@@ -27,8 +25,6 @@ namespace Arex388.Carmine {
 		public override void WriteJson(
 			JsonWriter writer,
 			object value,
-			JsonSerializer serializer) {
-			throw new NotImplementedException();
-		}
+			JsonSerializer serializer) => throw new NotImplementedException();
 	}
 }
