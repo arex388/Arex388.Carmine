@@ -2,24 +2,30 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netstandard1.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon />
     <StartupObject />
     <Authors>Arex388</Authors>
-    <Description>Carmine.io API Implementation in C#</Description>
+    <Description>A C# client for the Carmine.io API.</Description>
     <PackageProjectUrl>https://github.com/arex388/Arex388.Carmine</PackageProjectUrl>
     <RepositoryUrl>https://github.com/arex388/Arex388.Carmine</RepositoryUrl>
     <PackageTags>carmine carmine.io arex388</PackageTags>
-    <Version>1.0.5</Version>
+    <Version>2.0.0</Version>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>E:\Software Development\Arex388.Carmine\Arex388.Carmine.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

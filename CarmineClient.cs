@@ -1,196 +1,339 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Arex388.Carmine {
-	public sealed class CarmineClient {
-		private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings {
-			DateFormatHandling = DateFormatHandling.IsoDateFormat,
-			DateTimeZoneHandling = DateTimeZoneHandling.Utc
-		};
+    /// <summary>
+    /// Carmine.io API cleint.
+    /// </summary>
+    public sealed class CarmineClient {
+        private static JsonSerializerSettings JsonSerializerSettings => new() {
+            DateFormatHandling = DateFormatHandling.IsoDateFormat,
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc
+        };
 
-		private HttpClient Client { get; }
-		private string Key { get; }
+        private readonly bool _debug;
+        private readonly HttpClient _httpClient;
+        private readonly string _key;
 
-		public CarmineClient(
-			HttpClient client,
-			string key) {
-			Client = client ?? throw new ArgumentNullException(nameof(client));
-			Key = key ?? throw new ArgumentNullException(nameof(key));
-		}
+        /// <summary>
+        /// Create an instance of carmine.io API client.
+        /// </summary>
+        /// <param name="httpClient">An instance of HttpClient</param>
+        /// <param name="key">Your carmine.io API key.</param>
+        /// <param name="debug">Toggle response debugging. Disabled by default.</param>
+        public CarmineClient(
+            HttpClient httpClient,
+            string key,
+            bool debug = false) {
+            _debug = debug;
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _key = key ?? throw new ArgumentNullException(nameof(key));
+        }
 
-		public async Task<TripResponse> GetTripAsync(
-			string id,
-			string language = Languages.English) => await GetTripAsync(new TripRequest {
-				Id = id,
-				Language = language
-			});
+        //  ========================================================================
+        //  Actions
+        //  ========================================================================
 
-		public async Task<TripResponse> GetTripAsync(
-			TripRequest request) {
-			if (request is null) {
-				return null;
-			}
+        /// <summary>
+        /// Returns a trip.
+        /// </summary>
+        /// <param name="id">Teh trip's id.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>GetTripResponse</returns>
+        public async Task<GetTripResponse> GetTripAsync(
+            Guid id,
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<GetTripResponse>();
+            }
 
-			var response = await GetResponseAsync(request);
+            return await GetTripAsync(new GetTripRequest {
+                Id = id
+            }, cancellationToken).ConfigureAwait(false);
+        }
 
-			return JsonConvert.DeserializeObject<TripResponse>(response, JsonSerializerSettings);
-		}
+        /// <summary>
+        /// Returns a trip.
+        /// </summary>
+        /// <param name="request">The request parameters.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>GetUserResponse</returns>
+        public async Task<GetTripResponse> GetTripAsync(
+            GetTripRequest request,
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<GetTripResponse>();
+            }
 
-		public async Task<IEnumerable<TripResponse>> GetTripsAsync(
-			DateTime? startedAtUtc = null,
-			DateTime? endedAtUtc = null,
-			IEnumerable<string> vehicleIds = null,
-			IEnumerable<string> driverIds = null,
-			int limit = 100,
-			string language = Languages.English) {
-			var request = new TripsRequest {
-				EndedAtUtc = endedAtUtc,
-				Language = language,
-				Limit = limit,
-				StartedAtUtc = startedAtUtc
-			};
+            return await RequestAsync<GetTripResponse>(request, cancellationToken).ConfigureAwait(false);
+        }
 
-			if (!(driverIds is null)) {
-				request.DriverIds = driverIds;
-			}
+        /// <summary>
+        /// Returns a user.
+        /// </summary>
+        /// <param name="id">The user's id.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>GetUserResponse</returns>
+        public async Task<GetUserResponse> GetUserAsync(
+            Guid id,
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<GetUserResponse>();
+            }
 
-			if (!(vehicleIds is null)) {
-				request.VehicleIds = vehicleIds;
-			}
+            return await GetUserAsync(new GetUserRequest {
+                Id = id
+            }, cancellationToken).ConfigureAwait(false);
+        }
 
-			return await GetTripsAsync(request);
-		}
+        /// <summary>
+        /// Returns a user.
+        /// </summary>
+        /// <param name="request">The request parameters.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>GetUserResponse</returns>
+        public async Task<GetUserResponse> GetUserAsync(
+            GetUserRequest request,
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<GetUserResponse>();
+            }
 
-		public async Task<IEnumerable<TripResponse>> GetTripsAsync(
-			TripsRequest request) {
-			if (request is null) {
-				return null;
-			}
+            return await RequestAsync<GetUserResponse>(request, cancellationToken).ConfigureAwait(false);
+        }
 
-			var response = await GetResponseAsync(request);
+        /// <summary>
+        /// Returns a vehicle by its id.
+        /// </summary>
+        /// <param name="id">The vehicle's id.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>GetVehicleResponse</returns>
+        public async Task<GetVehicleResponse> GetVehicleAsync(
+            Guid id,
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<GetVehicleResponse>();
+            }
 
-			return JsonConvert.DeserializeObject<IEnumerable<TripResponse>>(response, JsonSerializerSettings);
-		}
+            return await GetVehicleAsync(new GetVehicleRequest {
+                Id = id
+            }, cancellationToken).ConfigureAwait(false);
+        }
 
-		public async Task<UserResponse> GetUserAsync(
-			string id,
-			string language = Languages.English) => await GetUserAsync(new UserRequest {
-			Id = id,
-			Language = language
-		});
+        /// <summary>
+        /// Returns a vehicle.
+        /// </summary>
+        /// <param name="request">The request parameters.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>GetVehicleResponse</returns>
+        public async Task<GetVehicleResponse> GetVehicleAsync(
+            GetVehicleRequest request,
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<GetVehicleResponse>();
+            }
 
-		public async Task<UserResponse> GetUserAsync(
-			UserRequest request) {
-			if (request is null) {
-				return null;
-			}
+            return await RequestAsync<GetVehicleResponse>(request, cancellationToken).ConfigureAwait(false);
+        }
 
-			var response = await GetResponseAsync(request);
+        /// <summary>
+        /// Returns a list of trip.s
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>ListTripsResponse</returns>
+        public async Task<ListTripsResponse> ListTripsAsync(
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<ListTripsResponse>();
+            }
 
-			return JsonConvert.DeserializeObject<UserResponse>(response, JsonSerializerSettings);
-		}
+            return await ListTripsAsync(new ListTripsRequest(), cancellationToken).ConfigureAwait(false);
+        }
 
-		public async Task<IEnumerable<UserResponse>> GetUsersAsync(
-			string name = null,
-			string search = null,
-			bool? active = null,
-			IEnumerable<string> roles = null,
-			string language = Languages.English) {
-			var request = new UsersRequest {
-				Active = active,
-				Language = language,
-				Name = name,
-				Search = search
-			};
+        /// <summary>
+        /// Returns a list of trips.
+        /// </summary>
+        /// <param name="request">The request parametes.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>ListTripsResponse2</returns>
+        public async Task<ListTripsResponse> ListTripsAsync(
+            ListTripsRequest request,
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<ListTripsResponse>();
+            }
 
-			if (!(roles is null)) {
-				request.Roles = roles;
-			}
+            return await RequestAsync<ListTripsResponse>(request, cancellationToken).ConfigureAwait(false);
+        }
 
-			return await GetUsersAsync(request);
-		}
+        /// <summary>
+        /// Returns a list of users.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>ListUsersResponse</returns>
+        public async Task<ListUsersResponse> ListUsersAsync(
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<ListUsersResponse>();
+            }
 
-		public async Task<IEnumerable<UserResponse>> GetUsersAsync(
-			UsersRequest request) {
-			if (request is null) {
-				return null;
-			}
+            return await ListUsersAsync(new ListUsersRequest(), cancellationToken).ConfigureAwait(false);
+        }
 
-			var response = await GetResponseAsync(request);
+        /// <summary>
+        /// Returns a list of users.
+        /// </summary>
+        /// <param name="request">The request parameters.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>ListUsersResponse</returns>
+        public async Task<ListUsersResponse> ListUsersAsync(
+            ListUsersRequest request,
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<ListUsersResponse>();
+            }
 
-			return JsonConvert.DeserializeObject<IEnumerable<UserResponse>>(response, JsonSerializerSettings);
-		}
+            return await RequestAsync<ListUsersResponse>(request, cancellationToken).ConfigureAwait(false);
+        }
 
-		public async Task<VehicleResponse> GetVehicleAsync(
-			string id,
-			string language = Languages.English) => await GetVehicleAsync(new VehicleRequest {
-			Id = id,
-			Language = language
-		});
+        /// <summary>
+        /// Returns a list of vehicles.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>ListVehiclesResponse</returns>
+        public async Task<ListVehiclesResponse> ListVehiclesAsync(
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<ListVehiclesResponse>();
+            }
 
-		public async Task<VehicleResponse> GetVehicleAsync(
-			VehicleRequest request) {
-			if (request is null) {
-				return null;
-			}
+            return await ListVehiclesAsync(new ListVehiclesRequest(), cancellationToken).ConfigureAwait(false);
+        }
 
-			var response = await GetResponseAsync(request);
+        /// <summary>
+        /// Returns a list of vehicles.
+        /// </summary>
+        /// <param name="request">The request parameters.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>ListVehiclesResponse</returns>
+        public async Task<ListVehiclesResponse> ListVehiclesAsync(
+            ListVehiclesRequest request,
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<ListVehiclesResponse>();
+            }
 
-			return JsonConvert.DeserializeObject<VehicleResponse>(response, JsonSerializerSettings);
-		}
+            return await RequestAsync<ListVehiclesResponse>(request, cancellationToken).ConfigureAwait(false);
+        }
 
-		public async Task<IEnumerable<VehicleResponse>> GetVehiclesAsync(
-			string search = null,
-			string status = null,
-			string language = Languages.English) => await GetVehiclesAsync(new VehiclesRequest {
-			Search = search,
-			Status = status,
-			Language = language
-		});
+        /// <summary>
+        /// Returns a list of waypoints for a trip.
+        /// </summary>
+        /// <param name="tripId">The trip id.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>ListWaypointsResponse</returns>
+        public async Task<ListWaypointsResponse> ListWaypointsAsync(
+            Guid tripId,
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<ListWaypointsResponse>();
+            }
 
-		public async Task<IEnumerable<VehicleResponse>> GetVehiclesAsync(
-			VehiclesRequest request) {
-			if (request is null) {
-				return null;
-			}
+            return await RequestAsync<ListWaypointsResponse>(new ListWaypointsRequest {
+                TripId = tripId
+            }, cancellationToken).ConfigureAwait(false);
+        }
 
-			var response = await GetResponseAsync(request);
+        /// <summary>
+        /// Returns a list of waypoints for a trip.
+        /// </summary>
+        /// <param name="request">The request parameters.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>ListWaypointsResponse</returns>
+        public async Task<ListWaypointsResponse> ListWaypointsAsync(
+            ListWaypointsRequest request,
+            CancellationToken cancellationToken = default) {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<ListWaypointsResponse>();
+            }
 
-			return JsonConvert.DeserializeObject<IEnumerable<VehicleResponse>>(response, JsonSerializerSettings);
-		}
+            return await RequestAsync<ListWaypointsResponse>(request, cancellationToken).ConfigureAwait(false);
+        }
 
-		public async Task<IEnumerable<WaypointResponse>> GetWaypointsAsync(
-			string tripId,
-			string language = Languages.English) => await GetWaypointsAsync(new WaypointsRequest {
-			Language = language,
-			TripId = tripId
-		});
+        //  ========================================================================
+        //  Utilities
+        //  ========================================================================
 
-		public async Task<IEnumerable<WaypointResponse>> GetWaypointsAsync(
-			WaypointsRequest request) {
-			if (request is null) {
-				return null;
-			}
+        private async Task<T> RequestAsync<T>(
+            RequestBase request,
+            CancellationToken cancellationToken = default)
+            where T : IResponse, new() {
+            if (cancellationToken.IsCancellationRequested) {
+                return CancelledResponse<T>();
+            }
 
-			var response = await GetResponseAsync(request);
+            try {
+                using var response = await _httpClient.GetAsync($"{request.Endpoint}&api_key={_key}", cancellationToken).ConfigureAwait(false);
+                var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var success = response.StatusCode == HttpStatusCode.OK;
 
-			return JsonConvert.DeserializeObject<IEnumerable<WaypointResponse>>(response, JsonSerializerSettings);
-		}
+                return Deserialize<T>(new ResponseResult {
+                    Json = string.Format(request.Wrapper, json),
+                    Success = success
+                });
+            } catch (HttpRequestException) {
+                return FailureResponse<T>();
+            } catch (TaskCanceledException) {
+                return TimeOutResponse<T>();
+            }
+        }
 
-		private async Task<string> GetResponseAsync(
-			RequestBase request) {
-			var endpoint = $"{request.Endpoint}&api_key={Key}";
+        private T Deserialize<T>(
+            ResponseResult response)
+            where T : IResponse, new() {
+            var json = response.Json;
 
-			try {
-				var response = await Client.GetAsync(endpoint);
+            if (!json.HasValue()) {
+                return new T();
+            }
 
-				return await response.Content.ReadAsStringAsync();
-			} catch (HttpRequestException) {
-				return null;
-			}
-		}
-	}
+            var t = JsonConvert.DeserializeObject<T>(json, JsonSerializerSettings);
+
+            if (t is null) {
+                return new T();
+            }
+
+            t.ResponseJson = _debug
+                ? json
+                : null;
+            t.ResponseStatus = response.Success
+                ? ResponseStatus.Success
+                : ResponseStatus.Failure;
+
+            return t;
+        }
+
+        //  ========================================================================
+        //  Responses
+        //  ========================================================================
+
+        private static T CancelledResponse<T>()
+            where T : IResponse, new() => new() {
+                ResponseStatus = ResponseStatus.Cancelled
+            };
+
+        private static T FailureResponse<T>()
+            where T : IResponse, new() => new() {
+                ResponseStatus = ResponseStatus.Failure
+            };
+
+        private static T TimeOutResponse<T>()
+            where T : IResponse, new() => new() {
+                ResponseStatus = ResponseStatus.TimeOut
+            };
+    }
 }

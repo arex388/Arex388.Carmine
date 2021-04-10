@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Arex388.Carmine</name>
+    </assembly>
+    <members>
+        <member name="F:Arex388.Carmine.CarmineClient._debug">
+            <summary>
+            Is debugging enabled.
+            </summary>
+        </member>
+        <member name="F:Arex388.Carmine.CarmineClient._httpClient">
+            <summary>
+            An instance of HttpClient.
+            </summary>
+        </member>
+        <member name="F:Arex388.Carmine.CarmineClient._key">
+            <summary>
+            Your carmine.io API key.
+            </summary>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.#ctor(System.Net.Http.HttpClient,System.String,System.Boolean)">
+            <summary>
+            Carmine.io API client.
+            </summary>
+            <param name="httpClient">An instance of HttpClient.</param>
+            <param name="key">Your carmine.io API key.</param>
+            <param name="debug">Toggle capturing the raw JSON response from carmine.io and returning it as part of the deserialized response object.</param>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetTripAsync(System.String,System.String)">
+            <summary>
+            Get a trip by its id.
+            </summary>
+            <param name="id">Trip ID.</param>
+            <param name="language">Localization language.</param>
+            <returns>A TripResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetTripAsync(Arex388.Carmine.TripRequest)">
+            <summary>
+            Get a trip.
+            </summary>
+            <param name="request">A TripRequest.</param>
+            <returns>A TripResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetTripWaypointsAsync(System.String,System.String)">
+            <summary>
+            Get a trip's waypoints by its id.
+            </summary>
+            <param name="tripId">Trip ID.</param>
+            <param name="language">Localization language.</param>
+            <returns>A TripWaypointResponse</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetTripWaypointsAsync(Arex388.Carmine.TripWaypointsRequest)">
+            <summary>
+            Get a trip's waypoints.
+            </summary>
+            <param name="request">A TripWaypointRequest.</param>
+            <returns>A TripWaypointResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetTripsAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Int32,System.String)">
+            <summary>
+            Get all trips matching the optional parameters.
+            </summary>
+            <param name="startedAtUtc">Filter trips by start time in UTC.</param>
+            <param name="endedAtUtc">Filter trips by end time in UTC.</param>
+            <param name="vehicleIds">Filter trips by vehicles.</param>
+            <param name="driverIds">Filter trips by drivers.</param>
+            <param name="limit">Number of results per page, 100 by default.</param>
+            <param name="language">Localization language.</param>
+            <returns>A collection of TripResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetTripsAsync(Arex388.Carmine.TripsRequest)">
+            <summary>
+            Get all trips.
+            </summary>
+            <param name="request">A TripsRequest.</param>
+            <returns>A collection of TripResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetUserAsync(System.String,System.String)">
+            <summary>
+            Get a user by their id.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="language">Localization language.</param>
+            <returns>A UserResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetUserAsync(Arex388.Carmine.UserRequest)">
+            <summary>
+            Get a user.
+            </summary>
+            <param name="request">A UserRequest.</param>
+            <returns>A UserResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetUsersAsync(System.String,System.String,System.Nullable{System.Boolean},System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            Get all users matching the optional parameters.
+            </summary>
+            <param name="name">List users with a partially matching name.</param>
+            <param name="search">List users matching name or email, supports SQL % LIKE syntax.</param>
+            <param name="active">List only active or inactive users.</param>
+            <param name="roles">List users by role.</param>
+            <param name="language">Localization language.</param>
+            <returns>A collection of UserResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetUsersAsync(Arex388.Carmine.UsersRequest)">
+            <summary>
+            Get all users.
+            </summary>
+            <param name="request">A UsersRequest.</param>
+            <returns>A collection of UserResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetVehicleAsync(System.String,System.String)">
+            <summary>
+            Get a vehicle by its id.
+            </summary>
+            <param name="id">Vehicle ID.</param>
+            <param name="language">Localization language.</param>
+            <returns>A VehicleResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetVehicleAsync(Arex388.Carmine.VehicleRequest)">
+            <summary>
+            Get a vehicle.
+            </summary>
+            <param name="request">A VehicleRequest.</param>
+            <returns>A VehicleResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetVehiclesAsync(System.String,System.String,System.String)">
+            <summary>
+            Get all vehicles matching the optional parameters.
+            </summary>
+            <param name="search">Filter vehicles by vin, license plate, year, make, or model.</param>
+            <param name="status">Filter vehicles by status.</param>
+            <param name="language">Localization language.</param>
+            <returns>A collection of VehicleResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.GetVehiclesAsync(Arex388.Carmine.VehiclesRequest)">
+            <summary>
+            Get all vehicles.
+            </summary>
+            <param name="request">A VehiclesRequest.</param>
+            <returns>A collection of VehicleResponse.</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.NullRequestResponse``1">
+            <summary>
+            A failure due to a null request.
+            </summary>
+            <typeparam name="T">The response type.</typeparam>
+            <returns>T</returns>
+        </member>
+        <member name="M:Arex388.Carmine.CarmineClient.FailedToDeserializeResponse``1">
+            <summary>
+            A failure due to a JSON deserialization issue.
+            </summary>
+            <typeparam name="T">The response type.</typeparam>
+            <returns>T</returns>
+        </member>
+        <member name="P:Arex388.Carmine.ResponseBase.Error">
+            <summary>
+            The error message if the response failed.
+            </summary>
+        </member>
+        <member name="P:Arex388.Carmine.ResponseBase.Id">
+            <summary>
+            The response's id.
+            </summary>
+        </member>
+        <member name="P:Arex388.Carmine.ResponseBase.Json">
+            <summary>
+            The raw JSON of the response for debugging.
+            </summary>
+        </member>
+        <member name="P:Arex388.Carmine.ResponseBase.Success">
+            <summary>
+            Was the request successful or not.
+            </summary>
+        </member>
+        <member name="M:Arex388.Carmine.ResponseBase.Invalid``1(System.String)">
+            <summary>
+            An invalid response instance with an optional error message.
+            </summary>
+            <typeparam name="T">The response type.</typeparam>
+            <param name="error">The error message (optional).</param>
+            <returns>T</returns>
+        </member>
+    </members>
+</doc>
