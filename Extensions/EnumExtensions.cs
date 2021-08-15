@@ -2,7 +2,7 @@
 using System.Reflection;
 
 namespace Arex388.Carmine {
-    internal static class Language2Extensions {
+    internal static class EnumExtensions {
         public static string ToValue<T>(
             this T value)
             where T : struct {
