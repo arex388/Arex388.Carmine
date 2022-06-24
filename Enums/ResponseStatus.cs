@@ -1,27 +1,27 @@
-﻿namespace Arex388.Carmine {
+﻿namespace Arex388.Carmine;
+
+/// <summary>
+/// Response status.
+/// </summary>
+public enum ResponseStatus :
+    byte {
     /// <summary>
-    /// Response status.
+    /// The request was cancelled.
     /// </summary>
-    public enum ResponseStatus :
-        byte {
-        /// <summary>
-        /// The request was cancelled.
-        /// </summary>
-        Cancelled,
+    Cancelled,
 
-        /// <summary>
-        /// The request failed.
-        /// </summary>
-        Failure,
+    /// <summary>
+    /// The request failed.
+    /// </summary>
+    Failure,
 
-        /// <summary>
-        /// The request succeeded.
-        /// </summary>
-        Success,
+    /// <summary>
+    /// The request succeeded.
+    /// </summary>
+    Success,
 
-        /// <summary>
-        /// The request timed out.
-        /// </summary>
-        TimeOut
-    }
+    /// <summary>
+    /// The request timed out.
+    /// </summary>
+    TimeOut
 }

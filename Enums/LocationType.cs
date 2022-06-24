@@ -1,27 +1,27 @@
-﻿namespace Arex388.Carmine {
+﻿namespace Arex388.Carmine;
+
+/// <summary>
+/// Location type.
+/// </summary>
+public enum LocationType :
+    byte {
     /// <summary>
-    /// Location type.
+    /// Cache.
     /// </summary>
-    public enum LocationType :
-        byte {
-        /// <summary>
-        /// Cache.
-        /// </summary>
-        Cache,
+    Cache,
 
-        /// <summary>
-        /// Geofence.
-        /// </summary>
-        Geofence,
+    /// <summary>
+    /// Geofence.
+    /// </summary>
+    Geofence,
 
-        /// <summary>
-        /// Google cache.
-        /// </summary>
-        GoogleCache,
+    /// <summary>
+    /// Google cache.
+    /// </summary>
+    GoogleCache,
 
-        /// <summary>
-        /// Point of interest.
-        /// </summary>
-        PointOfInterest
-    }
+    /// <summary>
+    /// Point of interest.
+    /// </summary>
+    PointOfInterest
 }

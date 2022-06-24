@@ -1,3 +1,7 @@
+#### 2.0.1 (2022-06-23)
+
+- Minor code cleanup.
+
 #### 2.0.0 (2021-04-09)
 
 - Lots of breaking changes.

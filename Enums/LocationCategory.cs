@@ -1,67 +1,67 @@
-﻿namespace Arex388.Carmine {
+﻿namespace Arex388.Carmine;
+
+/// <summary>
+/// Location category.
+/// </summary>
+public enum LocationCategory :
+    byte {
     /// <summary>
-    /// Location category.
+    /// Business related infrastructure.
     /// </summary>
-    public enum LocationCategory :
-        byte {
-        /// <summary>
-        /// Business related infrastructure.
-        /// </summary>
-        BusinessRelatedInfrastructure,
+    BusinessRelatedInfrastructure,
 
-        /// <summary>
-        /// Company asset.
-        /// </summary>
-        CompanyAsset,
+    /// <summary>
+    /// Company asset.
+    /// </summary>
+    CompanyAsset,
 
-        /// <summary>
-        /// Company office.
-        /// </summary>
-        CompanyOffice,
+    /// <summary>
+    /// Company office.
+    /// </summary>
+    CompanyOffice,
 
-        /// <summary>
-        /// Customer.
-        /// </summary>
-        Customer,
+    /// <summary>
+    /// Customer.
+    /// </summary>
+    Customer,
 
-        /// <summary>
-        /// Fuel station.
-        /// </summary>
-        FuelStation,
+    /// <summary>
+    /// Fuel station.
+    /// </summary>
+    FuelStation,
 
-        /// <summary>
-        /// Miscellaneous.
-        /// </summary>
-        Miscellaneous,
+    /// <summary>
+    /// Miscellaneous.
+    /// </summary>
+    Miscellaneous,
 
-        /// <summary>
-        /// Parking.
-        /// </summary>
-        Parking,
+    /// <summary>
+    /// Parking.
+    /// </summary>
+    Parking,
 
-        /// <summary>
-        /// Private address.
-        /// </summary>
-        PrivateAddress,
+    /// <summary>
+    /// Private address.
+    /// </summary>
+    PrivateAddress,
 
-        /// <summary>
-        /// Restaurant.
-        /// </summary>
-        Restaurant,
+    /// <summary>
+    /// Restaurant.
+    /// </summary>
+    Restaurant,
 
-        /// <summary>
-        /// Service area.
-        /// </summary>
-        ServiceArea,
+    /// <summary>
+    /// Service area.
+    /// </summary>
+    ServiceArea,
 
-        /// <summary>
-        /// Wholesale or supplies.
-        /// </summary>
-        WholesaleOrSupplies,
+    /// <summary>
+    /// Wholesale or supplies.
+    /// </summary>
+    WholesaleOrSupplies,
 
-        /// <summary>
-        /// Warehouse.
-        /// </summary>
-        Warehouse
-    }
+    /// <summary>
+    /// Warehouse.
+    /// </summary>
+    Warehouse
 }

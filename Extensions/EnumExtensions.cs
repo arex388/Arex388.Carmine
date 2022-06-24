@@ -1,23 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace Arex388.Carmine {
-    internal static class EnumExtensions {
-        public static string ToValue<T>(
-            this T value)
-            where T : struct {
-            var type = value.GetType();
+namespace Arex388.Carmine;
 
-            if (!type.IsEnum) {
-                return string.Empty;
-            }
+internal static class EnumExtensions {
+    public static string ToValue<T>(
+        this T value)
+        where T : struct {
+        var type = value.GetType();
 
-            var memberInfo = type.GetMember($"{value}");
-            var display = memberInfo[0].GetCustomAttribute<DisplayAttribute>();
-
-            return display is null
-                ? value.ToString()
-                : display.Name;
+        if (!type.IsEnum) {
+            return string.Empty;
         }
+
+        var memberInfo = type.GetMember($"{value}");
+        var display = memberInfo[0].GetCustomAttribute<DisplayAttribute>();
+
+        return display is null
+            ? value.ToString()
+            : display.Name;
     }
 }

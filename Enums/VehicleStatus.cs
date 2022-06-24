@@ -1,26 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Arex388.Carmine {
+namespace Arex388.Carmine;
+
+/// <summary>
+/// Vehicle status preference.
+/// </summary>
+public enum VehicleStatus :
+    byte {
     /// <summary>
-    /// Vehicle status preference.
+    /// Return results for only active vehicles.
     /// </summary>
-    public enum VehicleStatus :
-        byte {
-        /// <summary>
-        /// Return results for only active vehicles.
-        /// </summary>
-        [Display(Name = "active")]
-        Active,
+    [Display(Name = "active")]
+    Active,
 
-        /// <summary>
-        /// Return results for all vehicles.
-        /// </summary>
-        All,
+    /// <summary>
+    /// Return results for all vehicles.
+    /// </summary>
+    All,
 
-        /// <summary>
-        /// Returns results for only inactive vehicles.
-        /// </summary>
-        [Display(Name = "inactive")]
-        Inactive
-    }
+    /// <summary>
+    /// Returns results for only inactive vehicles.
+    /// </summary>
+    [Display(Name = "inactive")]
+    Inactive
 }

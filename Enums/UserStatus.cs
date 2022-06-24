@@ -1,26 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Arex388.Carmine {
+namespace Arex388.Carmine;
+
+/// <summary>
+/// User status preference.
+/// </summary>
+public enum UserStatus :
+    byte {
     /// <summary>
-    /// User status preference.
+    /// Returns results for only active users.
     /// </summary>
-    public enum UserStatus :
-        byte {
-        /// <summary>
-        /// Returns results for only active users.
-        /// </summary>
-        [Display(Name = "true")]
-        Active,
+    [Display(Name = "true")]
+    Active,
 
-        /// <summary>
-        /// Returns results for all users.
-        /// </summary>
-        All,
+    /// <summary>
+    /// Returns results for all users.
+    /// </summary>
+    All,
 
-        /// <summary>
-        /// Returns results for only inactive users.
-        /// </summary>
-        [Display(Name = "false")]
-        Inactive
-    }
+    /// <summary>
+    /// Returns results for only inactive users.
+    /// </summary>
+    [Display(Name = "false")]
+    Inactive
 }
