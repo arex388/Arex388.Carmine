@@ -59,12 +59,7 @@ public sealed class Waypoint {
 	/// </summary>
 	[JsonPropertyName("rpm")]
 	public int? EngineRpm { get; init; }
-
-	/// <summary>
-	/// The waypoint's id.
-	/// </summary>
-	public WaypointId Id { get; init; }
-
+	
 	/// <summary>
 	/// The waypoint's latitude.
 	/// </summary>
@@ -90,10 +85,4 @@ public sealed class Waypoint {
 	/// The vehicle's speed at this waypoint in miles per hour, rounded to two decimal places.
 	/// </summary>
 	public decimal SpeedInMilesPerHour => _speedInMilesPerHour ??= Math.Round(SpeedInMetersPerSecond * 2.237M, 2) + 0.00M;
-
-	/// <summary>
-	/// The waypoint's trip id.
-	/// </summary>
-	[JsonPropertyName("trip_id")]
-	public Guid TripId { get; init; }
 }

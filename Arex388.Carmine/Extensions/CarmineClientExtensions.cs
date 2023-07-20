@@ -58,10 +58,10 @@ public static class CarmineClientExtensions {
 		this ICarmineClient carmine,
 		int minutes,
 		CancellationToken cancellationToken = default) {
-		var atUtc = DateTime.UtcNow.AddMinutes(minutes);
+		var at = DateTime.Now.AddMinutes(minutes);
 		var response = await carmine.ListVehiclesAsync(cancellationToken).ConfigureAwait(false);
 
 		return response.Vehicles.Where(
-			_ => _.LastActivityAtUtc >= atUtc).ToList();
+			_ => _.LastActivityAt >= at).ToList();
 	}
 }

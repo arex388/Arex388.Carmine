@@ -554,9 +554,9 @@
             Additional data about the event.
             </summary>
         </member>
-        <member name="P:Arex388.Carmine.Event.EndAtUtc">
+        <member name="P:Arex388.Carmine.Event.EndAt">
             <summary>
-            The event's end timestamp in UTC.
+            The event's end timestamp.
             </summary>
         </member>
         <member name="P:Arex388.Carmine.Event.Type">
@@ -564,19 +564,9 @@
             The event's type.
             </summary>
         </member>
-        <member name="P:Arex388.Carmine.Event.Id">
+        <member name="P:Arex388.Carmine.Event.StartAt">
             <summary>
-            The event's id.
-            </summary>
-        </member>
-        <member name="P:Arex388.Carmine.Event.StartAtUtc">
-            <summary>
-            The event's start timestamp in UTC.
-            </summary>
-        </member>
-        <member name="P:Arex388.Carmine.Event.TripId">
-            <summary>
-            The event's trip id.
+            The event's start timestamp.
             </summary>
         </member>
         <member name="T:Arex388.Carmine.Location">
@@ -614,14 +604,9 @@
             The location's bounds.
             </summary>
         </member>
-        <member name="P:Arex388.Carmine.Location.Id">
+        <member name="P:Arex388.Carmine.Location.LastActivityAt">
             <summary>
-            The location's id.
-            </summary>
-        </member>
-        <member name="P:Arex388.Carmine.Location.LastActivityAtUtc">
-            <summary>
-            The location's last activity timestamp in UTC.
+            The location's last activity timestamp.
             </summary>
         </member>
         <member name="P:Arex388.Carmine.Location.Latitude">
@@ -674,9 +659,9 @@
             The trip's distance traveled in miles, rounded to two decimal places.
             </summary>
         </member>
-        <member name="P:Arex388.Carmine.Trip.EndAtUtc">
+        <member name="P:Arex388.Carmine.Trip.EndAt">
             <summary>
-            The trip's end timestamp in UTC.
+            The trip's end timestamp.
             </summary>
         </member>
         <member name="P:Arex388.Carmine.Trip.Id">
@@ -724,9 +709,9 @@
             The amount of time, in seconds, the vehicle was parked before the trip's start.
             </summary>
         </member>
-        <member name="P:Arex388.Carmine.Trip.StartAtUtc">
+        <member name="P:Arex388.Carmine.Trip.StartAt">
             <summary>
-            The trip's start timestamp in UTC.
+            The trip's start timestamp.
             </summary>
         </member>
         <member name="T:Arex388.Carmine.TripExpanded">
@@ -799,9 +784,9 @@
             Flag indicating if the user's email has been validated.
             </summary>
         </member>
-        <member name="P:Arex388.Carmine.User.LastActivityAtUtc">
+        <member name="P:Arex388.Carmine.User.LastActivityAt">
             <summary>
-            The user's last activity timestamp in UTC.
+            The user's last activity timestamp.
             </summary>
         </member>
         <member name="P:Arex388.Carmine.User.LastTripId">
@@ -899,9 +884,9 @@
             The vehicle's id.
             </summary>
         </member>
-        <member name="P:Arex388.Carmine.Vehicle.LastActivityAtUtc">
+        <member name="P:Arex388.Carmine.Vehicle.LastActivityAt">
             <summary>
-            The vehicle's last activity timestamp in UTC.
+            The vehicle's last activity timestamp.
             </summary>
         </member>
         <member name="P:Arex388.Carmine.Vehicle.LastTripId">
@@ -1014,11 +999,6 @@
             The vehicle's engine's RPM at this waypoint.
             </summary>
         </member>
-        <member name="P:Arex388.Carmine.Waypoint.Id">
-            <summary>
-            The waypoint's id.
-            </summary>
-        </member>
         <member name="P:Arex388.Carmine.Waypoint.Latitude">
             <summary>
             The waypoint's latitude.
@@ -1042,11 +1022,6 @@
         <member name="P:Arex388.Carmine.Waypoint.SpeedInMilesPerHour">
             <summary>
             The vehicle's speed at this waypoint in miles per hour, rounded to two decimal places.
-            </summary>
-        </member>
-        <member name="P:Arex388.Carmine.Waypoint.TripId">
-            <summary>
-            The waypoint's trip id.
             </summary>
         </member>
         <member name="T:Arex388.Carmine.GetTrip">
@@ -1289,16 +1264,6 @@
             The matched vehicles.
             </summary>
         </member>
-        <member name="T:Arex388.Carmine.EventId">
-            <summary>
-            Event id struct.
-            </summary>
-        </member>
-        <member name="T:Arex388.Carmine.LocationId">
-            <summary>
-            Location id struct.
-            </summary>
-        </member>
         <member name="T:Arex388.Carmine.TripId">
             <summary>
             Trip id struct.
@@ -1312,11 +1277,6 @@
         <member name="T:Arex388.Carmine.VehicleId">
             <summary>
             Vehicle id struct.
-            </summary>
-        </member>
-        <member name="T:Arex388.Carmine.WaypointId">
-            <summary>
-            Waypoint id struct.
             </summary>
         </member>
         <member name="T:Arex388.Carmine.LanguageExtensions">

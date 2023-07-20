@@ -31,10 +31,10 @@ public class Trip {
 	public decimal DistanceTraveledInMiles => _distanceTraveledInMiles ??= Math.Round(DistanceTraveledInMeters / 1609M, 2) + 0.00M;
 
 	/// <summary>
-	/// The trip's end timestamp in UTC.
+	/// The trip's end timestamp.
 	/// </summary>
 	[JsonPropertyName("end_time")]
-	public DateTime? EndAtUtc { get; init; }
+	public DateTime? EndAt { get; init; }
 
 	/// <summary>
 	/// The trip's id.
@@ -88,8 +88,8 @@ public class Trip {
 	public int ParkedSeconds { get; init; }
 
 	/// <summary>
-	/// The trip's start timestamp in UTC.
+	/// The trip's start timestamp.
 	/// </summary>
 	[JsonPropertyName("start_time")]
-	public DateTime StartAtUtc { get; init; }
+	public DateTime StartAt { get; init; }
 }

@@ -44,10 +44,10 @@ public sealed class User {
 	public bool IsEmailValidated { get; init; }
 
 	/// <summary>
-	/// The user's last activity timestamp in UTC.
+	/// The user's last activity timestamp.
 	/// </summary>
 	[JsonPropertyName("last_activity")]
-	public DateTime? LastActivityAtUtc { get; init; }
+	public DateTime? LastActivityAt { get; init; }
 
 	/// <summary>
 	/// The user's last trip id.

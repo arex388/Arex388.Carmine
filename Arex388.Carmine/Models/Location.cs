@@ -41,17 +41,12 @@ public sealed class Location {
 	/// The location's bounds.
 	/// </summary>
 	public string Geometry { get; init; } = null!;
-
+	
 	/// <summary>
-	/// The location's id.
-	/// </summary>
-	public LocationId Id { get; init; }
-
-	/// <summary>
-	/// The location's last activity timestamp in UTC.
+	/// The location's last activity timestamp.
 	/// </summary>
 	[JsonPropertyName("last_activity_time")]
-	public DateTime? LastActivityAtUtc { get; init; }
+	public DateTime? LastActivityAt { get; init; }
 
 	/// <summary>
 	/// The location's center's latitude.

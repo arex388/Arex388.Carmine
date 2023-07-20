@@ -1,3 +1,10 @@
+#### 3.0.2 (2023-07-20)
+
+- **Revised:** `Event.EndAtUtc`, `Event.StartAtUtc`, `Location.LastActivityAtUtc`, `Trip.EndAtUtc`, `Trip.StartAtUtc`, `User.LastActivityAtUtc`, and`Vehicle.LastActivityAtUtc` to be non-UTC. Turns out they're not in UTC. Created timestamps still are.
+- **Removed:** `Event.TripId` and `Waypoint.TripId` because the only way to get them is through the trip anyway so they're redundant properties.
+- **Removed:** `WaypointId` because it turns out the `Waypoint` doesn't have an id.
+- **Removed:** `EventId` and `LocationId` to match `Event` and `Location` with `Waypoint`.
+
 #### 3.0.1 (2023-07-20)
 
 - **Revised:** `EventId`, `LocationId`, `TripId`, `UserId`, `VehicleId`, `WaypointId` by copying the generated code from StronglyTypedId directly.

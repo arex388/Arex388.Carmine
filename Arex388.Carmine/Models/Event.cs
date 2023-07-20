@@ -17,30 +17,20 @@ public sealed class Event {
 	public string? Data { get; init; }
 
 	/// <summary>
-	/// The event's end timestamp in UTC.
+	/// The event's end timestamp.
 	/// </summary>
 	[JsonPropertyName("end_time")]
-	public DateTime EndAtUtc { get; init; }
+	public DateTime EndAt { get; init; }
 
 	/// <summary>
 	/// The event's type.
 	/// </summary>
 	[JsonConverter(typeof(EventTypeJsonConverter)), JsonPropertyName("event_type")]
 	public EventType Type { get; init; }
-
+	
 	/// <summary>
-	/// The event's id.
-	/// </summary>
-	public EventId Id { get; init; }
-
-	/// <summary>
-	/// The event's start timestamp in UTC.
+	/// The event's start timestamp.
 	/// </summary>
 	[JsonPropertyName("start_time")]
-	public DateTime StartAtUtc { get; init; }
-
-	/// <summary>
-	/// The event's trip id.
-	/// </summary>
-	public TripId TripId { get; init; }
+	public DateTime StartAt { get; init; }
 }
