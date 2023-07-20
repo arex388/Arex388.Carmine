@@ -1,3 +1,33 @@
+#### 3.0.0 (2023-07-19)
+
+- **Added:** `ICarmineClient` interface for dependency injection.
+- **Added:** `ICarmineClient` extensions for common operations.
+- **Added:** `ICarmineClientFactory` interface for dependency injection.
+- **Added:** `CarmineClientFactory` implementation.
+- **Added:** `GetTripRequestValidator`, `GetUserRequestValidator`, and `GetVehicleRequestValidator` validators using FluentValidation.
+- **Added:** Basic unit tests.
+- **Added:** Basic benchmarks.
+- **Added:** Built-in dependency injection extensions for Microsoft.Extensions.DependencyInjection.
+- **Revised:** `CarmineClient` implementation.
+  - Simplified `await/async` implementations.
+
+- **Revised:** `EventType`, `Language`, `LocationCategory`, `LocationType`, `ResponseStatus`, `UserRole`, `UserStatus`, and `VehicleStatus` enums.
+- **Revised:** `Event`, `Location`, `Trip`, `User`, `Vehicle`, and `Waypoint` objects.
+- **Merged:** `GetTripRequest` and `GetTripResponse` into a single `GetTrip` slice.
+- **Merged:** `GetUserRequest` and `GetUserResponse` into a single `GetUser` slice.
+- **Merged:** `GetVehicleRequest` and `GetVehicleResponse` into a single `GetVehicle` slice.
+- **Merged:** `ListTripsRequest` and `ListTripsResponse` into a single `ListTrips` slice.
+- **Merged:** `ListUsersRequest` and `ListUsersResponse` into a single `ListUsers` slice.
+- **Merged:** `ListVehicleRequest` and `ListVehiclesResponse` into a single `ListVehicles` slice.
+- **Removed:** `ListWaypointsRequest` and `ListWaypointsResponse`.
+  - When getting a `Trip` with `GetTrip`, it already contains the waypoints in it, so listing waypoints separately is redundant.
+
+- **Removed:** Redundant or non-sensical object properties.
+- **Replaced:** Json.NET with System.Text.Json.
+- Other internal implementation changes.
+- "Upgraded" to C# 11 as much as possible using PolySharp.
+- Revised documentation.
+
 #### 2.0.1 (2022-06-23)
 
 - Minor code cleanup.

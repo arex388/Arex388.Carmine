@@ -1,0 +1,87 @@
+﻿using Arex388.Carmine.Converters;
+using System;
+using System.Text.Json.Serialization;
+
+#nullable enable
+
+namespace Arex388.Carmine;
+
+/// <summary>
+/// Location object.
+/// </summary>
+public sealed class Location {
+	/// <summary>
+	/// The location's address.
+	/// </summary>
+	public string Address { get; init; } = null!;
+
+	/// <summary>
+	/// The location's category.
+	/// </summary>
+	[JsonConverter(typeof(LocationCategoryJsonConverter))]
+	public LocationCategory Category { get; init; }
+
+	/// <summary>
+	/// The location's created timestamp in UTC.
+	/// </summary>
+	[JsonPropertyName("created")]
+	public DateTime CreatedAtUtc { get; init; }
+
+	/// <summary>
+	/// The location's creator id.
+	/// </summary>
+	public UserId? CreatedById { get; init; }
+
+	/// <summary>
+	/// The location's driver id.
+	/// </summary>
+	public UserId? DriverId { get; init; }
+
+	/// <summary>
+	/// The location's bounds.
+	/// </summary>
+	public string Geometry { get; init; } = null!;
+
+	/// <summary>
+	/// The location's id.
+	/// </summary>
+	public LocationId Id { get; init; }
+
+	/// <summary>
+	/// The location's last activity timestamp in UTC.
+	/// </summary>
+	[JsonPropertyName("last_activity_time")]
+	public DateTime? LastActivityAtUtc { get; init; }
+
+	/// <summary>
+	/// The location's center's latitude.
+	/// </summary>
+	public decimal Latitude { get; init; }
+
+	/// <summary>
+	/// The location's center's longitude.
+	/// </summary>
+	public decimal Longitude { get; init; }
+
+	/// <summary>
+	/// The location's name.
+	/// </summary>
+	public string? Name { get; init; }
+
+	/// <summary>
+	/// Notes about the location.
+	/// </summary>
+	public string? Notes { get; init; }
+
+	/// <summary>
+	/// The location's visit count.
+	/// </summary>
+	[JsonPropertyName("popularity")]
+	public int VisitedCount { get; init; }
+
+	/// <summary>
+	/// The location's type.
+	/// </summary>
+	[JsonConverter(typeof(LocationTypeJsonConverter))]
+	public LocationType Type { get; init; }
+}
