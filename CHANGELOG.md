@@ -1,3 +1,8 @@
+#### 3.0.1 (2023-07-20)
+
+- **Revised:** `EventId`, `LocationId`, `TripId`, `UserId`, `VehicleId`, `WaypointId` by copying the generated code from StronglyTypedId directly.
+- **Removed:** StronglyTypedId because it was causing NuGet installation issues when attempting to consume the library.
+
 #### 3.0.0 (2023-07-19)
 
 - **Added:** `ICarmineClient` interface for dependency injection.
@@ -5,6 +10,7 @@
 - **Added:** `ICarmineClientFactory` interface for dependency injection.
 - **Added:** `CarmineClientFactory` implementation.
 - **Added:** `GetTripRequestValidator`, `GetUserRequestValidator`, and `GetVehicleRequestValidator` validators using FluentValidation.
+- **Added:** `EventId`, `LocationId`, `TripId`, `UserId`, `VehicleId`, `WaypointId` value objects using StronglyTypedId.
 - **Added:** Basic unit tests.
 - **Added:** Basic benchmarks.
 - **Added:** Built-in dependency injection extensions for Microsoft.Extensions.DependencyInjection.
