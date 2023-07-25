@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
-#nullable enable
+﻿using System.Text.Json.Serialization;
 
 namespace Arex388.Carmine;
 

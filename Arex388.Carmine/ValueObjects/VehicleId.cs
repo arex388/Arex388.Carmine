@@ -1,9 +1,7 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
 #pragma warning disable CS1591
-#nullable enable
 
 namespace Arex388.Carmine;
 
@@ -45,7 +43,7 @@ public readonly struct VehicleId :
 	public static bool operator ==(VehicleId a, VehicleId b) => a.Equals(b);
 	public static bool operator !=(VehicleId a, VehicleId b) => !(a == b);
 
-	public sealed class VehicleIdSystemTextJsonConverter :
+	internal sealed class VehicleIdSystemTextJsonConverter :
 		JsonConverter<VehicleId> {
 		public override VehicleId Read(
 			ref Utf8JsonReader reader,

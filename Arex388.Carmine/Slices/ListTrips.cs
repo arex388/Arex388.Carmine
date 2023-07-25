@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-#nullable enable
-
-namespace Arex388.Carmine;
+﻿namespace Arex388.Carmine;
 
 /// <summary>
 /// ListTrips request and response containers.

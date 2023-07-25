@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-#nullable enable
-
-namespace Arex388.Carmine.Extensions;
+﻿namespace Arex388.Carmine.Extensions;
 
 internal static class ListTripsRequestExtensions {
 	public static string GetEndpoint(

@@ -1,6 +1,4 @@
-﻿using System;
-
-#nullable enable
+﻿using FluentValidation.Results;
 
 namespace Arex388.Carmine;
 
@@ -10,7 +8,6 @@ namespace Arex388.Carmine;
 public sealed class GetTrip {
 	private static Response? _cancelled;
 	private static Response? _failed;
-	private static Response? _invalid;
 	private static Response? _timedOut;
 
 	internal static Response Cancelled => _cancelled ??= new Response {
@@ -19,9 +16,11 @@ public sealed class GetTrip {
 	internal static Response Failed => _failed ??= new Response {
 		Status = ResponseStatus.Failed
 	};
-	internal static Response Invalid => _invalid ??= new Response {
-		Status = ResponseStatus.Invalid
-	};
+	internal static Response Invalid(
+		ValidationResult validation) => new() {
+			Errors = validation.GetErrors(),
+			Status = ResponseStatus.Invalid
+		};
 	internal static Response TimedOut => _timedOut ??= new Response {
 		Status = ResponseStatus.TimedOut
 	};
@@ -45,6 +44,11 @@ public sealed class GetTrip {
 	/// GetTrip response container.
 	/// </summary>
 	public sealed class Response {
+		/// <summary>
+		/// Validation errors, if any.
+		/// </summary>
+		public IEnumerable<string> Errors { get; init; } = Enumerable.Empty<string>();
+
 		/// <summary>
 		/// The response's status.
 		/// </summary>

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Arex388.Carmine.Extensions;
+﻿namespace Arex388.Carmine.Extensions;
 
 internal static class GetTripRequestExtensions {
 	public static string GetEndpoint(

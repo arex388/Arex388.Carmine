@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-
-#nullable enable
+﻿using System.Net;
 
 namespace Arex388.Carmine.Extensions;
 

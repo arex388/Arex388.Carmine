@@ -1,10 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-#nullable enable
-
-namespace Arex388.Carmine;
+﻿namespace Arex388.Carmine;
 
 /// <summary>
 /// Carmine.io API client.
@@ -23,7 +17,7 @@ public interface ICarmineClient {
 	/// <summary>
 	/// Returns a trip.
 	/// </summary>
-	/// <param name="request">The trip's id.</param>
+	/// <param name="request">An instance of <c>GetTrip.Request</c> containing the request's parameters.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>An instance of <c>GetTrip.Response</c>.</returns>
 	Task<GetTrip.Response> GetTripAsync(

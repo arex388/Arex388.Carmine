@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-
-#nullable enable
-
-namespace Arex388.Carmine;
+﻿namespace Arex388.Carmine;
 
 /// <summary>
 /// ListUsers request and response containers.

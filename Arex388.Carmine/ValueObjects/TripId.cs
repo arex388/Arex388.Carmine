@@ -1,9 +1,7 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
 #pragma warning disable CS1591
-#nullable enable
 
 namespace Arex388.Carmine;
 
@@ -11,7 +9,9 @@ namespace Arex388.Carmine;
 /// Trip id struct.
 /// </summary>
 [JsonConverter(typeof(TripIdSystemTextJsonConverter))]
-public readonly struct TripId : IComparable<TripId>, IEquatable<TripId> {
+public readonly struct TripId :
+	IComparable<TripId>,
+	IEquatable<TripId> {
 	public Guid Value { get; }
 
 	public TripId(
@@ -43,7 +43,7 @@ public readonly struct TripId : IComparable<TripId>, IEquatable<TripId> {
 	public static bool operator ==(TripId a, TripId b) => a.Equals(b);
 	public static bool operator !=(TripId a, TripId b) => !(a == b);
 
-	public sealed class TripIdSystemTextJsonConverter :
+	internal sealed class TripIdSystemTextJsonConverter :
 		JsonConverter<TripId> {
 		public override TripId Read(
 			ref Utf8JsonReader reader,

@@ -1,6 +1,5 @@
 ﻿using Arex388.Carmine;
 using Microsoft.Extensions.Caching.Memory;
-using System.Net.Http;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

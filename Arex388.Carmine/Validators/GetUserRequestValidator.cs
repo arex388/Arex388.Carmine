@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
 
-#nullable enable
-
 namespace Arex388.Carmine.Validators;
 
 internal sealed class GetUserRequestValidator :

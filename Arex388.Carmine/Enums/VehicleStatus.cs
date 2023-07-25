@@ -1,8 +1,6 @@
 ﻿using NetEscapades.EnumGenerators;
 using System.ComponentModel.DataAnnotations;
 
-#nullable enable
-
 namespace Arex388.Carmine;
 
 /// <summary>

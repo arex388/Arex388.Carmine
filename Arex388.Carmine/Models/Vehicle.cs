@@ -1,9 +1,5 @@
 ﻿using Arex388.Carmine.Converters;
-using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
-
-#nullable enable
 
 namespace Arex388.Carmine;
 

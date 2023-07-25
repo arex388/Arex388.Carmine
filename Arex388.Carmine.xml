@@ -14,7 +14,7 @@
             Create an instance of the Carmine.io API client.
             </summary>
             <param name="apiKey">Your Carmine.io API key.</param>
-            <param name="httpClient">An instance of HttpClient.</param>
+            <param name="httpClient">An instance of <c>HttpClient</c>.</param>
         </member>
         <member name="M:Arex388.Carmine.CarmineClient.GetTripAsync(Arex388.Carmine.TripId,System.Threading.CancellationToken)">
             <summary>
@@ -28,7 +28,7 @@
             <summary>
             Returns a trip.
             </summary>
-            <param name="request">The trip's id.</param>
+            <param name="request">An instance of <c>GetTrip.Request</c> containing the request's parameters.</param>
             <param name="cancellationToken">The cancellation token.</param>
             <returns>An instance of <c>GetTrip.Response</c>.</returns>
         </member>
@@ -118,15 +118,15 @@
             <summary>
             Create an instance of the Carmine.io client factory.
             </summary>
-            <param name="httpClient">An instance of HttpClient.</param>
-            <param name="memoryCache">An instance of MemoryCache.</param>
+            <param name="httpClient">An instance of <c>HttpClient</c>.</param>
+            <param name="memoryCache">An instance of <c>MemoryCache</c>.</param>
         </member>
         <member name="M:Arex388.Carmine.CarmineClientFactory.CreateClient(System.String)">
             <summary>
             Create and cache an instance of the Carmine.io API client.
             </summary>
             <param name="apiKey">Your Carmine.io API key. The value will be used as the cache identifier.</param>
-            <returns>A new or cached instance of CarmineClient.</returns>
+            <returns>A new or cached instance of <c>CarmineClient</c>.</returns>
         </member>
         <member name="T:Arex388.Carmine.EventType">
             <summary>
@@ -451,7 +451,7 @@
             <summary>
             Returns a trip.
             </summary>
-            <param name="request">The trip's id.</param>
+            <param name="request">An instance of <c>GetTrip.Request</c> containing the request's parameters.</param>
             <param name="cancellationToken">The cancellation token.</param>
             <returns>An instance of <c>GetTrip.Response</c>.</returns>
         </member>
@@ -542,7 +542,7 @@
             Create and cache an instance of the Carmine.io API client.
             </summary>
             <param name="apiKey">Your Carmine.io API key. The value will be used as the cache identifier.</param>
-            <returns>A new or cached instance of CarmineClient.</returns>
+            <returns>A new or cached instance of <c>CarmineClient</c>.</returns>
         </member>
         <member name="T:Arex388.Carmine.Event">
             <summary>
@@ -1049,6 +1049,11 @@
             GetTrip response container.
             </summary>
         </member>
+        <member name="P:Arex388.Carmine.GetTrip.Response.Errors">
+            <summary>
+            Validation errors, if any.
+            </summary>
+        </member>
         <member name="P:Arex388.Carmine.GetTrip.Response.Status">
             <summary>
             The response's status.
@@ -1084,6 +1089,11 @@
             GetUser response container.
             </summary>
         </member>
+        <member name="P:Arex388.Carmine.GetUser.Response.Errors">
+            <summary>
+            Validation errors, if any.
+            </summary>
+        </member>
         <member name="P:Arex388.Carmine.GetUser.Response.Status">
             <summary>
             The response's status.
@@ -1117,6 +1127,11 @@
         <member name="T:Arex388.Carmine.GetVehicle.Response">
             <summary>
             GetVehicle response container.
+            </summary>
+        </member>
+        <member name="P:Arex388.Carmine.GetVehicle.Response.Errors">
+            <summary>
+            Validation errors, if any.
             </summary>
         </member>
         <member name="P:Arex388.Carmine.GetVehicle.Response.Status">

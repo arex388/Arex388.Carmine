@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Arex388.Carmine;
+﻿namespace Arex388.Carmine;
 
 /// <summary>
 /// The <c>Event</c>'s type.

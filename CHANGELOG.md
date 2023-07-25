@@ -1,3 +1,11 @@
+# CHANGELOG
+
+#### 3.0.3 (2023-07-25)
+
+- **Revised:** Invalid responses to return the validation errors.
+- Implemented global usings.
+- Implemented global nullable reference types.
+
 #### 3.0.2 (2023-07-20)
 
 - **Revised:** `Event.EndAtUtc`, `Event.StartAtUtc`, `Location.LastActivityAtUtc`, `Trip.EndAtUtc`, `Trip.StartAtUtc`, `User.LastActivityAtUtc`, and`Vehicle.LastActivityAtUtc` to be non-UTC. Turns out they're not in UTC. Created timestamps still are.

@@ -1,7 +1,5 @@
 ﻿using NetEscapades.EnumGenerators;
 
-#nullable enable
-
 namespace Arex388.Carmine;
 
 /// <summary>

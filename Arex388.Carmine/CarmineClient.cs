@@ -1,13 +1,8 @@
 ﻿using Arex388.Carmine.Extensions;
 using Arex388.Carmine.Validators;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Threading;
-using System.Threading.Tasks;
 
-#nullable enable
+// ReSharper disable once MethodHasAsyncOverloadWithCancellation
 
 namespace Arex388.Carmine;
 
@@ -29,7 +24,7 @@ public sealed class CarmineClient :
 	/// Create an instance of the Carmine.io API client.
 	/// </summary>
 	/// <param name="apiKey">Your Carmine.io API key.</param>
-	/// <param name="httpClient">An instance of HttpClient.</param>
+	/// <param name="httpClient">An instance of <c>HttpClient</c>.</param>
 	public CarmineClient(
 		string apiKey,
 		HttpClient httpClient) {
@@ -56,7 +51,7 @@ public sealed class CarmineClient :
 	/// <summary>
 	/// Returns a trip.
 	/// </summary>
-	/// <param name="request">The trip's id.</param>
+	/// <param name="request">An instance of <c>GetTrip.Request</c> containing the request's parameters.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>An instance of <c>GetTrip.Response</c>.</returns>
 	public async Task<GetTrip.Response> GetTripAsync(
@@ -67,10 +62,10 @@ public sealed class CarmineClient :
 		}
 
 		var validator = _getTripRequestValidator ??= new GetTripRequestValidator();
+		var validation = validator.Validate(request);
 
-		//	ReSharper disable once MethodHasAsyncOverloadWithCancellation
-		if (!validator.Validate(request).IsValid) {
-			return GetTrip.Invalid;
+		if (!validation.IsValid) {
+			return GetTrip.Invalid(validation);
 		}
 
 		try {
@@ -113,10 +108,10 @@ public sealed class CarmineClient :
 		}
 
 		var validator = _getUserRequestValidator ??= new GetUserRequestValidator();
+		var validation = validator.Validate(request);
 
-		//	ReSharper disable once MethodHasAsyncOverloadWithCancellation
-		if (!validator.Validate(request).IsValid) {
-			return GetUser.Invalid;
+		if (!validation.IsValid) {
+			return GetUser.Invalid(validation);
 		}
 
 		try {
@@ -159,10 +154,10 @@ public sealed class CarmineClient :
 		}
 
 		var validator = _getVehicleRequestValidator ??= new GetVehicleRequestValidator();
+		var validation = validator.Validate(request);
 
-		//	ReSharper disable once MethodHasAsyncOverloadWithCancellation
-		if (!validator.Validate(request).IsValid) {
-			return GetVehicle.Invalid;
+		if (!validation.IsValid) {
+			return GetVehicle.Invalid(validation);
 		}
 
 		try {

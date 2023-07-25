@@ -1,8 +1,4 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Net.Http;
-
-#nullable enable
 
 namespace Arex388.Carmine;
 
@@ -21,8 +17,8 @@ public sealed class CarmineClientFactory :
 	/// <summary>
 	/// Create an instance of the Carmine.io client factory.
 	/// </summary>
-	/// <param name="httpClient">An instance of HttpClient.</param>
-	/// <param name="memoryCache">An instance of MemoryCache.</param>
+	/// <param name="httpClient">An instance of <c>HttpClient</c>.</param>
+	/// <param name="memoryCache">An instance of <c>MemoryCache</c>.</param>
 	public CarmineClientFactory(
 		HttpClient httpClient,
 		IMemoryCache memoryCache) {
@@ -34,13 +30,14 @@ public sealed class CarmineClientFactory :
 	/// Create and cache an instance of the Carmine.io API client.
 	/// </summary>
 	/// <param name="apiKey">Your Carmine.io API key. The value will be used as the cache identifier.</param>
-	/// <returns>A new or cached instance of CarmineClient.</returns>
+	/// <returns>A new or cached instance of <c>CarmineClient</c>.</returns>
 	public ICarmineClient CreateClient(
 		string apiKey) {
 		var key = $"{nameof(Arex388)}.{nameof(Carmine)}.Key[{apiKey}]";
 
-		if (_memoryCache.TryGetValue(key, out ICarmineClient? carmineClient)) {
-			return carmineClient!;
+		if (_memoryCache.TryGetValue(key, out ICarmineClient? carmineClient)
+			&& carmineClient is not null) {
+			return carmineClient;
 		}
 
 		carmineClient = new CarmineClient(apiKey, _httpClient);

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Arex388.Carmine;
+﻿namespace Arex388.Carmine;
 
 /// <summary>
 /// Carmine.io API client factory for applications integrating with more than one Carmine.io account.
@@ -10,7 +8,7 @@ public interface ICarmineClientFactory {
 	/// Create and cache an instance of the Carmine.io API client.
 	/// </summary>
 	/// <param name="apiKey">Your Carmine.io API key. The value will be used as the cache identifier.</param>
-	/// <returns>A new or cached instance of CarmineClient.</returns>
+	/// <returns>A new or cached instance of <c>CarmineClient</c>.</returns>
 	ICarmineClient CreateClient(
 		string apiKey);
 }
