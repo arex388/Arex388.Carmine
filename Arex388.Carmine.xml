@@ -1051,7 +1051,7 @@
         </member>
         <member name="P:Arex388.Carmine.GetTrip.Response.Errors">
             <summary>
-            Validation errors, if any.
+            The response's errors, if any.
             </summary>
         </member>
         <member name="P:Arex388.Carmine.GetTrip.Response.Status">
@@ -1091,7 +1091,7 @@
         </member>
         <member name="P:Arex388.Carmine.GetUser.Response.Errors">
             <summary>
-            Validation errors, if any.
+            The response's errors, if any.
             </summary>
         </member>
         <member name="P:Arex388.Carmine.GetUser.Response.Status">
@@ -1131,7 +1131,7 @@
         </member>
         <member name="P:Arex388.Carmine.GetVehicle.Response.Errors">
             <summary>
-            Validation errors, if any.
+            The response's errors, if any.
             </summary>
         </member>
         <member name="P:Arex388.Carmine.GetVehicle.Response.Status">
