@@ -77,8 +77,8 @@ public sealed class CarmineClient :
 			};
 		} catch (TaskCanceledException) {
 			return GetTrip.TimedOut;
-		} catch {
-			return GetTrip.Failed;
+		} catch (Exception e) {
+			return GetTrip.Failed(e);
 		}
 	}
 
@@ -123,8 +123,8 @@ public sealed class CarmineClient :
 			};
 		} catch (TaskCanceledException) {
 			return GetUser.TimedOut;
-		} catch {
-			return GetUser.Failed;
+		} catch (Exception e) {
+			return GetUser.Failed(e);
 		}
 	}
 
@@ -169,8 +169,8 @@ public sealed class CarmineClient :
 			};
 		} catch (TaskCanceledException) {
 			return GetVehicle.TimedOut;
-		} catch {
-			return GetVehicle.Failed;
+		} catch (Exception e) {
+			return GetVehicle.Failed(e);
 		}
 	}
 

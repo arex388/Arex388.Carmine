@@ -13,18 +13,14 @@ public static class ServiceCollectionExtensions {
 	/// <param name="services">The service collection.</param>
 	/// <returns>The service collection.</returns>
 	public static IServiceCollection AddCarmine(
-		this IServiceCollection services) {
-		services.AddHttpClient<CarmineClientFactory>(nameof(CarmineClientFactory));
+		this IServiceCollection services) => services.AddSingleton<ICarmineClientFactory>(
+		_ => {
+			var httpClientFactory = _.GetRequiredService<IHttpClientFactory>();
+			var httpClient = httpClientFactory.CreateClient(nameof(CarmineClientFactory));
+			var memoryCache = _.GetRequiredService<IMemoryCache>();
 
-		return services.AddSingleton<ICarmineClientFactory>(
-			_ => {
-				var httpClientFactory = _.GetRequiredService<IHttpClientFactory>();
-				var httpClient = httpClientFactory.CreateClient(nameof(CarmineClientFactory));
-				var memoryCache = _.GetRequiredService<IMemoryCache>();
-
-				return new CarmineClientFactory(httpClient, memoryCache);
-			});
-	}
+			return new CarmineClientFactory(httpClient, memoryCache);
+		});
 
 	/// <summary>
 	/// Add Carmine.io service for interacting with a single account.
@@ -34,15 +30,11 @@ public static class ServiceCollectionExtensions {
 	/// <returns>The service collection.</returns>
 	public static IServiceCollection AddCarmine(
 		this IServiceCollection services,
-		string apiKey) {
-		services.AddHttpClient<CarmineClient>(nameof(CarmineClient));
+		string apiKey) => services.AddSingleton<ICarmineClient>(
+		_ => {
+			var httpClientFactory = _.GetRequiredService<IHttpClientFactory>();
+			var httpClient = httpClientFactory.CreateClient(nameof(CarmineClient));
 
-		return services.AddSingleton<ICarmineClient>(
-			_ => {
-				var httpClientFactory = _.GetRequiredService<IHttpClientFactory>();
-				var httpClient = httpClientFactory.CreateClient(nameof(CarmineClient));
-
-				return new CarmineClient(apiKey, httpClient);
-			});
-	}
+			return new CarmineClient(apiKey, httpClient);
+		});
 }

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+#### 3.0.4 (2023-07-26)
+
+- **Revised:** Dependency Injection extensions to not register an `HttpClient` prior to registering the interfaces and concrete classes.
+- **Revised:** Exception handling for failed response.
+
 #### 3.0.3 (2023-07-25)
 
 - **Revised:** Invalid responses to return the validation errors.

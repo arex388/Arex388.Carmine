@@ -39,7 +39,7 @@ await carmine.GetTripAsync(new GetTrip.Request {
 await carmine.GetUserAsync("id");
 await carmine.GetUserAsync(new GetUser.Request {
     ...
-})
+});
 
 //	Vehicle
 await carmine.GetVehicleAsync("id");

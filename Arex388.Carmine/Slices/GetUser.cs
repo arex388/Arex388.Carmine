@@ -13,9 +13,21 @@ public sealed class GetUser {
 	internal static Response Cancelled => _cancelled ??= new Response {
 		Status = ResponseStatus.Cancelled
 	};
-	internal static Response Failed => _failed ??= new Response {
-		Status = ResponseStatus.Failed
-	};
+	internal static Response Failed(
+		Exception? exception) {
+		if (exception is null) {
+			return _failed ??= new Response {
+				Status = ResponseStatus.Failed
+			};
+		}
+
+		return new Response {
+			Errors = new[] {
+				$"[{exception.GetType().Name}] {exception.Message}"
+			},
+			Status = ResponseStatus.Failed
+		};
+	}
 	internal static Response Invalid(
 		ValidationResult validation) => new() {
 			Errors = validation.GetErrors(),
@@ -45,7 +57,7 @@ public sealed class GetUser {
 	/// </summary>
 	public sealed class Response {
 		/// <summary>
-		/// Validation errors, if any.
+		/// The response's errors, if any.
 		/// </summary>
 		public IEnumerable<string> Errors { get; init; } = Enumerable.Empty<string>();
 
