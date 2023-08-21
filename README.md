@@ -7,7 +7,7 @@ As noted above, it is highly opinionated. The [API documentation](https://api.ca
 >
 > The Carmine.io API is a read-only API, unfortunately.
 
-The library has built-in dependency injections to simplify usage. By default a singleton `ICarmineClient` or `ICarmineClientFactory` instance will be created. If using `ICarmineClientFactory`, it will cache `ICarmineClient` instances by their API key.
+The library has built-in dependency injection to simplify usage. By default a singleton `ICarmineClient` or `ICarmineClientFactory` instance will be created. If using `ICarmineClientFactory`, it will cache `ICarmineClient` instances by their API key.
 
 > **V3.0.0**
 >

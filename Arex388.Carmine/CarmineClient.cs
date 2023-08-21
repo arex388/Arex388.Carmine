@@ -2,7 +2,7 @@
 using Arex388.Carmine.Validators;
 using System.Net.Http.Json;
 
-// ReSharper disable once MethodHasAsyncOverloadWithCancellation
+// ReSharper disable MethodHasAsyncOverloadWithCancellation
 
 namespace Arex388.Carmine;
 

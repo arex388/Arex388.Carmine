@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<Authors>Arex388</Authors>
 		<Description>A highly opinionated .NET Standard 2.0 library for the Carmine.io API.</Description>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
@@ -10,19 +11,19 @@
 		<PackageTags>carmine carmine.io arex388</PackageTags>
 		<RepositoryUrl>https://github.com/arex388/Arex388.Carmine</RepositoryUrl>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<Version>3.0.4</Version>
+		<Version>3.0.5</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>E:\Software Development\Arex388.Carmine\Arex388.Carmine.xml</DocumentationFile>
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentValidation" Version="11.6.0" />
+		<PackageReference Include="FluentValidation" Version="11.7.1" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
 		<PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta08" PrivateAssets="all" ExcludeAssets="runtime" />

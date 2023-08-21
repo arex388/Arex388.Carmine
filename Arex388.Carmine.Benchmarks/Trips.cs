@@ -1,17 +1,10 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Microsoft.Extensions.Configuration;
 
 namespace Arex388.Carmine.Benchmarks;
 
 [MemoryDiagnoser]
 public class Trips {
-	private readonly ICarmineClient _carmine;
-
-	public Trips() {
-		var configuration = new ConfigurationBuilder().AddUserSecrets<Trips>().Build();
-
-		_carmine = new CarmineClient(configuration["CarmineKey"]!, new HttpClient());
-	}
+	private readonly ICarmineClient _carmine = new CarmineClient(Config.CarmineKey, new HttpClient());
 
 	[Benchmark]
 	public async Task GetAsync() {

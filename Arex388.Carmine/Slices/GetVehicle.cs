@@ -14,20 +14,18 @@ public sealed class GetVehicle {
 		Status = ResponseStatus.Cancelled
 	};
 	internal static Response Failed(
-		Exception? exception) {
-		if (exception is null) {
-			return _failed ??= new Response {
-				Status = ResponseStatus.Failed
-			};
-		}
-
-		return new Response {
-			Errors = new[] {
-				$"[{exception.GetType().Name}] {exception.Message}"
-			},
+		Exception? exception) => exception is null
+		? _failed ??= new Response {
 			Status = ResponseStatus.Failed
-		};
-	}
+		}
+		: Failed($"[{exception.GetType().Name}] {exception.Message}");
+	internal static Response Failed(
+		string error) => new() {
+		Errors = new[] {
+			error
+		},
+		Status = ResponseStatus.Failed
+	};
 	internal static Response Invalid(
 		ValidationResult validation) => new() {
 			Errors = validation.GetErrors(),

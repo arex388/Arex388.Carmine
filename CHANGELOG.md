@@ -1,5 +1,9 @@
 # CHANGELOG
 
+#### 3.0.5 (2023-08-21)
+
+- Internal cleanup.
+
 #### 3.0.4 (2023-07-26)
 
 - **Revised:** Dependency Injection extensions to not register an `HttpClient` prior to registering the interfaces and concrete classes.

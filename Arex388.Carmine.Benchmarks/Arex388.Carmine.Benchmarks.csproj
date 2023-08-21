@@ -2,15 +2,15 @@
 
 	<PropertyGroup>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<OutputType>Exe</OutputType>
 		<Nullable>enable</Nullable>
+		<OutputType>Exe</OutputType>
 		<TargetFramework>net7.0</TargetFramework>
 		<UserSecretsId>61360345-5fd6-41cd-b626-7ea01eb5586a</UserSecretsId>
-		<Version>3.0.4</Version>
+		<Version>3.0.5</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="BenchmarkDotNet" Version="0.13.6" />
+		<PackageReference Include="BenchmarkDotNet" Version="0.13.7" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
 	</ItemGroup>

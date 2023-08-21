@@ -54,6 +54,6 @@ public static class CarmineClientExtensions {
 		var response = await carmine.ListVehiclesAsync(cancellationToken).ConfigureAwait(false);
 
 		return response.Vehicles.Where(
-			_ => _.LastActivityAt >= at).ToList();
+			v => v.LastActivityAt >= at).ToList();
 	}
 }

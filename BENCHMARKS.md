@@ -8,25 +8,25 @@
 
 | Method               |     Mean |   Error |  StdDev |   Gen0 | Allocated |
 | -------------------- | -------: | ------: | ------: | -----: | --------: |
-| CreateAndCacheClient | 145.7 ns | 0.30 ns | 0.25 ns | 0.0305 |     128 B |
+| CreateAndCacheClient | 142.4 ns | 0.80 ns | 0.71 ns | 0.0305 |     128 B |
 
 #### Trips
 
-| Method    |     Mean |    Error |    StdDev | Allocated |
-| --------- | -------: | -------: | --------: | --------: |
-| GetAsync  | 637.7 ms | 30.40 ms |  88.68 ms | 188.57 KB |
-| ListAsync | 549.6 ms | 40.09 ms | 113.72 ms | 176.42 KB |
+| Method    |     Mean |    Error |   StdDev | Allocated |
+| --------- | -------: | -------: | -------: | --------: |
+| GetAsync  | 640.0 ms | 27.11 ms | 76.47 ms | 183.66 KB |
+| ListAsync | 548.3 ms | 34.35 ms | 99.66 ms | 175.02 KB |
 
 #### Users
 
 | Method    |      Mean |     Error |    StdDev | Allocated |
 | --------- | --------: | --------: | --------: | --------: |
-| GetAsync  | 223.38 ms | 16.740 ms | 46.942 ms |   6.02 KB |
-| ListAsync |  84.39 ms |  1.609 ms |  2.941 ms |   5.86 KB |
+| GetAsync  | 257.21 ms | 12.556 ms | 36.428 ms |   6.02 KB |
+| ListAsync |  82.45 ms |  1.568 ms |  1.743 ms |   5.79 KB |
 
 #### Vehicles
 
 | Method    |     Mean |    Error |   StdDev | Allocated |
 | --------- | -------: | -------: | -------: | --------: |
-| GetAsync  | 83.63 ms | 1.632 ms | 2.726 ms |   5.85 KB |
-| ListAsync | 83.83 ms | 1.662 ms | 2.383 ms |   5.89 KB |
+| GetAsync  | 82.51 ms | 1.645 ms | 2.838 ms |   5.86 KB |
+| ListAsync | 83.63 ms | 1.665 ms | 2.543 ms |   5.81 KB |

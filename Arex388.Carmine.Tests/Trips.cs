@@ -1,16 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using Xunit;
+﻿using Xunit;
 
 namespace Arex388.Carmine.Tests;
 
 public sealed class Trips {
-	private readonly ICarmineClient _carmine;
-
-	public Trips() {
-		var configuration = new ConfigurationBuilder().AddUserSecrets<Trips>().Build();
-
-		_carmine = new CarmineClient(configuration["CarmineKey-1"]!, new HttpClient());
-	}
+	private readonly ICarmineClient _carmine = new CarmineClient(Config.CarmineKey1, new HttpClient());
 
 	[Fact]
 	public async Task GetAsync() {
