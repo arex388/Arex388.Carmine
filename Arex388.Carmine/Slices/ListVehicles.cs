@@ -3,7 +3,7 @@
 /// <summary>
 /// ListVehicles request and response containers.
 /// </summary>
-public sealed class ListVehicles {
+public static class ListVehicles {
 	private static Response? _cancelled;
 	private static Response? _failed;
 	private static Response? _timedOut;
@@ -50,6 +50,6 @@ public sealed class ListVehicles {
 		/// <summary>
 		/// The matched vehicles.
 		/// </summary>
-		public IList<Vehicle> Vehicles { get; init; } = new List<Vehicle>(0);
+		public IList<Vehicle> Vehicles { get; init; } = [];
 	}
 }

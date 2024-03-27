@@ -3,7 +3,7 @@
 /// <summary>
 /// ListUsers request and response containers.
 /// </summary>
-public sealed class ListUsers {
+public static class ListUsers {
 	private static Response? _cancelled;
 	private static Response? _failed;
 	private static Response? _timedOut;
@@ -50,6 +50,6 @@ public sealed class ListUsers {
 		/// <summary>
 		/// The matched users.
 		/// </summary>
-		public IList<User> Users { get; init; } = new List<User>(0);
+		public IList<User> Users { get; init; } = [];
 	}
 }

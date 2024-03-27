@@ -1,5 +1,9 @@
 # CHANGELOG
 
+#### 3.0.6 (2024-03-27)
+
+- Internal cleanup.
+
 #### 3.0.5 (2023-08-21)
 
 - Internal cleanup.

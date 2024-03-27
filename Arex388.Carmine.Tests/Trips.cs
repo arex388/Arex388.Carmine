@@ -7,10 +7,10 @@ public sealed class Trips {
 
 	[Fact]
 	public async Task GetAsync() {
-		var list = await _carmine.ListTripsAsync().ConfigureAwait(false);
+		var list = await _carmine.ListTripsAsync();
 		var trip = list.Trips.First();
 
-		var response = await _carmine.GetTripAsync(trip.Id).ConfigureAwait(false);
+		var response = await _carmine.GetTripAsync(trip.Id);
 
 		Assert.Equal(ResponseStatus.Succeeded, response.Status);
 		Assert.NotNull(response.Trip);
@@ -18,7 +18,7 @@ public sealed class Trips {
 
 	[Fact]
 	public async Task ListAsync() {
-		var response = await _carmine.ListTripsAsync().ConfigureAwait(false);
+		var response = await _carmine.ListTripsAsync();
 
 		Assert.Equal(ResponseStatus.Succeeded, response.Status);
 		Assert.NotEmpty(response.Trips);

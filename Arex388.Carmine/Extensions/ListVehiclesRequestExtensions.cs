@@ -19,6 +19,6 @@ internal static class ListVehiclesRequestExtensions {
 			parameters.Add($"status={request.Status?.ToStringFast()}");
 		}
 
-		return $"vehicles?{parameters.StringJoin("&")}";
+		return $"vehicles?{parameters.StringJoin()}";
 	}
 }

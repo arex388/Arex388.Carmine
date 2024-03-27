@@ -5,7 +5,7 @@ namespace Arex388.Carmine;
 /// <summary>
 /// GetUser request and response containers.
 /// </summary>
-public sealed class GetUser {
+public static class GetUser {
 	private static Response? _cancelled;
 	private static Response? _failed;
 	private static Response? _timedOut;
@@ -21,9 +21,9 @@ public sealed class GetUser {
 		: Failed($"[{exception.GetType().Name}] {exception.Message}");
 	internal static Response Failed(
 		string error) => new() {
-		Errors = new[] {
+		Errors = [
 			error
-		},
+		],
 		Status = ResponseStatus.Failed
 	};
 	internal static Response Invalid(
@@ -57,7 +57,7 @@ public sealed class GetUser {
 		/// <summary>
 		/// The response's errors, if any.
 		/// </summary>
-		public IEnumerable<string> Errors { get; init; } = Enumerable.Empty<string>();
+		public IEnumerable<string> Errors { get; init; } = [];
 
 		/// <summary>
 		/// The response's status.

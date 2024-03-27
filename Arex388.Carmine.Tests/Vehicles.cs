@@ -7,10 +7,10 @@ public sealed class Vehicles {
 
 	[Fact]
 	public async Task GetAsync() {
-		var list = await _carmine.ListVehiclesAsync().ConfigureAwait(false);
+		var list = await _carmine.ListVehiclesAsync();
 		var vehicle = list.Vehicles.First();
 
-		var response = await _carmine.GetVehicleAsync(vehicle.Id).ConfigureAwait(false);
+		var response = await _carmine.GetVehicleAsync(vehicle.Id);
 
 		Assert.Equal(ResponseStatus.Succeeded, response.Status);
 		Assert.NotNull(response.Vehicle);
@@ -18,7 +18,7 @@ public sealed class Vehicles {
 
 	[Fact]
 	public async Task ListAsync() {
-		var response = await _carmine.ListVehiclesAsync().ConfigureAwait(false);
+		var response = await _carmine.ListVehiclesAsync();
 
 		Assert.Equal(ResponseStatus.Succeeded, response.Status);
 		Assert.NotEmpty(response.Vehicles);

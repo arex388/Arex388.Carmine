@@ -14,10 +14,10 @@ public static class ServiceCollectionExtensions {
 	/// <returns>The service collection.</returns>
 	public static IServiceCollection AddCarmine(
 		this IServiceCollection services) => services.AddSingleton<ICarmineClientFactory>(
-		_ => {
-			var httpClientFactory = _.GetRequiredService<IHttpClientFactory>();
+		sp => {
+			var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
 			var httpClient = httpClientFactory.CreateClient(nameof(CarmineClientFactory));
-			var memoryCache = _.GetRequiredService<IMemoryCache>();
+			var memoryCache = sp.GetRequiredService<IMemoryCache>();
 
 			return new CarmineClientFactory(httpClient, memoryCache);
 		});
@@ -31,8 +31,8 @@ public static class ServiceCollectionExtensions {
 	public static IServiceCollection AddCarmine(
 		this IServiceCollection services,
 		string apiKey) => services.AddSingleton<ICarmineClient>(
-		_ => {
-			var httpClientFactory = _.GetRequiredService<IHttpClientFactory>();
+		sp => {
+			var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
 			var httpClient = httpClientFactory.CreateClient(nameof(CarmineClient));
 
 			return new CarmineClient(apiKey, httpClient);

@@ -9,28 +9,23 @@ namespace Arex388.Carmine;
 /// <summary>
 /// Carmine.io API client.
 /// </summary>
-public sealed class CarmineClient :
+/// <remarks>
+/// Create an instance of the Carmine.io API client.
+/// </remarks>
+/// <param name="apiKey">Your Carmine.io API key.</param>
+/// <param name="httpClient">An instance of <c>HttpClient</c>.</param>
+public sealed class CarmineClient(
+	string apiKey,
+	HttpClient httpClient) :
 	ICarmineClient {
 	private const string _endpointHost = "https://api.carmine.io/v2";
 
-	private readonly string _apiKey;
-	private readonly HttpClient _httpClient;
+	private readonly string _apiKey = $"api_key={apiKey}" ?? throw new ArgumentNullException(nameof(apiKey));
+	private readonly HttpClient _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 
 	private GetTripRequestValidator? _getTripRequestValidator;
 	private GetUserRequestValidator? _getUserRequestValidator;
 	private GetVehicleRequestValidator? _getVehicleRequestValidator;
-
-	/// <summary>
-	/// Create an instance of the Carmine.io API client.
-	/// </summary>
-	/// <param name="apiKey">Your Carmine.io API key.</param>
-	/// <param name="httpClient">An instance of <c>HttpClient</c>.</param>
-	public CarmineClient(
-		string apiKey,
-		HttpClient httpClient) {
-		_apiKey = $"api_key={apiKey}" ?? throw new ArgumentNullException(nameof(apiKey));
-		_httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-	}
 
 	//	============================================================================
 	//	Actions
@@ -197,7 +192,7 @@ public sealed class CarmineClient :
 
 		try {
 			var trips = await _httpClient.GetFromJsonAsync<IList<Trip>>($"{_endpointHost}/{request.GetEndpoint()}&{_apiKey}", cancellationToken).ConfigureAwait(false)
-						?? new List<Trip>(0);
+						?? [];
 
 			return new ListTrips.Response {
 				Status = ResponseStatus.Succeeded,
@@ -233,7 +228,7 @@ public sealed class CarmineClient :
 
 		try {
 			var users = await _httpClient.GetFromJsonAsync<IList<User>>($"{_endpointHost}/{request.GetEndpoint()}&{_apiKey}", cancellationToken).ConfigureAwait(false)
-						?? new List<User>(0);
+						?? [];
 
 			return new ListUsers.Response {
 				Status = ResponseStatus.Succeeded,
@@ -269,7 +264,7 @@ public sealed class CarmineClient :
 
 		try {
 			var vehicles = await _httpClient.GetFromJsonAsync<IList<Vehicle>>($"{_endpointHost}/{request.GetEndpoint()}&{_apiKey}", cancellationToken).ConfigureAwait(false)
-						   ?? new List<Vehicle>(0);
+						   ?? [];
 
 			return new ListVehicles.Response {
 				Status = ResponseStatus.Succeeded,

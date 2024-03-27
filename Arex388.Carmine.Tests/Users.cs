@@ -7,10 +7,10 @@ public sealed class Users {
 
 	[Fact]
 	public async Task GetAsync() {
-		var list = await _carmine.ListUsersAsync().ConfigureAwait(false);
+		var list = await _carmine.ListUsersAsync();
 		var user = list.Users.First();
 
-		var response = await _carmine.GetUserAsync(user.Id).ConfigureAwait(false);
+		var response = await _carmine.GetUserAsync(user.Id);
 
 		Assert.Equal(ResponseStatus.Succeeded, response.Status);
 		Assert.NotNull(response.User);
@@ -18,7 +18,7 @@ public sealed class Users {
 
 	[Fact]
 	public async Task ListAsync() {
-		var response = await _carmine.ListUsersAsync().ConfigureAwait(false);
+		var response = await _carmine.ListUsersAsync();
 
 		Assert.Equal(ResponseStatus.Succeeded, response.Status);
 		Assert.NotEmpty(response.Users);

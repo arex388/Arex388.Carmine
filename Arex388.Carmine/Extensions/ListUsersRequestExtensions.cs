@@ -23,6 +23,6 @@ internal static class ListUsersRequestExtensions {
 			parameters.Add($"active={active}");
 		}
 
-		return $"users?{parameters.StringJoin("&")}";
+		return $"users?{parameters.StringJoin()}";
 	}
 }

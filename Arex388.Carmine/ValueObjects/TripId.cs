@@ -9,13 +9,11 @@ namespace Arex388.Carmine;
 /// Trip id struct.
 /// </summary>
 [JsonConverter(typeof(TripIdSystemTextJsonConverter))]
-public readonly struct TripId :
+public readonly struct TripId(
+	Guid value) :
 	IComparable<TripId>,
 	IEquatable<TripId> {
-	public Guid Value { get; }
-
-	public TripId(
-		Guid value) => Value = value;
+	public Guid Value { get; } = value;
 
 	public int CompareTo(
 		TripId other) => Value.CompareTo(other.Value);

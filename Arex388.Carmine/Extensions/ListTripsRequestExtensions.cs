@@ -24,6 +24,6 @@ internal static class ListTripsRequestExtensions {
 			parameters.Add($"vehicle[]={request.VehicleId}");
 		}
 
-		return $"trips?{parameters.StringJoin("&")}";
+		return $"trips?{parameters.StringJoin()}";
 	}
 }

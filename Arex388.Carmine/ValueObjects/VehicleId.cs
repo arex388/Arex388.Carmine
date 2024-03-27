@@ -9,13 +9,11 @@ namespace Arex388.Carmine;
 /// Vehicle id struct.
 /// </summary>
 [JsonConverter(typeof(VehicleIdSystemTextJsonConverter))]
-public readonly struct VehicleId :
+public readonly struct VehicleId(
+	Guid value) :
 	IComparable<VehicleId>,
 	IEquatable<VehicleId> {
-	public Guid Value { get; }
-
-	public VehicleId(
-		Guid value) => Value = value;
+	public Guid Value { get; } = value;
 
 	public int CompareTo(
 		VehicleId other) => Value.CompareTo(other.Value);
@@ -26,13 +24,7 @@ public readonly struct VehicleId :
 		VehicleId other) => Value.Equals(other.Value);
 
 	public override bool Equals(
-		object? obj) {
-		if (obj is null) {
-			return false;
-		}
-
-		return obj is VehicleId other && Equals(other);
-	}
+		object? obj) => obj is VehicleId other && Equals(other);
 
 	public override int GetHashCode() => Value.GetHashCode();
 

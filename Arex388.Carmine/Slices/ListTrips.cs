@@ -3,7 +3,7 @@
 /// <summary>
 /// ListTrips request and response containers.
 /// </summary>
-public sealed class ListTrips {
+public static class ListTrips {
 	private static Response? _cancelled;
 	private static Response? _failed;
 	private static Response? _timedOut;
@@ -65,6 +65,6 @@ public sealed class ListTrips {
 		/// <summary>
 		/// The matched trips.
 		/// </summary>
-		public IList<Trip> Trips { get; init; } = new List<Trip>(0);
+		public IList<Trip> Trips { get; init; } = [];
 	}
 }
