@@ -17,6 +17,5 @@ internal sealed class VehicleStatusJsonConverter :
 	public override void Write(
 		Utf8JsonWriter writer,
 		VehicleStatus value,
-		JsonSerializerOptions options) {
-	}
+		JsonSerializerOptions options) => throw new NotImplementedException();
 }

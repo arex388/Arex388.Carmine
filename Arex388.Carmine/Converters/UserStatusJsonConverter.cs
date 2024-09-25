@@ -19,6 +19,5 @@ internal sealed class UserStatusJsonConverter :
 	public override void Write(
 		Utf8JsonWriter writer,
 		UserStatus value,
-		JsonSerializerOptions options) {
-	}
+		JsonSerializerOptions options) => throw new NotImplementedException();
 }

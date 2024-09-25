@@ -66,19 +66,17 @@ public sealed class User {
 	/// <summary>
 	/// The user's photo URL.
 	/// </summary>
-	[JsonPropertyName("photo_url")]
 	public string? PhotoUrl { get; init; }
 
 	/// <summary>
 	/// The user's role.
 	/// </summary>
-	[JsonConverter(typeof(UserRoleJsonConverter))]
 	public UserRole Role { get; init; }
 
 	/// <summary>
 	/// The user's status.
 	/// </summary>
-	[JsonConverter(typeof(UserStatusJsonConverter)), JsonPropertyName("active")]
+	[JsonPropertyName("active")]
 	public UserStatus Status { get; init; }
 
 	/// <summary>

@@ -15,7 +15,6 @@ public sealed class Location {
 	/// <summary>
 	/// The location's category.
 	/// </summary>
-	[JsonConverter(typeof(LocationCategoryJsonConverter))]
 	public LocationCategory Category { get; init; }
 
 	/// <summary>
@@ -74,6 +73,5 @@ public sealed class Location {
 	/// <summary>
 	/// The location's type.
 	/// </summary>
-	[JsonConverter(typeof(LocationTypeJsonConverter))]
 	public LocationType Type { get; init; }
 }

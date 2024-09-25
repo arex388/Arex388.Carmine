@@ -1,27 +1,20 @@
-﻿namespace Arex388.Carmine;
+﻿using System.Net;
+
+namespace Arex388.Carmine;
 
 /// <summary>
 /// ListVehicles request and response containers.
 /// </summary>
 public static class ListVehicles {
-	private static Response? _cancelled;
-	private static Response? _failed;
-	private static Response? _timedOut;
-
-	internal static Response Cancelled => _cancelled ??= new Response {
-		Status = ResponseStatus.Cancelled
-	};
-	internal static Response Failed => _failed ??= new Response {
-		Status = ResponseStatus.Failed
-	};
-	internal static Response TimedOut => _timedOut ??= new Response {
-		Status = ResponseStatus.TimedOut
-	};
-
 	/// <summary>
 	/// ListVehicles request container.
 	/// </summary>
-	public sealed class Request {
+	public sealed class Request :
+		RequestBase {
+		internal static Request Instance = new();
+
+		internal override string Endpoint => GetEndpoint(this);
+
 		/// <summary>
 		/// The language the results should be returned in. <c>English</c> by default.
 		/// </summary>
@@ -36,17 +29,36 @@ public static class ListVehicles {
 		/// Filter by the vehicle's status. <c>All</c> by default.
 		/// </summary>
 		public VehicleStatus? Status { get; init; }
+
+		//	========================================================================
+		//	Utilities
+		//	========================================================================
+
+		private static string GetEndpoint(
+			Request request) {
+			var parameters = new HashSet<string> {
+				$"lang={request.Language.ToStringFast()}"
+			};
+
+			if (request.Search.HasValue()) {
+				var search = WebUtility.UrlEncode(request.Search);
+
+				parameters.Add($"search={search}");
+			}
+
+			if (request.Status.HasValue) {
+				parameters.Add($"status={request.Status?.ToStringFast()}");
+			}
+
+			return $"vehicles?{parameters.StringJoin("&")}";
+		}
 	}
 
 	/// <summary>
 	/// ListVehicles response container.
 	/// </summary>
-	public sealed class Response {
-		/// <summary>
-		/// The response's status.
-		/// </summary>
-		public ResponseStatus Status { get; init; }
-
+	public sealed class Response :
+		ResponseBase<Response> {
 		/// <summary>
 		/// The matched vehicles.
 		/// </summary>

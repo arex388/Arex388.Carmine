@@ -1,14 +1,14 @@
 ﻿namespace Arex388.Carmine;
 
 /// <summary>
-/// Carmine.io API client factory for applications integrating with more than one Carmine.io account.
+/// Carmine.io API client factory for interacting with multiple accounts.
 /// </summary>
 public interface ICarmineClientFactory {
 	/// <summary>
 	/// Create and cache an instance of the Carmine.io API client.
 	/// </summary>
-	/// <param name="apiKey">Your Carmine.io API key. The value will be used as the cache identifier.</param>
-	/// <returns>A new or cached instance of <c>CarmineClient</c>.</returns>
+	/// <param name="options">The client's configuration options.</param>
+	/// <returns>An instance of the client.</returns>
 	ICarmineClient CreateClient(
-		string apiKey);
+		CarmineClientOptions options);
 }

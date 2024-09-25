@@ -3,47 +3,48 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Arex388.Carmine.Tests;
 
-public sealed class CarmineClientFactory {
-	private readonly ICarmineClientFactory _carmineFactory;
+public sealed class TripsTest {
+	private readonly ICarmineClient _carmine;
 	private readonly ITestOutputHelper _console;
 
-	public CarmineClientFactory(
+	public TripsTest(
 		ITestOutputHelper console) {
-		var services = new ServiceCollection().AddCarmine().BuildServiceProvider();
+		var services = new ServiceCollection().AddCarmine(new CarmineClientOptions {
+			Key = Config.Key1
+		}).BuildServiceProvider();
 
-		_carmineFactory = services.GetRequiredService<ICarmineClientFactory>();
+		_carmine = services.GetRequiredService<ICarmineClient>();
 		_console = console;
 	}
 
 	[Fact]
-	public void CreateAndCacheClient() {
+	public async Task Get_Succeeds() {
 		//	========================================================================
 		//	Arrange
 		//	========================================================================
+
+		var list = await _carmine.ListTripsAsync();
+		var trip = list.Trips.First();
 
 		//	========================================================================
 		//	Act
 		//	========================================================================
 
-		var created = _carmineFactory.CreateClient(new CarmineClientOptions {
-			Key = Config.Key1
-		});
-		var cached = _carmineFactory.CreateClient(new CarmineClientOptions {
-			Key = Config.Key1
-		});
+		var getTrip = await _carmine.GetTripAsync(trip.Id);
 
-		_console.WriteLineWithHeader(nameof(created), created);
-		_console.WriteLineWithHeader(nameof(cached), cached);
+		_console.WriteLineWithHeader(nameof(getTrip), getTrip);
 
 		//	========================================================================
 		//	Assert
 		//	========================================================================
 
-		created.Should().BeSameAs(cached);
+		getTrip.Errors.Should().BeEmpty();
+		getTrip.Success.Should().BeTrue();
+		getTrip.Trip.Should().NotBeNull();
 	}
 
 	[Fact]
-	public void CreateClients() {
+	public async Task List_Succeeds() {
 		//	========================================================================
 		//	Arrange
 		//	========================================================================
@@ -52,20 +53,16 @@ public sealed class CarmineClientFactory {
 		//	Act
 		//	========================================================================
 
-		var client1 = _carmineFactory.CreateClient(new CarmineClientOptions {
-			Key = Config.Key1
-		});
-		var client2 = _carmineFactory.CreateClient(new CarmineClientOptions {
-			Key = Config.Key2
-		});
+		var listTrips = await _carmine.ListTripsAsync();
 
-		_console.WriteLineWithHeader(nameof(client1), client1);
-		_console.WriteLineWithHeader(nameof(client2), client2);
+		_console.WriteLineWithHeader(nameof(listTrips), listTrips);
 
 		//	========================================================================
 		//	Assert
 		//	========================================================================
 
-		client1.Should().NotBeSameAs(client2);
+		listTrips.Errors.Should().BeEmpty();
+		listTrips.Success.Should().BeTrue();
+		listTrips.Trips.Should().NotBeEmpty();
 	}
 }

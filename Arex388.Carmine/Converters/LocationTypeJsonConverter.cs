@@ -19,6 +19,5 @@ internal sealed class LocationTypeJsonConverter :
 	public override void Write(
 		Utf8JsonWriter writer,
 		LocationType value,
-		JsonSerializerOptions options) {
-	}
+		JsonSerializerOptions options) => throw new NotImplementedException();
 }

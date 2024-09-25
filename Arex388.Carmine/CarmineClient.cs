@@ -1,279 +1,201 @@
-﻿using Arex388.Carmine.Extensions;
-using Arex388.Carmine.Validators;
+﻿using Arex388.Carmine.Converters;
+using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Json;
-
-// ReSharper disable MethodHasAsyncOverloadWithCancellation
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Arex388.Carmine;
 
-/// <summary>
-/// Carmine.io API client.
-/// </summary>
-/// <remarks>
-/// Create an instance of the Carmine.io API client.
-/// </remarks>
-/// <param name="apiKey">Your Carmine.io API key.</param>
-/// <param name="httpClient">An instance of <c>HttpClient</c>.</param>
-public sealed class CarmineClient(
-	string apiKey,
-	HttpClient httpClient) :
+internal sealed class CarmineClient(
+	IServiceProvider services,
+	HttpClient? httpClient = null,
+	CarmineClientOptions? options = null) :
 	ICarmineClient {
-	private const string _endpointHost = "https://api.carmine.io/v2";
+	private static readonly JsonSerializerOptions _jsonSerializerOptions = new() {
+		Converters = {
+			new EventTypeJsonConverter(),
+			new LocationCategoryJsonConverter(),
+			new LocationTypeJsonConverter(),
+			new UserRoleJsonConverter(),
+			new UserStatusJsonConverter(),
+			new VehicleStatusJsonConverter()
+		},
+		NumberHandling = JsonNumberHandling.AllowReadingFromString,
+		PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+	};
 
-	private readonly string _apiKey = $"api_key={apiKey}" ?? throw new ArgumentNullException(nameof(apiKey));
-	private readonly HttpClient _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+	private readonly IValidator<GetTrip.Request> _getTripRequestValidator = services.GetRequiredService<IValidator<GetTrip.Request>>();
+	private readonly IValidator<GetUser.Request> _getUserRequestValidator = services.GetRequiredService<IValidator<GetUser.Request>>();
+	private readonly IValidator<GetVehicle.Request> _getVehicleRequestValidator = services.GetRequiredService<IValidator<GetVehicle.Request>>();
+	private readonly HttpClient _httpClient = httpClient ?? services.GetRequiredService<IHttpClientFactory>().CreateClient(nameof(ICarmineClient));
+	private readonly CarmineClientOptions _options = options ?? services.GetRequiredService<CarmineClientOptions>();
 
-	private GetTripRequestValidator? _getTripRequestValidator;
-	private GetUserRequestValidator? _getUserRequestValidator;
-	private GetVehicleRequestValidator? _getVehicleRequestValidator;
-
-	//	============================================================================
-	//	Actions
-	//	============================================================================
-
-	/// <summary>
-	/// Returns a trip.
-	/// </summary>
-	/// <param name="id">The trip's id.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>GetTrip.Response</c>.</returns>
 	public Task<GetTrip.Response> GetTripAsync(
 		TripId id,
 		CancellationToken cancellationToken = default) => GetTripAsync(new GetTrip.Request {
 			Id = id
 		}, cancellationToken);
 
-	/// <summary>
-	/// Returns a trip.
-	/// </summary>
-	/// <param name="request">An instance of <c>GetTrip.Request</c> containing the request's parameters.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>GetTrip.Response</c>.</returns>
 	public async Task<GetTrip.Response> GetTripAsync(
 		GetTrip.Request request,
 		CancellationToken cancellationToken = default) {
-		if (cancellationToken.IsCancellationRequested) {
-			return GetTrip.Cancelled;
+		if (cancellationToken.IsSupportedAndCancelled()) {
+			return GetTrip.Response.Cancelled;
 		}
 
-		var validator = _getTripRequestValidator ??= new GetTripRequestValidator();
-		var validation = validator.Validate(request);
+		// ReSharper disable once MethodHasAsyncOverloadWithCancellation
+		var validationResult = _getTripRequestValidator.Validate(request);
 
-		if (!validation.IsValid) {
-			return GetTrip.Invalid(validation);
+		if (!validationResult.IsValid) {
+			return GetTrip.Response.Invalid(validationResult);
 		}
 
 		try {
-			var trip = await _httpClient.GetFromJsonAsync<TripExpanded?>($"{_endpointHost}/{request.GetEndpoint()}&{_apiKey}", cancellationToken).ConfigureAwait(false);
+			var trip = await _httpClient.GetFromJsonAsync<TripExpanded>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+
+			if (trip is null) {
+				return GetTrip.Response.Failed;
+			}
 
 			return new GetTrip.Response {
-				Status = ResponseStatus.Succeeded,
 				Trip = trip
 			};
-		} catch (TaskCanceledException) {
-			return GetTrip.TimedOut;
-		} catch (Exception e) {
-			return GetTrip.Failed(e);
+		} catch {
+			return GetTrip.Response.Failed;
 		}
 	}
 
-	/// <summary>
-	/// Returns a user.
-	/// </summary>
-	/// <param name="id">The user's id.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>GetUser.Response</c>.</returns>
 	public Task<GetUser.Response> GetUserAsync(
 		UserId id,
 		CancellationToken cancellationToken = default) => GetUserAsync(new GetUser.Request {
 			Id = id
 		}, cancellationToken);
 
-	/// <summary>
-	/// Returns a user.
-	/// </summary>
-	/// <param name="request">An instance of <c>GetUser.Request</c> containing the request's parameters.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>GetUser.Response</c>.</returns>
 	public async Task<GetUser.Response> GetUserAsync(
 		GetUser.Request request,
 		CancellationToken cancellationToken = default) {
-		if (cancellationToken.IsCancellationRequested) {
-			return GetUser.Cancelled;
+		if (cancellationToken.IsSupportedAndCancelled()) {
+			return GetUser.Response.Cancelled;
 		}
 
-		var validator = _getUserRequestValidator ??= new GetUserRequestValidator();
-		var validation = validator.Validate(request);
+		// ReSharper disable once MethodHasAsyncOverloadWithCancellation
+		var validationResult = _getUserRequestValidator.Validate(request);
 
-		if (!validation.IsValid) {
-			return GetUser.Invalid(validation);
+		if (!validationResult.IsValid) {
+			return GetUser.Response.Invalid(validationResult);
 		}
 
 		try {
-			var user = await _httpClient.GetFromJsonAsync<User?>($"{_endpointHost}/{request.GetEndpoint()}&{_apiKey}", cancellationToken).ConfigureAwait(false);
+			var user = await _httpClient.GetFromJsonAsync<User>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+
+			if (user is null) {
+				return GetUser.Response.Failed;
+			}
 
 			return new GetUser.Response {
-				Status = ResponseStatus.Succeeded,
 				User = user
 			};
-		} catch (TaskCanceledException) {
-			return GetUser.TimedOut;
-		} catch (Exception e) {
-			return GetUser.Failed(e);
+		} catch {
+			return GetUser.Response.Failed;
 		}
 	}
 
-	/// <summary>
-	/// Returns a vehicle.
-	/// </summary>
-	/// <param name="id">The vehicle's id.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>GetVehicle.Response</c>.</returns>
 	public Task<GetVehicle.Response> GetVehicleAsync(
 		VehicleId id,
 		CancellationToken cancellationToken = default) => GetVehicleAsync(new GetVehicle.Request {
 			Id = id
 		}, cancellationToken);
 
-	/// <summary>
-	///	Returns a vehicle.
-	/// </summary>
-	/// <param name="request">An instance of <c>GetVehicle.Request</c> containing the request's parameters.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>GetVehicle.Response</c>.</returns>
 	public async Task<GetVehicle.Response> GetVehicleAsync(
 		GetVehicle.Request request,
 		CancellationToken cancellationToken = default) {
-		if (cancellationToken.IsCancellationRequested) {
-			return GetVehicle.Cancelled;
+		if (cancellationToken.IsSupportedAndCancelled()) {
+			return GetVehicle.Response.Cancelled;
 		}
 
-		var validator = _getVehicleRequestValidator ??= new GetVehicleRequestValidator();
-		var validation = validator.Validate(request);
+		// ReSharper disable once MethodHasAsyncOverloadWithCancellation
+		var validationResult = _getVehicleRequestValidator.Validate(request);
 
-		if (!validation.IsValid) {
-			return GetVehicle.Invalid(validation);
+		if (!validationResult.IsValid) {
+			return GetVehicle.Response.Invalid(validationResult);
 		}
 
 		try {
-			var vehicle = await _httpClient.GetFromJsonAsync<Vehicle?>($"{_endpointHost}/{request.GetEndpoint()}&{_apiKey}", cancellationToken).ConfigureAwait(false);
+			var vehicle = await _httpClient.GetFromJsonAsync<Vehicle?>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+
+			if (vehicle is null) {
+				return GetVehicle.Response.Failed;
+			}
 
 			return new GetVehicle.Response {
-				Status = ResponseStatus.Succeeded,
 				Vehicle = vehicle
 			};
-		} catch (TaskCanceledException) {
-			return GetVehicle.TimedOut;
-		} catch (Exception e) {
-			return GetVehicle.Failed(e);
+		} catch {
+			return GetVehicle.Response.Failed;
 		}
 	}
 
-	/// <summary>
-	/// Returns a list of trips.
-	/// </summary>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>ListTrips.Response</c>.</returns>
 	public Task<ListTrips.Response> ListTripsAsync(
-		CancellationToken cancellationToken = default) => ListTripsAsync(new ListTrips.Request(), cancellationToken);
+		CancellationToken cancellationToken = default) => ListTripsAsync(ListTrips.Request.Instance, cancellationToken);
 
-	/// <summary>
-	/// Returns a list of trips.
-	/// </summary>
-	/// <param name="request">An instance of <c>ListTrips.Request</c> containing the request's parameters.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>ListTrips.Response</c>.</returns>
 	public async Task<ListTrips.Response> ListTripsAsync(
 		ListTrips.Request request,
 		CancellationToken cancellationToken = default) {
-		if (cancellationToken.IsCancellationRequested) {
-			return ListTrips.Cancelled;
+		if (cancellationToken.IsSupportedAndCancelled()) {
+			return ListTrips.Response.Cancelled;
 		}
 
 		try {
-			var trips = await _httpClient.GetFromJsonAsync<IList<Trip>>($"{_endpointHost}/{request.GetEndpoint()}&{_apiKey}", cancellationToken).ConfigureAwait(false)
-						?? [];
+			var trips = await _httpClient.GetFromJsonAsync<IList<Trip>>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
 			return new ListTrips.Response {
-				Status = ResponseStatus.Succeeded,
-				Trips = trips
+				Trips = trips ?? []
 			};
-		} catch (TaskCanceledException) {
-			return ListTrips.TimedOut;
 		} catch {
-			return ListTrips.Failed;
+			return ListTrips.Response.Failed;
 		}
 	}
 
-	/// <summary>
-	/// Returns a list of users.
-	/// </summary>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>ListUsers.Response</c>.</returns>
 	public Task<ListUsers.Response> ListUsersAsync(
-		CancellationToken cancellationToken = default) => ListUsersAsync(new ListUsers.Request(), cancellationToken);
+		CancellationToken cancellationToken = default) => ListUsersAsync(ListUsers.Request.Instance, cancellationToken);
 
-	/// <summary>
-	/// Returns a list of users.
-	/// </summary>
-	/// <param name="request">An instance of <c>ListUsers.Request</c> containing the request's parameters.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>ListUsers.Response</c>.</returns>
 	public async Task<ListUsers.Response> ListUsersAsync(
 		ListUsers.Request request,
 		CancellationToken cancellationToken = default) {
-		if (cancellationToken.IsCancellationRequested) {
-			return ListUsers.Cancelled;
+		if (cancellationToken.IsSupportedAndCancelled()) {
+			return ListUsers.Response.Cancelled;
 		}
 
 		try {
-			var users = await _httpClient.GetFromJsonAsync<IList<User>>($"{_endpointHost}/{request.GetEndpoint()}&{_apiKey}", cancellationToken).ConfigureAwait(false)
-						?? [];
+			var users = await _httpClient.GetFromJsonAsync<IList<User>>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
 			return new ListUsers.Response {
-				Status = ResponseStatus.Succeeded,
-				Users = users
+				Users = users ?? []
 			};
-		} catch (TaskCanceledException) {
-			return ListUsers.TimedOut;
 		} catch {
-			return ListUsers.Failed;
+			return ListUsers.Response.Failed;
 		}
 	}
 
-	/// <summary>
-	/// Returns a list of vehicles.
-	/// </summary>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>ListVehicles.Response</c>.</returns>
 	public Task<ListVehicles.Response> ListVehiclesAsync(
-		CancellationToken cancellationToken = default) => ListVehiclesAsync(new ListVehicles.Request(), cancellationToken);
+		CancellationToken cancellationToken = default) => ListVehiclesAsync(ListVehicles.Request.Instance, cancellationToken);
 
-	/// <summary>
-	/// Returns a list of vehicles.
-	/// </summary>
-	/// <param name="request">An instance of <c>ListVehicles.Request</c> containing the request's parameters.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>An instance of <c>ListVehicles.Response</c>.</returns>
 	public async Task<ListVehicles.Response> ListVehiclesAsync(
 		ListVehicles.Request request,
 		CancellationToken cancellationToken = default) {
-		if (cancellationToken.IsCancellationRequested) {
-			return ListVehicles.Cancelled;
+		if (cancellationToken.IsSupportedAndCancelled()) {
+			return ListVehicles.Response.Cancelled;
 		}
 
 		try {
-			var vehicles = await _httpClient.GetFromJsonAsync<IList<Vehicle>>($"{_endpointHost}/{request.GetEndpoint()}&{_apiKey}", cancellationToken).ConfigureAwait(false)
-						   ?? [];
+			var vehicles = await _httpClient.GetFromJsonAsync<IList<Vehicle>>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
 			return new ListVehicles.Response {
-				Status = ResponseStatus.Succeeded,
-				Vehicles = vehicles
+				Vehicles = vehicles ?? []
 			};
-		} catch (TaskCanceledException) {
-			return ListVehicles.TimedOut;
 		} catch {
-			return ListVehicles.Failed;
+			return ListVehicles.Response.Failed;
 		}
 	}
 }

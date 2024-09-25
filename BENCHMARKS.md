@@ -1,63 +1,32 @@
 ﻿# BENCHMARKS
 
-
-
-### .NET 8
-
-#### CarmineClientFactory
-
-| Method               |     Mean |   Error |  StdDev |   Gen0 | Allocated |
-| -------------------- | -------: | ------: | ------: | -----: | --------: |
-| CreateAndCacheClient | 117.1 ns | 1.07 ns | 1.00 ns | 0.0305 |     128 B |
-
-#### Trips
-
-| Method    |     Mean |    Error |   StdDev | Allocated |
-| --------- | -------: | -------: | -------: | --------: |
-| GetAsync  | 947.7 ms | 59.06 ms | 165.6 ms | 127.03 KB |
-| ListAsync | 543.0 ms | 47.60 ms | 137.3 ms |  39.95 KB |
-
-#### Users
-
-| Method    |      Mean |     Error |    StdDev | Allocated |
-| --------- | --------: | --------: | --------: | --------: |
-| GetAsync  | 218.99 ms | 17.949 ms | 49.737 ms |   5.84 KB |
-| ListAsync |  83.36 ms |  1.603 ms |  2.140 ms |   5.68 KB |
-
-#### Vehicles
-
-| Method    |     Mean |    Error |   StdDev | Allocated |
-| --------- | -------: | -------: | -------: | --------: |
-| GetAsync  | 82.54 ms | 1.595 ms | 1.332 ms |   5.65 KB |
-| ListAsync | 84.09 ms | 1.536 ms | 2.392 ms |    5.7 KB |
+- BenchmarkDotNet v0.14.0, Windows 10 (10.0.19045.4894/22H2/2022Update)
+- Intel Core i7-4790K CPU 4.00GHz (Haswell), 1 CPU, 8 logical and 4 physical cores
+- .NET SDK 8.0.400
+  - [Host]     : .NET 8.0.8 (8.0.824.36612), X64 RyuJIT AVX2
+  - DefaultJob : .NET 8.0.8 (8.0.824.36612), X64 RyuJIT AVX2
 
 
 
-### .NET 7
+#### 2024-09-25 (.NET 8)
 
-#### CarmineClientFactory
+###### Trips
 
-| Method               |     Mean |   Error |  StdDev |   Gen0 | Allocated |
-| -------------------- | -------: | ------: | ------: | -----: | --------: |
-| CreateAndCacheClient | 142.4 ns | 0.80 ns | 0.71 ns | 0.0305 |     128 B |
+| Method    |     Mean | Allocated |
+| --------- | -------: | --------: |
+| GetAsync  | 718.6 ms |  91.05 KB |
+| ListAsync | 411.4 ms |   30.2 KB |
 
-#### Trips
+###### Users
 
-| Method    |     Mean |    Error |   StdDev | Allocated |
-| --------- | -------: | -------: | -------: | --------: |
-| GetAsync  | 640.0 ms | 27.11 ms | 76.47 ms | 183.66 KB |
-| ListAsync | 548.3 ms | 34.35 ms | 99.66 ms | 175.02 KB |
+| Method    |      Mean | Allocated |
+| --------- | --------: | --------: |
+| GetAsync  | 222.38 ms |  36.49 KB |
+| ListAsync |  83.07 ms |   6.39 KB |
 
-#### Users
+###### Vehicles
 
-| Method    |      Mean |     Error |    StdDev | Allocated |
-| --------- | --------: | --------: | --------: | --------: |
-| GetAsync  | 257.21 ms | 12.556 ms | 36.428 ms |   6.02 KB |
-| ListAsync |  82.45 ms |  1.568 ms |  1.743 ms |   5.79 KB |
-
-#### Vehicles
-
-| Method    |     Mean |    Error |   StdDev | Allocated |
-| --------- | -------: | -------: | -------: | --------: |
-| GetAsync  | 82.51 ms | 1.645 ms | 2.838 ms |   5.86 KB |
-| ListAsync | 83.63 ms | 1.665 ms | 2.543 ms |   5.81 KB |
+| Method    |     Mean | Allocated |
+| --------- | -------: | --------: |
+| GetAsync  | 82.25 ms |   6.43 KB |
+| ListAsync | 81.21 ms |   6.33 KB |

@@ -17,6 +17,5 @@ internal sealed class UserRoleJsonConverter :
 	public override void Write(
 		Utf8JsonWriter writer,
 		UserRole value,
-		JsonSerializerOptions options) {
-	}
+		JsonSerializerOptions options) => throw new NotImplementedException();
 }

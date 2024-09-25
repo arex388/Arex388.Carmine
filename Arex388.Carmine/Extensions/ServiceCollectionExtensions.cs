@@ -1,40 +1,38 @@
 ﻿using Arex388.Carmine;
-using Microsoft.Extensions.Caching.Memory;
+using FluentValidation;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
-/// <c>IServiceCollection</c> extensions.
+/// <see cref="IServiceCollection"/> extensions.
 /// </summary>
 public static class ServiceCollectionExtensions {
 	/// <summary>
-	/// Add Carmine.io service for interacting with multiple accounts.
+	/// Add the Carmine.io API client factory for interacting with multiple accounts.
 	/// </summary>
-	/// <param name="services">The service collection.</param>
-	/// <returns>The service collection.</returns>
+	/// <param name="services">The services collection.</param>
+	/// <returns>The services collection.</returns>
 	public static IServiceCollection AddCarmine(
-		this IServiceCollection services) => services.AddSingleton<ICarmineClientFactory>(
-		sp => {
-			var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
-			var httpClient = httpClientFactory.CreateClient(nameof(CarmineClientFactory));
-			var memoryCache = sp.GetRequiredService<IMemoryCache>();
-
-			return new CarmineClientFactory(httpClient, memoryCache);
-		});
+		this IServiceCollection services) => services.AddHttpClient()
+													 .AddMemoryCache()
+													 .AddValidatorsFromAssemblyContaining<ICarmineClient>(includeInternalTypes: true, lifetime: ServiceLifetime.Singleton)
+													 .AddSingleton<ICarmineClientFactory, CarmineClientFactory>();
 
 	/// <summary>
-	/// Add Carmine.io service for interacting with a single account.
+	/// Add the Carmine.io API client for interacting with a single account.
 	/// </summary>
-	/// <param name="services">The service collection.</param>
-	/// <param name="apiKey">The Carmine.io API key.</param>
-	/// <returns>The service collection.</returns>
+	/// <param name="services">The services collection.</param>
+	/// <param name="options">The client's configuration options.</param>
+	/// <returns>The services collection.</returns>
 	public static IServiceCollection AddCarmine(
 		this IServiceCollection services,
-		string apiKey) => services.AddSingleton<ICarmineClient>(
-		sp => {
-			var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
-			var httpClient = httpClientFactory.CreateClient(nameof(CarmineClient));
+		CarmineClientOptions options) {
+		services.AddHttpClient<ICarmineClient>(
+			hc => hc.BaseAddress = HttpClientHelper.BaseAddress);
 
-			return new CarmineClient(apiKey, httpClient);
-		});
+		return services.AddValidatorsFromAssemblyContaining<ICarmineClient>(includeInternalTypes: true, lifetime: ServiceLifetime.Singleton)
+					   .AddSingleton(options)
+					   .AddSingleton<ICarmineClient>(
+						   sp => new CarmineClient(sp));
+	}
 }

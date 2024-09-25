@@ -1,23 +1,39 @@
 # CHANGELOG
 
+#### 4.0.0 (2024-09-25)
+
+- Internal cleanup and refactoring.
+- Implemented an options object for client instancing.
+- Presumably enabled Source Link.
+
+
+
 #### 3.0.6 (2024-03-27)
 
 - Internal cleanup.
 
+
+
 #### 3.0.5 (2023-08-21)
 
 - Internal cleanup.
+
+
 
 #### 3.0.4 (2023-07-26)
 
 - **Revised:** Dependency Injection extensions to not register an `HttpClient` prior to registering the interfaces and concrete classes.
 - **Revised:** Exception handling for failed response.
 
+
+
 #### 3.0.3 (2023-07-25)
 
 - **Revised:** Invalid responses to return the validation errors.
 - Implemented global usings.
 - Implemented global nullable reference types.
+
+
 
 #### 3.0.2 (2023-07-20)
 
@@ -26,10 +42,14 @@
 - **Removed:** `WaypointId` because it turns out the `Waypoint` doesn't have an id.
 - **Removed:** `EventId` and `LocationId` to match `Event` and `Location` with `Waypoint`.
 
+
+
 #### 3.0.1 (2023-07-20)
 
 - **Revised:** `EventId`, `LocationId`, `TripId`, `UserId`, `VehicleId`, `WaypointId` by copying the generated code from StronglyTypedId directly.
 - **Removed:** StronglyTypedId because it was causing NuGet installation issues when attempting to consume the library.
+
+
 
 #### 3.0.0 (2023-07-19)
 
@@ -62,9 +82,13 @@
 - "Upgraded" to C# 11 as much as possible using PolySharp.
 - Revised documentation.
 
+
+
 #### 2.0.1 (2022-06-23)
 
 - Minor code cleanup.
+
+
 
 #### 2.0.0 (2021-04-09)
 
@@ -74,14 +98,20 @@
 - Has complete XML documentation.
 - Properly asynchronous.
 
+
+
 #### 1.0.8 (2021-04-02)
 
 - Changed `VehicleResponse.FuelRemaining` to a `byte` data type since its value range is only 0-100.
+
+
 
 #### 1.0.7 (2020-05-27)
 
 - Internal code clean up.
 - Improved `debug` flag handling.
+
+
 
 #### 1.0.6 (2020-05-07)
 

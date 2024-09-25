@@ -1,27 +1,20 @@
-﻿namespace Arex388.Carmine;
+﻿using System.Net;
+
+namespace Arex388.Carmine;
 
 /// <summary>
 /// ListUsers request and response containers.
 /// </summary>
 public static class ListUsers {
-	private static Response? _cancelled;
-	private static Response? _failed;
-	private static Response? _timedOut;
-
-	internal static Response Cancelled => _cancelled ??= new Response {
-		Status = ResponseStatus.Cancelled
-	};
-	internal static Response Failed => _failed ??= new Response {
-		Status = ResponseStatus.Failed
-	};
-	internal static Response TimedOut => _timedOut ??= new Response {
-		Status = ResponseStatus.TimedOut
-	};
-
 	/// <summary>
 	/// ListUsers request container.
 	/// </summary>
-	public sealed class Request {
+	public sealed class Request :
+		RequestBase {
+		internal static Request Instance = new();
+
+		internal override string Endpoint => GetEndpoint(this);
+
 		/// <summary>
 		/// The language the results should be returned in. <c>English</c> by default.
 		/// </summary>
@@ -36,17 +29,40 @@ public static class ListUsers {
 		/// Filter by the user's status.
 		/// </summary>
 		public UserStatus? Status { get; init; }
+
+		//	========================================================================
+		//	Utilities
+		//	========================================================================
+
+		private static string GetEndpoint(
+			Request request) {
+			var parameters = new HashSet<string> {
+				$"lang={request.Language.ToStringFast()}"
+			};
+
+			if (request.Search.HasValue()) {
+				var search = WebUtility.UrlEncode(request.Search);
+
+				parameters.Add($"search={search}");
+			}
+
+			if (request.Status.HasValue) {
+				var active = request.Status == UserStatus.Active
+					? "true"
+					: "false";
+
+				parameters.Add($"active={active}");
+			}
+
+			return $"users?{parameters.StringJoin("&")}";
+		}
 	}
 
 	/// <summary>
 	/// ListUsers response container.
 	/// </summary>
-	public sealed class Response {
-		/// <summary>
-		/// The response's status.
-		/// </summary>
-		public ResponseStatus Status { get; init; }
-
+	public sealed class Response :
+		ResponseBase<Response> {
 		/// <summary>
 		/// The matched users.
 		/// </summary>

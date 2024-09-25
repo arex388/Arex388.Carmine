@@ -41,25 +41,21 @@ public class Trip {
 	/// <summary>
 	/// Flag indicating if the trip was after hours (outside of work hours, but not explicitly for personal use).
 	/// </summary>
-	[JsonPropertyName("is_after_hours")]
 	public bool IsAfterHours { get; init; }
 
 	/// <summary>
 	/// Flag indicating if the trip is hidden.
 	/// </summary>
-	[JsonPropertyName("is_hidden")]
 	public bool IsHidden { get; init; }
 
 	/// <summary>
 	/// Flag indicating if the trip was for personal use (outside of work hours).
 	/// </summary>
-	[JsonPropertyName("is_personal")]
 	public bool IsPersonal { get; init; }
 
 	/// <summary>
 	/// Flag indicating if the vehicle actually moved during the trip.
 	/// </summary>
-	[JsonPropertyName("is_stationary")]
 	public bool IsStationary { get; init; }
 
 	/// <summary>

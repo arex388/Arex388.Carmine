@@ -22,7 +22,7 @@ public sealed class Event {
 	/// <summary>
 	/// The event's type.
 	/// </summary>
-	[JsonConverter(typeof(EventTypeJsonConverter)), JsonPropertyName("event_type")]
+	[JsonPropertyName("event_type")]
 	public EventType Type { get; init; }
 	
 	/// <summary>

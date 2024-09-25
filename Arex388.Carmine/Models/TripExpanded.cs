@@ -15,7 +15,6 @@ public sealed class TripExpanded :
 	/// <summary>
 	/// The trip's end location.
 	/// </summary>
-	[JsonPropertyName("end_location")]
 	public Location? EndLocation { get; init; } = null!;
 
 	/// <summary>
@@ -31,7 +30,6 @@ public sealed class TripExpanded :
 	/// <summary>
 	/// The trip's start location.
 	/// </summary>
-	[JsonPropertyName("start_location")]
 	public Location StartLocation { get; init; } = null!;
 
 	/// <summary>

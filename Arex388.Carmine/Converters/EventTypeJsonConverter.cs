@@ -25,6 +25,5 @@ internal sealed class EventTypeJsonConverter :
 	public override void Write(
 		Utf8JsonWriter writer,
 		EventType value,
-		JsonSerializerOptions options) {
-	}
+		JsonSerializerOptions options) => throw new NotImplementedException();
 }

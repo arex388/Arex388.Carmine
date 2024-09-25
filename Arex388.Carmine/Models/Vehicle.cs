@@ -138,7 +138,6 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's status.
 	/// </summary>
-	[JsonConverter(typeof(VehicleStatusJsonConverter))]
 	public VehicleStatus Status { get; init; }
 
 	/// <summary>

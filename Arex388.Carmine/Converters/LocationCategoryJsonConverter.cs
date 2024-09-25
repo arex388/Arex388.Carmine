@@ -27,6 +27,5 @@ internal sealed class LocationCategoryJsonConverter :
 	public override void Write(
 		Utf8JsonWriter writer,
 		LocationCategory value,
-		JsonSerializerOptions options) {
-	}
+		JsonSerializerOptions options) => throw new NotImplementedException();
 }

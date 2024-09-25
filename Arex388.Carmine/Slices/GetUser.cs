@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using FluentValidation;
+using static Arex388.Carmine.GetUser;
 
 namespace Arex388.Carmine;
 
@@ -6,39 +7,13 @@ namespace Arex388.Carmine;
 /// GetUser request and response containers.
 /// </summary>
 public static class GetUser {
-	private static Response? _cancelled;
-	private static Response? _failed;
-	private static Response? _timedOut;
-
-	internal static Response Cancelled => _cancelled ??= new Response {
-		Status = ResponseStatus.Cancelled
-	};
-	internal static Response Failed(
-		Exception? exception) => exception is null
-		? _failed ??= new Response {
-			Status = ResponseStatus.Failed
-		}
-		: Failed($"[{exception.GetType().Name}] {exception.Message}");
-	internal static Response Failed(
-		string error) => new() {
-		Errors = [
-			error
-		],
-		Status = ResponseStatus.Failed
-	};
-	internal static Response Invalid(
-		ValidationResult validation) => new() {
-			Errors = validation.GetErrors(),
-			Status = ResponseStatus.Invalid
-		};
-	internal static Response TimedOut => _timedOut ??= new Response {
-		Status = ResponseStatus.TimedOut
-	};
-
 	/// <summary>
 	/// GetUser request container.
 	/// </summary>
-	public sealed class Request {
+	public sealed class Request :
+		RequestBase {
+		internal override string Endpoint => $"users/{Id}?lang={Language.ToStringFast()}";
+
 		/// <summary>
 		/// The user's id.
 		/// </summary>
@@ -53,20 +28,22 @@ public static class GetUser {
 	/// <summary>
 	/// GetUser response container.
 	/// </summary>
-	public sealed class Response {
-		/// <summary>
-		/// The response's errors, if any.
-		/// </summary>
-		public IEnumerable<string> Errors { get; init; } = [];
-
-		/// <summary>
-		/// The response's status.
-		/// </summary>
-		public ResponseStatus Status { get; init; }
-
+	public sealed class Response :
+		ResponseBase<Response> {
 		/// <summary>
 		/// The matched user.
 		/// </summary>
 		public User? User { get; init; }
+	}
+}
+
+//	================================================================================
+//	Validators
+//	================================================================================
+
+file sealed class RequestValidator :
+	AbstractValidator<Request> {
+	public RequestValidator() {
+		RuleFor(r => r.Id).NotEmpty();
 	}
 }
