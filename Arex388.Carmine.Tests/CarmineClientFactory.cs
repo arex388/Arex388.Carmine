@@ -56,7 +56,7 @@ public sealed class CarmineClientFactory {
 			Key = Config.Key1
 		});
 		var client2 = _carmineFactory.CreateClient(new CarmineClientOptions {
-			Key = Config.Key2
+			Key = string.Empty
 		});
 
 		_console.WriteLineWithHeader(nameof(client1), client1);
