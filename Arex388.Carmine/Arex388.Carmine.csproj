@@ -24,7 +24,7 @@
 		</PackageReference>
 		<PackageReference Include="StronglyTypedId" Version="1.0.0-beta08" />
 		<PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
-		<PackageReference Include="System.Text.Json" Version="8.0.5" />
+		<PackageReference Include="System.Text.Json" Version="8.0.4" />
 	</ItemGroup>
 
 </Project>
