@@ -1,32 +1,26 @@
-﻿using BenchmarkDotNet.Attributes;
-using Microsoft.Extensions.DependencyInjection;
+using BenchmarkDotNet.Attributes;
 
 namespace Arex388.Carmine.Benchmarks;
 
 [MemoryDiagnoser]
 public class TripsBenchmarks {
-	private readonly ICarmineClient _carmine;
+    private readonly ICarmineClient _carmine;
+    private readonly TripId _tripId;
 
-	public TripsBenchmarks() {
-		var services = new ServiceCollection().AddCarmine(new CarmineClientOptions {
-			Key = Config.Key
-		}).BuildServiceProvider();
+    public TripsBenchmarks() {
+        var services = BenchmarkServiceProvider.Create();
 
-		_carmine = services.GetRequiredService<ICarmineClient>();
-	}
+        _carmine = BenchmarkServiceProvider.CreateClient(services);
 
-	[Benchmark]
-	public async Task<GetTrip.Response?> GetAsync() {
-		var list = await _carmine.ListTripsAsync().ConfigureAwait(false);
-		var trip = list.Trips.FirstOrDefault();
+        // Get a trip ID from the cached list response for the Get benchmark
+        var list = _carmine.ListTripsAsync().GetAwaiter().GetResult();
 
-		if (trip is null) {
-			return null;
-		}
+        _tripId = list.Trips.FirstOrDefault()?.Id ?? default;
+    }
 
-		return await _carmine.GetTripAsync(trip.Id).ConfigureAwait(false);
-	}
+    [Benchmark]
+    public Task<GetTrip.Response> GetAsync() => _carmine.GetTripAsync(_tripId);
 
-	[Benchmark]
-	public Task<ListTrips.Response> ListAsync() => _carmine.ListTripsAsync();
+    [Benchmark]
+    public Task<ListTrips.Response> ListAsync() => _carmine.ListTripsAsync();
 }

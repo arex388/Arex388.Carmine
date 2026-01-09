@@ -1,0 +1,29 @@
+{
+  "carbon_footprint": null,
+  "CarbonEmissionsInTonsPerLiter": null,
+  "Color": null,
+  "created": "2023-09-19T13:19:08-07:00",
+  "current_driver": null,
+  "fault_codes": {
+    "U0402": "Unknown"
+  },
+  "FuelConsumptionInKilometersPerLiter": 0.00,
+  "fuel_economy": 0,
+  "FuelConsumptionInMilesPerGallon": 0.00,
+  "fuel_level": 58,
+  "Id": "8b320390-0f25-466a-81f6-f757a5891f36",
+  "last_activity": "2026-01-07T08:17:04-07:00",
+  "last_trip": "fb09d821-547d-47d1-b260-073708ae1b5d",
+  "current_latitude": 32.780952,
+  "license_plate": "XYZ-5678",
+  "current_longitude": -96.800027,
+  "Make": "Ram",
+  "Model": "ProMaster 3500",
+  "Notes": null,
+  "OdometerInKilometers": 10752,
+  "odometer": 10752466,
+  "OdometerInMiles": 6682,
+  "Status": 1,
+  "Vin": "2HGFG12633A123456",
+  "Year": 2023
+}

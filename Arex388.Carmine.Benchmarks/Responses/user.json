@@ -1,0 +1,16 @@
+{
+  "can_share_eta": true,
+  "Color": "#358DAF",
+  "created": "2023-06-12T13:45:53-07:00",
+  "Email": "admin@example.com",
+  "Id": "f42c7580-e66f-4daa-869e-44a2cd9ce6a7",
+  "validated": true,
+  "last_activity": null,
+  "last_trip": null,
+  "Name": "Test Administrator",
+  "sms": null,
+  "PhotoUrl": null,
+  "Role": 1,
+  "active": 0,
+  "current_vehicle": null
+}

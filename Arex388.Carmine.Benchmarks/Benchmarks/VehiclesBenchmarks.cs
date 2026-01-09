@@ -1,32 +1,26 @@
-﻿using BenchmarkDotNet.Attributes;
-using Microsoft.Extensions.DependencyInjection;
+using BenchmarkDotNet.Attributes;
 
 namespace Arex388.Carmine.Benchmarks;
 
 [MemoryDiagnoser]
 public class VehiclesBenchmarks {
-	private readonly ICarmineClient _carmine;
+    private readonly ICarmineClient _carmine;
+    private readonly VehicleId _vehicleId;
 
-	public VehiclesBenchmarks() {
-		var services = new ServiceCollection().AddCarmine(new CarmineClientOptions {
-			Key = Config.Key
-		}).BuildServiceProvider();
+    public VehiclesBenchmarks() {
+        var services = BenchmarkServiceProvider.Create();
 
-		_carmine = services.GetRequiredService<ICarmineClient>();
-	}
+        _carmine = BenchmarkServiceProvider.CreateClient(services);
 
-	[Benchmark]
-	public async Task<GetVehicle.Response?> GetAsync() {
-		var list = await _carmine.ListVehiclesAsync().ConfigureAwait(false);
-		var vehicle = list.Vehicles.FirstOrDefault();
+        // Get a vehicle ID from the cached list response for the Get benchmark
+        var list = _carmine.ListVehiclesAsync().GetAwaiter().GetResult();
 
-		if (vehicle is null) {
-			return null;
-		}
+        _vehicleId = list.Vehicles.FirstOrDefault()?.Id ?? default;
+    }
 
-		return await _carmine.GetVehicleAsync(vehicle.Id).ConfigureAwait(false);
-	}
+    [Benchmark]
+    public Task<GetVehicle.Response> GetAsync() => _carmine.GetVehicleAsync(_vehicleId);
 
-	[Benchmark]
-	public Task<ListVehicles.Response> ListAsync() => _carmine.ListVehiclesAsync();
+    [Benchmark]
+    public Task<ListVehicles.Response> ListAsync() => _carmine.ListVehiclesAsync();
 }

@@ -2,7 +2,6 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<UserSecretsId>61360345-5fd6-41cd-b626-7ea01eb5586a</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -12,6 +11,10 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Arex388.Carmine\Arex388.Carmine.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="Responses\*.json" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
 </Project>

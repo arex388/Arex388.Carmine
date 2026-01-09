@@ -10,24 +10,24 @@
 
 ###### Trips
 
-| Method    |     Mean | Allocated |
-| --------- | -------: | --------: |
-| GetAsync  | 583.1 ms |  47.69 KB |
-| ListAsync | 430.2 ms |  28.77 KB |
+| Method    |         Mean |       Error |      StdDev |    Gen0 |   Gen1 | Allocated |
+| --------- | -----------: | ----------: | ----------: | ------: | -----: | --------: |
+| GetAsync  |     837.0 ns |     1.51 ns |     1.26 ns |  0.5064 |      - |   2.07 KB |
+| ListAsync | 382,826.1 ns | 2,245.99 ns | 1,991.01 ns | 36.6211 | 6.3477 | 151.58 KB |
 
 ###### Users
 
-| Method    |      Mean | Allocated |
-| --------- | --------: | --------: |
-| GetAsync  | 214.99 ms |  36.39 KB |
-| ListAsync |  79.55 ms |    5.7 KB |
+| Method    |        Mean |     Error |    StdDev |   Gen0 | Allocated |
+| --------- | ----------: | --------: | --------: | -----: | --------: |
+| GetAsync  |    854.9 ns |   8.77 ns |   8.20 ns | 0.5064 |   2.07 KB |
+| ListAsync | 22,637.6 ns | 159.79 ns | 141.65 ns | 1.9531 |   8.06 KB |
 
 ###### Vehicles
 
-| Method    |      Mean | Allocated |
-| --------- | --------: | --------: |
-| GetAsync  | 214.99 ms |  36.39 KB |
-| ListAsync |  79.55 ms |    5.7 KB |
+| Method    |        Mean |    Error |   StdDev |   Gen0 | Allocated |
+| --------- | ----------: | -------: | -------: | -----: | --------: |
+| GetAsync  |    841.6 ns |  3.40 ns |  2.84 ns | 0.5064 |   2.07 KB |
+| ListAsync | 21,770.0 ns | 54.80 ns | 51.26 ns | 3.2959 |  13.52 KB |
 
 
 

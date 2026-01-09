@@ -1,32 +1,26 @@
-﻿using BenchmarkDotNet.Attributes;
-using Microsoft.Extensions.DependencyInjection;
+using BenchmarkDotNet.Attributes;
 
 namespace Arex388.Carmine.Benchmarks;
 
 [MemoryDiagnoser]
 public class UsersBenchmarks {
-	private readonly ICarmineClient _carmine;
+    private readonly ICarmineClient _carmine;
+    private readonly UserId _userId;
 
-	public UsersBenchmarks() {
-		var services = new ServiceCollection().AddCarmine(new CarmineClientOptions {
-			Key = Config.Key
-		}).BuildServiceProvider();
+    public UsersBenchmarks() {
+        var services = BenchmarkServiceProvider.Create();
 
-		_carmine = services.GetRequiredService<ICarmineClient>();
-	}
+        _carmine = BenchmarkServiceProvider.CreateClient(services);
 
-	[Benchmark]
-	public async Task<GetUser.Response?> GetAsync() {
-		var list = await _carmine.ListUsersAsync().ConfigureAwait(false);
-		var user = list.Users.FirstOrDefault();
+        // Get a user ID from the cached list response for the Get benchmark
+        var list = _carmine.ListUsersAsync().GetAwaiter().GetResult();
 
-		if (user is null) {
-			return null;
-		}
+        _userId = list.Users.FirstOrDefault()?.Id ?? default;
+    }
 
-		return await _carmine.GetUserAsync(user.Id).ConfigureAwait(false);
-	}
+    [Benchmark]
+    public Task<GetUser.Response> GetAsync() => _carmine.GetUserAsync(_userId);
 
-	[Benchmark]
-	public Task<ListUsers.Response> ListAsync() => _carmine.ListUsersAsync();
+    [Benchmark]
+    public Task<ListUsers.Response> ListAsync() => _carmine.ListUsersAsync();
 }

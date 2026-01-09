@@ -1,4 +1,4 @@
-﻿using Arex388.Carmine.Benchmarks;
+using Arex388.Carmine.Benchmarks;
 using BenchmarkDotNet.Running;
 
 BenchmarkRunner.Run<TripsBenchmarks>();
