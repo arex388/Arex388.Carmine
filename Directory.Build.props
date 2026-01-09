@@ -2,8 +2,7 @@
 	<PropertyGroup>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<TargetFramework>net9.0</TargetFramework>
-		<!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
+		<TargetFramework>net10.0</TargetFramework>
 		<Version>4.1.0</Version>
 	</PropertyGroup>
 </Project>
