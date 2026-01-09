@@ -41,9 +41,9 @@ dotnet run -c Release
 ### Type System
 - **ValueObjects/**: Strongly-typed IDs using StronglyTypedId source generator
   - `TripId`, `UserId`, `VehicleId`
-- **Enums/**: Domain enums with JSON converters
-  - Each enum has a corresponding JsonConverter in `Converters/`
-- **Models/**: Core domain models (`Trip`, `User`, `Vehicle`, `Location`, `Event`, `Waypoint`)
+- **Enums/**: Domain enums using NetEscapades.EnumGenerators with `[EnumExtensions]` attribute
+- **Models/**: Core domain models (`Trip`, `TripExpanded`, `User`, `Vehicle`, `Location`, `Event`, `Waypoint`)
+- **Converters/**: Custom JSON converters for deserializing domain models from the API
 
 ### Dependency Injection
 - Configured via `ServiceCollectionExtensions.AddCarmine()`
@@ -60,5 +60,5 @@ dotnet run -c Release
 - Targets .NET 10.0 (via Directory.Build.props) but library itself is .NET Standard 2.0
 - Uses FluentValidation for request validation
 - Implements caching via IMemoryCache
-- Custom JSON converters for enum serialization
-- Polyfills for older .NET versions included
+- Custom JSON converters for domain model deserialization
+- Uses PolySharp package for .NET Standard 2.0 compatibility polyfills
