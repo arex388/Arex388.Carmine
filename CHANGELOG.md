@@ -3,6 +3,12 @@
 #### 4.1.1 (2026-01-09)
 
 - **Updated:** NuGet packages.
+- **Updated:** Target framework to .NET 10.0.
+- **Replaced:** Custom polyfill files with PolySharp package.
+- **Refactored:** JSON converters from enum-level to model-level converters for improved maintainability.
+- **Optimized:** JSON deserialization using `ValueTextEquals` with UTF-8 spans for better performance.
+- **Refactored:** Dependency injection and removed `HttpClientHelper` class.
+- **Refactored:** Benchmarks to use mock HTTP responses instead of real API calls.
 
 
 
