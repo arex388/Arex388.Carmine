@@ -1,5 +1,11 @@
 # CHANGELOG
 
+#### 4.1.1 (2026-01-09)
+
+- **Updated:** NuGet packages.
+
+
+
 #### 4.1.0 (2025-08-18)
 
 - **Updated:** NuGet packages.

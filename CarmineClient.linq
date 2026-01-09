@@ -11,8 +11,8 @@ private static readonly CarmineClientOptions _options = new CarmineClientOptions
 };
 
 async Task Main() {
-	//var carmine = GetClientMultiple();
-	var carmine = GetClientSingle();
+	GetClientMultiple();
+	GetClientSingle();
 }
 
 public ICarmineClient GetClientMultiple() {
