@@ -1,13 +1,18 @@
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 
 namespace Arex388.Carmine.Benchmarks;
 
 [MemoryDiagnoser]
+//[SimpleJob(RuntimeMoniker.Net80, id: ".NET 8")]
+//[SimpleJob(RuntimeMoniker.Net90, id: ".NET 9")]
+[SimpleJob(RuntimeMoniker.Net10_0, id: ".NET 10")]
 public class VehiclesBenchmarks {
-    private readonly ICarmineClient _carmine;
-    private readonly VehicleId _vehicleId;
+    private ICarmineClient _carmine = null!;
+    private VehicleId _vehicleId;
 
-    public VehiclesBenchmarks() {
+    [GlobalSetup]
+    public void Setup() {
         var services = BenchmarkServiceProvider.Create();
 
         _carmine = BenchmarkServiceProvider.CreateClient(services);
