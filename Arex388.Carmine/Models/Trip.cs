@@ -8,10 +8,8 @@ namespace Arex388.Carmine;
 public class Trip {
 	private decimal? _distanceTraveledInKilometers;
 	private decimal? _distanceTraveledInMiles;
-	private decimal? _maxSpeedInKilometersPerHour;
-	private decimal? _maxSpeedInMilesPerHour;
 
-	/// <summary>
+    /// <summary>
 	/// The trip's distance traveled in kilometeres, rounded to two decimal places.
 	/// </summary>
 	public decimal DistanceTraveledInKilometers => _distanceTraveledInKilometers ??= Math.Round(DistanceTraveledInMeters / 1000M, 2) + 0.00M;
@@ -61,7 +59,7 @@ public class Trip {
 	/// <summary>
 	/// The trip's maximum speed in kilometers per hour, rounded to two decimal places.
 	/// </summary>
-	public decimal? MaxSpeedInKilometersPerHour => _maxSpeedInKilometersPerHour ??= Math.Round(MaxSpeedInMetersPerSecond ?? 0.00M * 3.6M, 2) + 0.00M;
+	public decimal? MaxSpeedInKilometersPerHour => field ??= Math.Round(MaxSpeedInMetersPerSecond ?? 0.00M * 3.6M, 2) + 0.00M;
 
 	/// <summary>
 	/// The trip's maximum speed in meters per second.
@@ -72,7 +70,7 @@ public class Trip {
 	/// <summary>
 	/// The trip's maximum speed in miles per hour, rounded to two decimal places.
 	/// </summary>
-	public decimal? MaxSpeedInMilesPerHour => _maxSpeedInMilesPerHour ??= Math.Round(MaxSpeedInMetersPerSecond ?? 0.00M * 2.237M, 2) + 0.00M;
+	public decimal? MaxSpeedInMilesPerHour => field ??= Math.Round(MaxSpeedInMetersPerSecond ?? 0.00M * 2.237M, 2) + 0.00M;
 
 	/// <summary>
 	/// The amount of time, in seconds, the vehicle was parked before the trip's start.

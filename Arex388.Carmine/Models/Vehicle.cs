@@ -1,5 +1,4 @@
-﻿using Arex388.Carmine.Converters;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Arex388.Carmine;
 
@@ -7,13 +6,7 @@ namespace Arex388.Carmine;
 /// Vehicle object.
 /// </summary>
 public sealed class Vehicle {
-	private decimal? _carbonEmissionsInTonsPerLiter;
-	private decimal? _fuelConsumptionInKilometersPerLiter;
-	private decimal? _fuelConsumptionInMilesPerGallon;
-	private int? _odometerInKilometers;
-	private int? _odometerInMiles;
-
-	/// <summary>
+    /// <summary>
 	/// The vehicle's CO2 emissions in tons per gallon of fuel.
 	/// </summary>
 	[JsonPropertyName("carbon_footprint")]
@@ -22,7 +15,7 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's CO2 emissions in tons per liter of fuel.
 	/// </summary>
-	public decimal? CarbonEmissionsInTonsPerLiter => _carbonEmissionsInTonsPerLiter ??= CarbonEmissionsInTonsPerGallon / 3.785M;
+	public decimal? CarbonEmissionsInTonsPerLiter => field ??= CarbonEmissionsInTonsPerGallon / 3.785M;
 
 	/// <summary>
 	/// The vehicle's color.
@@ -50,7 +43,7 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's fuel consumption in kilometers per liter, rounded to two decimal places.
 	/// </summary>
-	public decimal? FuelConsumptionInKilometersPerLiter => _fuelConsumptionInKilometersPerLiter ??= Math.Round(FuelConsumptionInMetersPerLiter * .001M, 2) + 0.00M;
+	public decimal? FuelConsumptionInKilometersPerLiter => field ??= Math.Round(FuelConsumptionInMetersPerLiter * .001M, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's fuel consumption in meters per liter.
@@ -61,7 +54,7 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's fuel consumption in miles per galon, rounded to two decimal places.
 	/// </summary>
-	public decimal? FuelConsumptionInMilesPerGallon => _fuelConsumptionInMilesPerGallon ??= Math.Round(FuelConsumptionInMetersPerLiter * .0023521442146661M, 2) + 0.00M;
+	public decimal? FuelConsumptionInMilesPerGallon => field ??= Math.Round(FuelConsumptionInMetersPerLiter * .0023521442146661M, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's current remaining fuel.
@@ -122,7 +115,7 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's odometer in kilometers.
 	/// </summary>
-	public int? OdometerInKilometers => _odometerInKilometers ??= OdometerInMeters / 1000;
+	public int? OdometerInKilometers => field ??= OdometerInMeters / 1000;
 
 	/// <summary>
 	/// The vehicle's odometer in meters.
@@ -133,7 +126,7 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's odometer in miles.
 	/// </summary>
-	public int? OdometerInMiles => _odometerInMiles ??= OdometerInMeters / 1609;
+	public int? OdometerInMiles => field ??= OdometerInMeters / 1609;
 
 	/// <summary>
 	/// The vehicle's status.

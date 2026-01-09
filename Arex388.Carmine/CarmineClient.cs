@@ -14,12 +14,13 @@ internal sealed class CarmineClient(
     ICarmineClient {
     private static readonly JsonSerializerOptions _jsonSerializerOptions = new() {
         Converters = {
-            new EventTypeJsonConverter(),
-            new LocationCategoryJsonConverter(),
-            new LocationTypeJsonConverter(),
-            new UserRoleJsonConverter(),
-            new UserStatusJsonConverter(),
-            new VehicleStatusJsonConverter()
+            new EventJsonConverter(),
+            new LocationJsonConverter(),
+            new TripJsonConverter(),
+            new TripExpandedJsonConverter(),
+            new UserJsonConverter(),
+            new VehicleJsonConverter(),
+            new WaypointJsonConverter()
         },
         NumberHandling = JsonNumberHandling.AllowReadingFromString,
         PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower

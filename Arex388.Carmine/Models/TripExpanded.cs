@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Arex388.Carmine;
+﻿namespace Arex388.Carmine;
 
 /// <summary>
 /// Trip object (expanded).
