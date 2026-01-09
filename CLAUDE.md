@@ -57,7 +57,7 @@ dotnet run -c Release
 
 ## Key Technical Details
 
-- Targets .NET 8.0 (via Directory.Build.props) but library itself is .NET Standard 2.0
+- Targets .NET 10.0 (via Directory.Build.props) but library itself is .NET Standard 2.0
 - Uses FluentValidation for request validation
 - Implements caching via IMemoryCache
 - Custom JSON converters for enum serialization
