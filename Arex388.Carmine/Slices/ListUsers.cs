@@ -12,7 +12,7 @@ public static class ListUsers {
     /// </summary>
     public sealed class Request :
         RequestBase {
-        internal static Request Instance = new();
+        internal static Request Default = new();
 
         internal override string Endpoint => GetEndpoint(this);
 
@@ -38,7 +38,7 @@ public static class ListUsers {
         private static string GetEndpoint(
             Request request) {
             var sb = new StringBuilder("users?");
-            sb.Append("lang=").Append(request.Language.ToStringFast());
+            sb.Append("lang=").Append(request.Language.ToStringFast(true));
 
             if (request.Search.HasValue()) {
                 var search = WebUtility.UrlEncode(request.Search);

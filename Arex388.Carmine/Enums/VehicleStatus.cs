@@ -6,7 +6,7 @@ namespace Arex388.Carmine;
 /// <summary>
 /// The <c>Vehicle</c>'s status.
 /// </summary>
-[EnumExtensions]
+[EnumExtensions(MetadataSource = MetadataSource.DisplayAttribute)]
 public enum VehicleStatus :
 	byte {
 	/// <summary>

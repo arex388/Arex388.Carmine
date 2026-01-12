@@ -11,7 +11,7 @@ public static class ListTrips {
     /// </summary>
     public sealed class Request :
         RequestBase {
-        internal static Request Instance = new();
+        internal static Request Default = new();
 
         /// <summary>
         /// The trip's driver id.
@@ -52,7 +52,7 @@ public static class ListTrips {
         private static string GetEndpoint(
             Request request) {
             var sb = new StringBuilder("trips?");
-            sb.Append("lang=").Append(request.Language.ToStringFast());
+            sb.Append("lang=").Append(request.Language.ToStringFast(true));
             sb.Append("&per_page=").Append(request.Take);
 
             if (request.DriverId.HasValue) {

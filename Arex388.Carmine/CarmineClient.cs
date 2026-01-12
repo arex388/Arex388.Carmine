@@ -138,7 +138,7 @@ internal sealed class CarmineClient(
     }
 
     public Task<ListTrips.Response> ListTripsAsync(
-        CancellationToken cancellationToken = default) => ListTripsAsync(ListTrips.Request.Instance, cancellationToken);
+        CancellationToken cancellationToken = default) => ListTripsAsync(ListTrips.Request.Default, cancellationToken);
 
     public async Task<ListTrips.Response> ListTripsAsync(
         ListTrips.Request request,
@@ -159,7 +159,7 @@ internal sealed class CarmineClient(
     }
 
     public Task<ListUsers.Response> ListUsersAsync(
-        CancellationToken cancellationToken = default) => ListUsersAsync(ListUsers.Request.Instance, cancellationToken);
+        CancellationToken cancellationToken = default) => ListUsersAsync(ListUsers.Request.Default, cancellationToken);
 
     public async Task<ListUsers.Response> ListUsersAsync(
         ListUsers.Request request,
@@ -180,7 +180,7 @@ internal sealed class CarmineClient(
     }
 
     public Task<ListVehicles.Response> ListVehiclesAsync(
-        CancellationToken cancellationToken = default) => ListVehiclesAsync(ListVehicles.Request.Instance, cancellationToken);
+        CancellationToken cancellationToken = default) => ListVehiclesAsync(ListVehicles.Request.Default, cancellationToken);
 
     public async Task<ListVehicles.Response> ListVehiclesAsync(
         ListVehicles.Request request,

@@ -6,7 +6,7 @@ namespace Arex388.Carmine;
 /// <summary>
 /// The response language.
 /// </summary>
-[EnumExtensions]
+[EnumExtensions(MetadataSource = MetadataSource.DisplayAttribute)]
 public enum Language :
 	byte {
 	/// <summary>

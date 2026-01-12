@@ -12,7 +12,7 @@ public static class ListVehicles {
     /// </summary>
     public sealed class Request :
         RequestBase {
-        internal static Request Instance = new();
+        internal static Request Default = new();
 
         internal override string Endpoint => GetEndpoint(this);
 
@@ -38,7 +38,7 @@ public static class ListVehicles {
         private static string GetEndpoint(
             Request request) {
             var sb = new StringBuilder("vehicles?");
-            sb.Append("lang=").Append(request.Language.ToStringFast());
+            sb.Append("lang=").Append(request.Language.ToStringFast(true));
 
             if (request.Search.HasValue()) {
                 var search = WebUtility.UrlEncode(request.Search);
@@ -46,7 +46,7 @@ public static class ListVehicles {
             }
 
             if (request.Status.HasValue) {
-                sb.Append("&status=").Append(request.Status?.ToStringFast());
+                sb.Append("&status=").Append(request.Status?.ToStringFast(true));
             }
 
             return sb.ToString();
