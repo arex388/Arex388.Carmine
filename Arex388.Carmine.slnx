@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="BENCHMARKS.md" />
+    <File Path="CHANGELOG.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="Arex388.Carmine.Benchmarks/Arex388.Carmine.Benchmarks.csproj" />
+  <Project Path="Arex388.Carmine.Tests/Arex388.Carmine.Tests.csproj" />
+  <Project Path="Arex388.Carmine/Arex388.Carmine.csproj" />
+</Solution>

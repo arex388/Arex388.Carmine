@@ -1,35 +1,55 @@
-﻿Remove-Item -Path 'reports' -Recurse -ErrorAction SilentlyContinue;
+#	Generates an HTML code coverage report for Arex388.Carmine.Tests and drops a
+#	Coverage.lnk shortcut to it. Run from this directory.
+#
+#	Requires the local tools from ../.config/dotnet-tools.json ('dotnet tool restore'),
+#	and — because the suite is integration-only — the 'key-1' and 'key-2' user secrets
+#	plus a live connection to the Carmine.io API.
+
+Remove-Item -Path 'reports' -Recurse -ErrorAction SilentlyContinue;
 Remove-Item -Path 'TestResults' -Recurse -ErrorAction SilentlyContinue;
-Remove-Item -Path 'coverage.json' -ErrorAction SilentlyContinue;
 Remove-Item -Path 'Coverage.lnk' -ErrorAction SilentlyContinue;
 
 Write-Host 'Building';
 
 dotnet build > $null;
 
-$dllPath = Get-ChildItem -Path 'bin' -Recurse -Filter 'Restorio.Tests.Apps.Admin.dll';
+if ($LASTEXITCODE -ne 0) {
+	Write-Error 'Build failed.';
 
-Write-Host 'Calculating';
-
-coverlet $dllPath.FullName --target 'dotnet' --targetargs 'test --no-build' > $null;
+	exit 1;
+}
 
 Write-Host 'Collecting';
 
-dotnet test --collect:'XPlat Code Coverage' > $null;
+dotnet test --no-build --collect:'XPlat Code Coverage' > $null;
 
-$coberturaPath = Get-ChildItem -Path 'TestResults' -Recurse -Filter 'coverage.cobertura.xml';
+if ($LASTEXITCODE -ne 0) {
+	Write-Error 'Tests failed. The suite hits the live Carmine.io API and needs the key-1 and key-2 user secrets.';
+
+	exit 1;
+}
+
+$coberturaPath = Get-ChildItem -Path 'TestResults' -Recurse -Filter 'coverage.cobertura.xml' | Select-Object -First 1;
+
+if ($null -eq $coberturaPath) {
+	Write-Error 'No coverage.cobertura.xml was produced by the test run.';
+
+	exit 1;
+}
 
 Write-Host 'Reporting';
 
-reportgenerator -reports:$coberturaPath.FullName -targetdir:'reports' -reporttypes:'Html' > $null;
+dotnet reportgenerator -reports:$coberturaPath.FullName -targetdir:'reports' -reporttypes:'Html' > $null;
 
-#Write-Host 'Reporting (PDF)';
+$indexPath = Get-ChildItem -Path 'reports' -Recurse -Filter 'index.html' | Select-Object -First 1;
 
-#Start-Process -FilePath 'C:/Program Files/Google/Chrome/Application/chrome.exe' -ArgumentList "--headless --disable-gpu --run-all-compositor-stages-before-draw --no-margins --no-pdf-header-footer --print-to-pdf='E:\Software Development\DFenceGPS\DFenceGPS.App.IoT.Tests.Unit\reports\index.html' 'E:\Software Development\DFenceGPS\DFenceGPS.App.IoT.Tests.Unit\Coverage.pdf'" -PassThru -Wait;
+if ($null -eq $indexPath) {
+	Write-Error 'No report was generated.';
+
+	exit 1;
+}
 
 Write-Host 'Shortcutting';
-
-$indexPath = Get-ChildItem -Path 'reports' -Recurse -Filter 'index.html';
 
 $wscriptShell = New-Object -ComObject WScript.Shell;
 $shortcut = $wscriptShell.CreateShortcut("$pwd\Coverage.lnk");
@@ -37,4 +57,3 @@ $shortcut.TargetPath = $indexPath.FullName;
 $shortcut.Save();
 
 Remove-Item -Path 'TestResults' -Recurse -ErrorAction SilentlyContinue;
-Remove-item -Path 'coverage.json' -ErrorAction SilentlyContinue;
