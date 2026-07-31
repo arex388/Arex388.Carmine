@@ -48,7 +48,7 @@ internal sealed class VehicleJsonConverter :
         string? color = null;
         DateTime createdAtUtc = default;
         UserId? driverId = null;
-        IDictionary<string, string>? faults = null;
+        Dictionary<string, string>? faults = null;
         var fuelConsumptionInMetersPerLiter = 0;
         byte fuelRemaining = 0;
         VehicleId id = default;

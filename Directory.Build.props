@@ -1,8 +1,11 @@
 <Project>
 	<PropertyGroup>
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<TargetFramework>net10.0</TargetFramework>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<Version>4.2.0</Version>
 	</PropertyGroup>
 </Project>

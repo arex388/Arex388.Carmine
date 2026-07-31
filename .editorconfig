@@ -159,3 +159,19 @@ resharper_csharp_indent_preprocessor_other = usual_indent
 resharper_csharp_max_enum_members_on_line = 1
 resharper_csharp_max_initializer_elements_on_line = 1
 resharper_csharp_stick_comment = false
+
+#  =================================================================================
+#  Per-project inspection and analyzer severities
+#  Library: public model accessors are consumed outside this solution and the
+#  file-scoped validators register via assembly scanning, so the two ReSharper
+#  "unused" rules are structural false positives there; Event is an established
+#  public type on a published package, so CA1716's rename is off the table.
+#  Tests: underscored test names are the xUnit convention (CA1707).
+#  =================================================================================
+[Arex388.Carmine/**.cs]
+dotnet_diagnostic.CA1716.severity = none
+resharper_unused_auto_property_accessor_global_highlighting = none
+resharper_unused_type_local_highlighting = none
+
+[Arex388.Carmine.Tests/**.cs]
+dotnet_diagnostic.CA1707.severity = none

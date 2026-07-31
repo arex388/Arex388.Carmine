@@ -59,7 +59,7 @@ internal sealed class MockHttpMessageHandler :
         string path) {
         var cleanPath = path.Replace("/v2/", "").Split('?')[0];
 
-        if (cleanPath.StartsWith("trips/")) {
+        if (cleanPath.StartsWith("trips/", StringComparison.Ordinal)) {
             return "trip.json";
         }
 
@@ -67,7 +67,7 @@ internal sealed class MockHttpMessageHandler :
             return "trips.json";
         }
 
-        if (cleanPath.StartsWith("users/")) {
+        if (cleanPath.StartsWith("users/", StringComparison.Ordinal)) {
             return "user.json";
         }
 
@@ -75,7 +75,7 @@ internal sealed class MockHttpMessageHandler :
             return "users.json";
         }
 
-        if (cleanPath.StartsWith("vehicles/")) {
+        if (cleanPath.StartsWith("vehicles/", StringComparison.Ordinal)) {
             return "vehicle.json";
         }
 
