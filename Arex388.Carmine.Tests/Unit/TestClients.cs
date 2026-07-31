@@ -67,3 +67,35 @@ internal sealed class DelayingHandler :
 		};
 	}
 }
+
+/// <summary>
+/// Succeeds immediately with OK headers, then stalls the body until the read
+/// is cancelled — a transfer that dies mid-download.
+/// </summary>
+internal sealed class DelayedBodyHandler :
+	HttpMessageHandler {
+	protected override Task<HttpResponseMessage> SendAsync(
+		HttpRequestMessage request,
+		CancellationToken cancellationToken) => Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) {
+			Content = new DelayedContent()
+		});
+
+	private sealed class DelayedContent :
+		HttpContent {
+		protected override Task SerializeToStreamAsync(
+			Stream stream,
+			TransportContext? context) => SerializeToStreamAsync(stream, context, CancellationToken.None);
+
+		protected override Task SerializeToStreamAsync(
+			Stream stream,
+			TransportContext? context,
+			CancellationToken cancellationToken) => Task.Delay(TimeSpan.FromSeconds(30), cancellationToken);
+
+		protected override bool TryComputeLength(
+			out long length) {
+			length = 0;
+
+			return false;
+		}
+	}
+}

@@ -17,9 +17,7 @@ public static class ServiceCollectionExtensions {
         /// </summary>
         /// <returns>The services collection.</returns>
         public IServiceCollection AddCarmine() {
-            services.AddHttpClient(nameof(ICarmineClient), hc => {
-                hc.BaseAddress = _baseAddress;
-            });
+            AddCarmineHttpClient(services);
 
             return services.AddMemoryCache()
                            .AddValidatorsFromAssemblyContaining<ICarmineClient>(includeInternalTypes: true, lifetime: ServiceLifetime.Singleton)
@@ -32,9 +30,7 @@ public static class ServiceCollectionExtensions {
         /// <param name="options">The client's configuration options.</param>
         /// <returns>The services collection.</returns>
         public IServiceCollection AddCarmine(CarmineClientOptions options) {
-            services.AddHttpClient(nameof(ICarmineClient), hc => {
-                hc.BaseAddress = _baseAddress;
-            });
+            AddCarmineHttpClient(services);
 
             return services.AddValidatorsFromAssemblyContaining<ICarmineClient>(includeInternalTypes: true, lifetime: ServiceLifetime.Singleton)
                            .AddSingleton(options)
@@ -42,4 +38,13 @@ public static class ServiceCollectionExtensions {
                                sp => new CarmineClient(sp));
         }
     }
+
+    //  ============================================================================
+    //  Utilities
+    //  ============================================================================
+
+    private static void AddCarmineHttpClient(
+        IServiceCollection services) => services.AddHttpClient(nameof(ICarmineClient), hc => {
+            hc.BaseAddress = _baseAddress;
+        });
 }

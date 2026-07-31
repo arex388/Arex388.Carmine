@@ -3,6 +3,11 @@
 /// <summary>
 /// Vehicle object.
 /// </summary>
+/// <remarks>
+/// The derived unit-conversion properties compute lazily and cache on first
+/// access without synchronization — don't share an instance across threads
+/// while those properties are first read.
+/// </remarks>
 public sealed class Vehicle {
     /// <summary>
 	/// The vehicle's CO2 emissions in tons per gallon of fuel.

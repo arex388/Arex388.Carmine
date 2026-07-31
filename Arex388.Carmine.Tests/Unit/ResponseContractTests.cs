@@ -53,7 +53,7 @@ public sealed class ResponseContractTests {
 
 		using var cts = new CancellationTokenSource();
 
-		cts.Cancel();
+		await cts.CancelAsync();
 
 		var response = await carmine.ListTripsAsync(cts.Token);
 
@@ -64,6 +64,18 @@ public sealed class ResponseContractTests {
 	[Fact]
 	public async Task MidFlightCancellation_ReturnsCancelled() {
 		var carmine = TestClients.Create(new DelayingHandler());
+
+		using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
+
+		var response = await carmine.ListTripsAsync(cts.Token);
+
+		response.Success.Should().BeFalse();
+		response.Errors.Should().ContainSingle().Which.Should().Be("The request was cancelled.");
+	}
+
+	[Fact]
+	public async Task MidBodyCancellation_ReturnsCancelled() {
+		var carmine = TestClients.Create(new DelayedBodyHandler());
 
 		using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
 

@@ -29,7 +29,6 @@
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.10" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.10" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.301" PrivateAssets="All" />
 		<PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta21" PrivateAssets="all" ExcludeAssets="runtime">
 			<IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -38,7 +37,6 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="StronglyTypedId" Version="1.0.0-beta08" PrivateAssets="all" ExcludeAssets="runtime" />
-		<PackageReference Include="System.Net.Http.Json" Version="10.0.10" />
 		<PackageReference Include="System.Text.Json" Version="10.0.10" />
 	</ItemGroup>
 

@@ -3,6 +3,11 @@ namespace Arex388.Carmine;
 /// <summary>
 /// Trip object.
 /// </summary>
+/// <remarks>
+/// The derived unit-conversion properties compute lazily and cache on first
+/// access without synchronization — don't share an instance across threads
+/// while those properties are first read.
+/// </remarks>
 public class Trip {
 	//	The distance conversions cache with explicit nullable backing fields
 	//	because the properties are non-nullable — the field keyword's backing

@@ -104,7 +104,7 @@ internal sealed class CarmineClient(
     //  ============================================================================
 
     //  The single request pipeline behind all six operations: cancellation
-    //  pre-check → optional validation → GET with headers-read → deserialize →
+    //  pre-check → optional validation → GET (fully buffered) → deserialize →
     //  map. A null map result means "the API returned nothing usable" (Failed);
     //  list mappers never return null, coalescing a null payload to empty.
     private async Task<TResponse> SendAsync<TRequest, TModel, TResponse>(
@@ -129,17 +129,22 @@ internal sealed class CarmineClient(
         }
 
         try {
-            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            //  The default ResponseContentRead completion buffers the full body
+            //  inside GetAsync, governed by the caller's token and
+            //  HttpClient.Timeout on every runtime — netstandard2.0's
+            //  ReadAsByteArrayAsync has no cancellation overload, so buffering
+            //  after a headers-read completion could not be cancelled.
+            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), cancellationToken).ConfigureAwait(false);
 
             if (!httpResponse.IsSuccessStatusCode) {
                 return ResponseBase<TResponse>.FailedWith(GetStatusDetail(httpResponse));
             }
 
-            //  Buffer the full body before deserializing: async stream
-            //  deserialization can invoke the converters on partially buffered
-            //  JSON, where their unknown-property Skip() throws (observed
-            //  against the live API on .NET 10). A complete buffer makes
-            //  isFinalBlock true, so Skip is always safe.
+            //  Deserialize from the completed buffer, never a stream: async
+            //  stream deserialization can invoke the converters on partially
+            //  buffered JSON, where their unknown-property Skip() throws
+            //  (observed against the live API on .NET 10). A complete buffer
+            //  makes isFinalBlock true, so Skip is always safe.
             var body = await httpResponse.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             var model = JsonSerializer.Deserialize<TModel>(body, _jsonSerializerOptions);
 
