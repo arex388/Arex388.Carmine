@@ -12,7 +12,7 @@ public static class ListUsers {
     /// </summary>
     public sealed class Request :
         RequestBase {
-        internal static Request Default = new();
+        internal static readonly Request Default = new();
 
         internal override string Endpoint => GetEndpoint(this);
 

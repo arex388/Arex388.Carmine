@@ -13,7 +13,7 @@ public sealed class TripExpanded :
 	/// <summary>
 	/// The trip's end location.
 	/// </summary>
-	public Location? EndLocation { get; init; } = null!;
+	public Location? EndLocation { get; init; }
 
 	/// <summary>
 	/// The trip's events.

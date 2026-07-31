@@ -12,7 +12,7 @@ public static class ListTrips {
     /// </summary>
     public sealed class Request :
         RequestBase {
-        internal static Request Default = new();
+        internal static readonly Request Default = new();
 
         /// <summary>
         /// The trip's driver id.

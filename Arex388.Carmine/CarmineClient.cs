@@ -127,7 +127,7 @@ internal sealed class CarmineClient(
         }
 
         try {
-            var vehicle = await _httpClient.GetFromJsonAsync<Vehicle?>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+            var vehicle = await _httpClient.GetFromJsonAsync<Vehicle>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
             if (vehicle is null) {
                 return GetVehicle.Response.Failed;

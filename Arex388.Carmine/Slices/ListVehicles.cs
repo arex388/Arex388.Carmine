@@ -12,7 +12,7 @@ public static class ListVehicles {
     /// </summary>
     public sealed class Request :
         RequestBase {
-        internal static Request Default = new();
+        internal static readonly Request Default = new();
 
         internal override string Endpoint => GetEndpoint(this);
 
@@ -46,7 +46,7 @@ public static class ListVehicles {
             }
 
             if (request.Status.HasValue) {
-                sb.Append("&status=").Append(request.Status?.ToStringFast(true));
+                sb.Append("&status=").Append(request.Status.Value.ToStringFast(true));
             }
 
             return sb.ToString();
