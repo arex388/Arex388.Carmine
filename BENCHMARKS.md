@@ -1,5 +1,71 @@
 ﻿# BENCHMARKS
 
+#### 2026-07-30 (v4.2.0 Performance & Quality milestone)
+
+- BenchmarkDotNet v0.15.8, Windows 10 (10.0.19045.6466/22H2/2022Update)
+- Intel Core i7-4790K CPU 4.00GHz (Haswell), 1 CPU, 8 logical and 4 physical cores
+- .NET SDK 10.0.302
+  - [Host]     : .NET 10.0.10, X64 RyuJIT x86-64-v3
+  - DefaultJob : .NET 10.0.10, X64 RyuJIT x86-64-v3
+
+Re-run after the v4.2 Performance & Quality milestone: the six request pipelines consolidated into one generic core with static mappers, the read-only response surface (`Array.Empty<T>()` empty defaults), the micro-allocation pass (endpoint concatenation, null-starting converter locals), and the enum/precision changes. Compared with the previous entry: **means at parity (all within ±3%), `Allocated` equal or lower everywhere** — Trips Get 10.2 → 10.0 KB, Users Get 4.6 → 4.5 KB, Users List 4.2 → 4.1 KB, Vehicles List 5.4 → 5.3 KB; no regressions.
+
+###### Trips
+
+| Method    |      Mean |      Error |     StdDev | Allocated |
+| --------- | --------: | ---------: | ---------: | --------: |
+| GetAsync  | 12.660 us | 138.962 ns | 116.039 ns |   10.0 KB |
+| ListAsync |  5.142 us |  72.625 ns | 115.192 ns |    5.2 KB |
+
+###### Users
+
+| Method    |     Mean |     Error |   StdDev | Allocated |
+| --------- | -------: | --------: | -------: | --------: |
+| GetAsync  | 3.305 us |  7.955 ns | 6.643 ns |    4.5 KB |
+| ListAsync | 3.876 us | 11.075 ns | 9.817 ns |    4.1 KB |
+
+###### Vehicles
+
+| Method    |     Mean |     Error |    StdDev | Allocated |
+| --------- | -------: | --------: | --------: | --------: |
+| GetAsync  | 4.357 us | 15.266 ns | 12.748 ns |    5.3 KB |
+| ListAsync | 5.594 us | 50.528 ns | 47.264 ns |    5.3 KB |
+
+
+
+#### 2026-07-30 (v4.2.0 milestone follow-up)
+
+- BenchmarkDotNet v0.15.8, Windows 10 (10.0.19045.6466/22H2/2022Update)
+- Intel Core i7-4790K CPU 4.00GHz (Haswell), 1 CPU, 8 logical and 4 physical cores
+- .NET SDK 10.0.302
+  - [Host]     : .NET 10.0.10, X64 RyuJIT x86-64-v3
+  - DefaultJob : .NET 10.0.10, X64 RyuJIT x86-64-v3
+
+Re-run after the v4.2 audit follow-up milestone: System.Text.Json / Microsoft.Extensions.* bumped to 10.0.10, the request path split into `GetAsync` + status check + `ReadFromJsonAsync` (for failure detail in `Errors`), container-token skipping, hardened phone parsing, and the endpoint/factory micro-optimizations. Numbers are at parity with the previous entry — all means within ±5%, allocations within ±0.5 KB.
+
+###### Trips
+
+| Method    |      Mean |     Error |    StdDev | Allocated |
+| --------- | --------: | --------: | --------: | --------: |
+| GetAsync  | 12.767 us | 65.724 ns | 58.263 ns |   10.2 KB |
+| ListAsync |  5.043 us | 12.206 ns | 10.192 ns |    5.2 KB |
+
+###### Users
+
+| Method    |     Mean |     Error |    StdDev | Allocated |
+| --------- | -------: | --------: | --------: | --------: |
+| GetAsync  | 3.318 us | 11.826 ns | 10.484 ns |    4.6 KB |
+| ListAsync | 3.896 us | 14.149 ns | 11.815 ns |    4.2 KB |
+
+###### Vehicles
+
+| Method    |     Mean |     Error |    StdDev | Allocated |
+| --------- | -------: | --------: | --------: | --------: |
+| GetAsync  | 4.557 us | 13.238 ns | 11.735 ns |    5.3 KB |
+| ListAsync | 5.456 us | 15.016 ns | 14.046 ns |    5.4 KB |
+
+
+
 #### 2026-07-30
 
 - BenchmarkDotNet v0.15.8, Windows 10 (10.0.19045.6466/22H2/2022Update)
