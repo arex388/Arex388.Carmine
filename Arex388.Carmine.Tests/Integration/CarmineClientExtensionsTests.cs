@@ -35,7 +35,7 @@ public sealed class CarmineClientExtensionsTests {
 		//	Act
 		//	========================================================================
 
-		var actualVehicle = await _carmine.GetActiveVehicleAsync(expectedVehicle.Vin!, default);
+		var actualVehicle = await _carmine.GetActiveVehicleAsync(expectedVehicle.Vin!);
 
 		_console.WriteLineWithHeader(nameof(expectedVehicle), expectedVehicle);
 		_console.WriteLineWithHeader(nameof(actualVehicle), actualVehicle);
@@ -45,7 +45,7 @@ public sealed class CarmineClientExtensionsTests {
 		//	========================================================================
 
 		actualVehicle.Should().NotBeNull();
-		actualVehicle!.Id.Should().Be(expectedVehicle.Id);
+		actualVehicle.Id.Should().Be(expectedVehicle.Id);
 		actualVehicle.Vin.Should().Be(expectedVehicle.Vin);
 	}
 
@@ -65,7 +65,7 @@ public sealed class CarmineClientExtensionsTests {
 		//	Act
 		//	========================================================================
 
-		var actualVehicles = await _carmine.ListActiveVehiclesAsync(default);
+		var actualVehicles = await _carmine.ListActiveVehiclesAsync();
 
 		_console.WriteLineWithHeader("Expected Count", expectedVehicles.Count);
 		_console.WriteLineWithHeader("Actual Count", actualVehicles.Count);
@@ -85,7 +85,7 @@ public sealed class CarmineClientExtensionsTests {
 		//	========================================================================
 
 		var minutes = -60;
-		var cutoff = DateTime.Now.AddMinutes(minutes);
+		var cutoff = DateTime.UtcNow.AddMinutes(minutes);
 
 		var listResponse = await _carmine.ListVehiclesAsync();
 		var expectedVehicles = listResponse.Vehicles.Where(
@@ -95,7 +95,7 @@ public sealed class CarmineClientExtensionsTests {
 		//	Act
 		//	========================================================================
 
-		var actualVehicles = await _carmine.ListRecentlyActiveVehiclesAsync(minutes, default);
+		var actualVehicles = await _carmine.ListRecentlyActiveVehiclesAsync(minutes);
 
 		_console.WriteLineWithHeader("Cutoff", cutoff);
 		_console.WriteLineWithHeader("Expected Count", expectedVehicles.Count);
