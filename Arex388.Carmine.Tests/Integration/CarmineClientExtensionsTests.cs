@@ -17,7 +17,7 @@ public sealed class CarmineClientExtensionsTests {
 		_console = console;
 	}
 
-	[Fact]
+	[LiveFact]
 	public async Task GetActiveVehicleAsync_ReturnsMatchingVehicle() {
 		//	========================================================================
 		//	Arrange
@@ -49,7 +49,7 @@ public sealed class CarmineClientExtensionsTests {
 		actualVehicle.Vin.Should().Be(expectedVehicle.Vin);
 	}
 
-	[Fact]
+	[LiveFact]
 	public async Task ListActiveVehiclesAsync_ReturnsOnlyActiveVehicles() {
 		//	========================================================================
 		//	Arrange
@@ -78,7 +78,7 @@ public sealed class CarmineClientExtensionsTests {
 		actualVehicles.Select(v => v.Id).Should().BeEquivalentTo(expectedVehicles.Select(v => v.Id));
 	}
 
-	[Fact]
+	[LiveFact]
 	public async Task ListRecentlyActiveVehiclesAsync_ReturnsRecentlyActiveVehicles() {
 		//	========================================================================
 		//	Arrange

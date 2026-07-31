@@ -16,7 +16,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="Responses\*.json" CopyToOutputDirectory="PreserveNewest" />
+		<Compile Include="..\TestData\MockHttpMessageHandler.cs" Link="MockHttpMessageHandler.cs" />
+		<None Include="..\TestData\Responses\*.json" Link="Responses\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
 </Project>

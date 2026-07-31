@@ -1,0 +1,47 @@
+[
+	{
+		"id": "a1a1dee1-fdb6-4a55-9e48-1fd9882bf4f7",
+		"object": "trip",
+		"distance": 12,
+		"end_time": "2026-01-07T10:10:35-07:00",
+		"has_events": false,
+		"is_after_hours": false,
+		"is_hidden": false,
+		"is_personal": false,
+		"is_stationary": false,
+		"max_speed": 2.5,
+		"start_time": "2026-01-07T10:09:09-07:00",
+		"time_parked": 8861,
+		"trip_cost": null
+	},
+	{
+		"id": "fb09d821-547d-47d1-b260-073708ae1b5d",
+		"object": "trip",
+		"distance": "108",
+		"end_time": "2026-01-07T08:17:04-07:00",
+		"has_events": true,
+		"is_after_hours": false,
+		"is_hidden": false,
+		"is_personal": false,
+		"is_stationary": false,
+		"max_speed": "20.277778",
+		"start_time": "2026-01-07T08:10:58-07:00",
+		"time_parked": 0,
+		"trip_cost": null
+	},
+	{
+		"id": "e4898066-9e6c-4219-b90d-f30bb7b7fcee",
+		"object": "trip",
+		"distance": 0,
+		"end_time": null,
+		"has_events": false,
+		"is_after_hours": true,
+		"is_hidden": false,
+		"is_personal": true,
+		"is_stationary": true,
+		"max_speed": null,
+		"start_time": "2026-01-07T08:03:44-07:00",
+		"time_parked": 0,
+		"trip_cost": null
+	}
+]

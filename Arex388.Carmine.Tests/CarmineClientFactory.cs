@@ -26,10 +26,10 @@ public sealed class CarmineClientFactory {
 		//	========================================================================
 
 		var created = _carmineFactory.CreateClient(new CarmineClientOptions {
-			Key = Config.Key1
+			Key = "factory-test-key"
 		});
 		var cached = _carmineFactory.CreateClient(new CarmineClientOptions {
-			Key = Config.Key1
+			Key = "factory-test-key"
 		});
 
 		_console.WriteLineWithHeader(nameof(created), created);
@@ -53,7 +53,7 @@ public sealed class CarmineClientFactory {
 		//	========================================================================
 
 		var client1 = _carmineFactory.CreateClient(new CarmineClientOptions {
-			Key = Config.Key1
+			Key = "factory-test-key"
 		});
 		var client2 = _carmineFactory.CreateClient(new CarmineClientOptions {
 			Key = string.Empty

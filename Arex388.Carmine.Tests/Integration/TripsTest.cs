@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Arex388.Carmine.Tests;
@@ -17,7 +17,7 @@ public sealed class TripsTest {
 		_console = console;
 	}
 
-	[Fact]
+	[LiveFact]
 	public async Task Get_Succeeds() {
 		//	========================================================================
 		//	Arrange
@@ -43,7 +43,7 @@ public sealed class TripsTest {
 		getTrip.Trip.Should().NotBeNull();
 	}
 
-	[Fact]
+	[LiveFact]
 	public async Task List_Succeeds() {
 		//	========================================================================
 		//	Arrange

@@ -1,0 +1,17 @@
+{
+	"id": "f42c7580-e66f-4daa-869e-44a2cd9ce6a7",
+	"object": "user",
+	"active": true,
+	"can_share_eta": true,
+	"color": "#358DAF",
+	"created": "2023-06-12T13:45:53-07:00",
+	"current_vehicle": null,
+	"email": "admin@example.com",
+	"last_activity": "2026-01-07T10:10:35-07:00",
+	"last_trip": "a1a1dee1-fdb6-4a55-9e48-1fd9882bf4f7",
+	"name": "Test Administrator",
+	"photo_url": null,
+	"role": "company_admin",
+	"sms": "2145550123",
+	"validated": true
+}

@@ -1,9 +1,9 @@
 #	Generates an HTML code coverage report for Arex388.Carmine.Tests and drops a
 #	Coverage.lnk shortcut to it. Run from this directory.
 #
-#	Requires the local tools from ../.config/dotnet-tools.json ('dotnet tool restore'),
-#	and — because the suite is integration-only — the 'key-1' and 'key-2' user secrets
-#	plus a live connection to the Carmine.io API.
+#	Requires the local tools from ../.config/dotnet-tools.json ('dotnet tool restore').
+#	The default run is offline (unit tests only); live integration tests are skipped
+#	unless CARMINE_LIVE_TESTS=1 is set and the 'key-1'/'key-2' user secrets exist.
 
 Remove-Item -Path 'reports' -Recurse -ErrorAction SilentlyContinue;
 Remove-Item -Path 'TestResults' -Recurse -ErrorAction SilentlyContinue;
@@ -24,7 +24,7 @@ Write-Host 'Collecting';
 dotnet test --no-build --collect:'XPlat Code Coverage' > $null;
 
 if ($LASTEXITCODE -ne 0) {
-	Write-Error 'Tests failed. The suite hits the live Carmine.io API and needs the key-1 and key-2 user secrets.';
+	Write-Error 'Tests failed.';
 
 	exit 1;
 }

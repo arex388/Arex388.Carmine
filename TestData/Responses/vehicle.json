@@ -1,0 +1,25 @@
+{
+	"id": "8b320390-0f25-466a-81f6-f757a5891f36",
+	"object": "vehicle",
+	"carbon_footprint": null,
+	"color": null,
+	"created": "2023-09-19T13:19:08-07:00",
+	"current_driver": null,
+	"current_latitude": 32.780952,
+	"current_longitude": -96.800027,
+	"fault_codes": {
+		"U0402": "Unknown"
+	},
+	"fuel_economy": "1500",
+	"fuel_level": 58,
+	"last_activity": "2026-01-07T08:17:04-07:00",
+	"last_trip": "fb09d821-547d-47d1-b260-073708ae1b5d",
+	"license_plate": "XYZ-5678",
+	"make": "Ram",
+	"model": "ProMaster 3500",
+	"notes": null,
+	"odometer": 10752466,
+	"status": "active",
+	"vin": "2HGFG12633A123456",
+	"year": "2023"
+}

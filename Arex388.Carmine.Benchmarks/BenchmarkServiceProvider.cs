@@ -1,3 +1,4 @@
+using Arex388.Carmine.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Arex388.Carmine.Benchmarks;
@@ -9,8 +10,10 @@ internal static class BenchmarkServiceProvider {
     public static IServiceProvider Create() {
         var services = new ServiceCollection();
 
+        //  The unroutable base address is a fail-safe: if the mock handler wiring
+        //  ever regresses, benchmarks fail instantly instead of draining live quota.
         services.AddCarmine()
-                .AddHttpClient(nameof(ICarmineClient))
+                .AddHttpClient(nameof(ICarmineClient), hc => hc.BaseAddress = new Uri("https://localhost:9/v2/"))
                 .ConfigurePrimaryHttpMessageHandler(() => new MockHttpMessageHandler());
 
         return services.BuildServiceProvider();

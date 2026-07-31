@@ -1,11 +1,12 @@
 using System.Net;
 using System.Text;
 
-namespace Arex388.Carmine.Benchmarks;
+namespace Arex388.Carmine.Testing;
 
 /// <summary>
-/// Mock HTTP handler that returns cached JSON responses for benchmarking.
-/// This allows benchmarking JSON deserialization without hitting the real API.
+/// Mock HTTP handler that returns canned JSON responses from the shared
+/// <c>TestData/Responses</c> fixtures. Shared by the unit tests and the
+/// benchmarks so neither ever hits the live Carmine.io API.
 /// </summary>
 internal sealed class MockHttpMessageHandler :
     HttpMessageHandler {
@@ -16,7 +17,7 @@ internal sealed class MockHttpMessageHandler :
         _responsesDir = Path.Combine(AppContext.BaseDirectory, "Responses");
 
         if (!Directory.Exists(_responsesDir)) {
-            throw new DirectoryNotFoundException($"Responses directory not found at: {_responsesDir}. Run ResponseCapture.CaptureAsync() first.");
+            throw new DirectoryNotFoundException($"Responses directory not found at: {_responsesDir}. Ensure the TestData/Responses fixtures are linked into the project.");
         }
 
         LoadResponses();
@@ -31,7 +32,7 @@ internal sealed class MockHttpMessageHandler :
         }
 
         if (_responseCache.Count == 0) {
-            throw new InvalidOperationException($"No JSON response files found in: {_responsesDir}. Run ResponseCapture.CaptureAsync() first.");
+            throw new InvalidOperationException($"No JSON response files found in: {_responsesDir}. Ensure the TestData/Responses fixtures are linked into the project.");
         }
     }
 
