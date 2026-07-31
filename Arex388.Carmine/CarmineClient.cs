@@ -39,42 +39,13 @@ internal sealed class CarmineClient(
             Id = id
         }, cancellationToken);
 
-    public async Task<GetTrip.Response> GetTripAsync(
+    public Task<GetTrip.Response> GetTripAsync(
         GetTrip.Request request,
-        CancellationToken cancellationToken = default) {
-        if (cancellationToken.IsSupportedAndCancelled()) {
-            return GetTrip.Response.Cancelled;
-        }
-
-        // ReSharper disable once MethodHasAsyncOverloadWithCancellation
-        var validationResult = _getTripRequestValidator.Validate(request);
-
-        if (!validationResult.IsValid) {
-            return GetTrip.Response.Invalid(validationResult);
-        }
-
-        try {
-            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-
-            if (!httpResponse.IsSuccessStatusCode) {
-                return GetTrip.Response.FailedWith(GetStatusDetail(httpResponse));
-            }
-
-            var trip = await httpResponse.Content.ReadFromJsonAsync<TripExpanded>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-
-            if (trip is null) {
-                return GetTrip.Response.Failed;
-            }
-
-            return new GetTrip.Response {
+        CancellationToken cancellationToken = default) => SendAsync(request, _getTripRequestValidator, static (TripExpanded? trip) => trip is null
+            ? null
+            : new GetTrip.Response {
                 Trip = trip
-            };
-        } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
-            return GetTrip.Response.Cancelled;
-        } catch (Exception e) {
-            return GetTrip.Response.FailedWith(GetExceptionDetail(e));
-        }
-    }
+            }, cancellationToken);
 
     public Task<GetUser.Response> GetUserAsync(
         UserId id,
@@ -82,42 +53,13 @@ internal sealed class CarmineClient(
             Id = id
         }, cancellationToken);
 
-    public async Task<GetUser.Response> GetUserAsync(
+    public Task<GetUser.Response> GetUserAsync(
         GetUser.Request request,
-        CancellationToken cancellationToken = default) {
-        if (cancellationToken.IsSupportedAndCancelled()) {
-            return GetUser.Response.Cancelled;
-        }
-
-        // ReSharper disable once MethodHasAsyncOverloadWithCancellation
-        var validationResult = _getUserRequestValidator.Validate(request);
-
-        if (!validationResult.IsValid) {
-            return GetUser.Response.Invalid(validationResult);
-        }
-
-        try {
-            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-
-            if (!httpResponse.IsSuccessStatusCode) {
-                return GetUser.Response.FailedWith(GetStatusDetail(httpResponse));
-            }
-
-            var user = await httpResponse.Content.ReadFromJsonAsync<User>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-
-            if (user is null) {
-                return GetUser.Response.Failed;
-            }
-
-            return new GetUser.Response {
+        CancellationToken cancellationToken = default) => SendAsync(request, _getUserRequestValidator, static (User? user) => user is null
+            ? null
+            : new GetUser.Response {
                 User = user
-            };
-        } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
-            return GetUser.Response.Cancelled;
-        } catch (Exception e) {
-            return GetUser.Response.FailedWith(GetExceptionDetail(e));
-        }
-    }
+            }, cancellationToken);
 
     public Task<GetVehicle.Response> GetVehicleAsync(
         VehicleId id,
@@ -125,134 +67,84 @@ internal sealed class CarmineClient(
             Id = id
         }, cancellationToken);
 
-    public async Task<GetVehicle.Response> GetVehicleAsync(
+    public Task<GetVehicle.Response> GetVehicleAsync(
         GetVehicle.Request request,
-        CancellationToken cancellationToken = default) {
-        if (cancellationToken.IsSupportedAndCancelled()) {
-            return GetVehicle.Response.Cancelled;
-        }
-
-        // ReSharper disable once MethodHasAsyncOverloadWithCancellation
-        var validationResult = _getVehicleRequestValidator.Validate(request);
-
-        if (!validationResult.IsValid) {
-            return GetVehicle.Response.Invalid(validationResult);
-        }
-
-        try {
-            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-
-            if (!httpResponse.IsSuccessStatusCode) {
-                return GetVehicle.Response.FailedWith(GetStatusDetail(httpResponse));
-            }
-
-            var vehicle = await httpResponse.Content.ReadFromJsonAsync<Vehicle>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-
-            if (vehicle is null) {
-                return GetVehicle.Response.Failed;
-            }
-
-            return new GetVehicle.Response {
+        CancellationToken cancellationToken = default) => SendAsync(request, _getVehicleRequestValidator, static (Vehicle? vehicle) => vehicle is null
+            ? null
+            : new GetVehicle.Response {
                 Vehicle = vehicle
-            };
-        } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
-            return GetVehicle.Response.Cancelled;
-        } catch (Exception e) {
-            return GetVehicle.Response.FailedWith(GetExceptionDetail(e));
-        }
-    }
+            }, cancellationToken);
 
     public Task<ListTrips.Response> ListTripsAsync(
         CancellationToken cancellationToken = default) => ListTripsAsync(ListTrips.Request.Default, cancellationToken);
 
-    public async Task<ListTrips.Response> ListTripsAsync(
+    public Task<ListTrips.Response> ListTripsAsync(
         ListTrips.Request request,
-        CancellationToken cancellationToken = default) {
-        if (cancellationToken.IsSupportedAndCancelled()) {
-            return ListTrips.Response.Cancelled;
-        }
-
-        // ReSharper disable once MethodHasAsyncOverloadWithCancellation
-        var validationResult = _listTripsRequestValidator.Validate(request);
-
-        if (!validationResult.IsValid) {
-            return ListTrips.Response.Invalid(validationResult);
-        }
-
-        try {
-            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-
-            if (!httpResponse.IsSuccessStatusCode) {
-                return ListTrips.Response.FailedWith(GetStatusDetail(httpResponse));
-            }
-
-            var trips = await httpResponse.Content.ReadFromJsonAsync<IList<Trip>>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-
-            return new ListTrips.Response {
-                Trips = trips ?? []
-            };
-        } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
-            return ListTrips.Response.Cancelled;
-        } catch (Exception e) {
-            return ListTrips.Response.FailedWith(GetExceptionDetail(e));
-        }
-    }
+        CancellationToken cancellationToken = default) => SendAsync(request, _listTripsRequestValidator, static (IList<Trip>? trips) => new ListTrips.Response {
+            Trips = trips ?? []
+        }, cancellationToken);
 
     public Task<ListUsers.Response> ListUsersAsync(
         CancellationToken cancellationToken = default) => ListUsersAsync(ListUsers.Request.Default, cancellationToken);
 
-    public async Task<ListUsers.Response> ListUsersAsync(
+    public Task<ListUsers.Response> ListUsersAsync(
         ListUsers.Request request,
-        CancellationToken cancellationToken = default) {
-        if (cancellationToken.IsSupportedAndCancelled()) {
-            return ListUsers.Response.Cancelled;
-        }
-
-        try {
-            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-
-            if (!httpResponse.IsSuccessStatusCode) {
-                return ListUsers.Response.FailedWith(GetStatusDetail(httpResponse));
-            }
-
-            var users = await httpResponse.Content.ReadFromJsonAsync<IList<User>>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-
-            return new ListUsers.Response {
-                Users = users ?? []
-            };
-        } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
-            return ListUsers.Response.Cancelled;
-        } catch (Exception e) {
-            return ListUsers.Response.FailedWith(GetExceptionDetail(e));
-        }
-    }
+        CancellationToken cancellationToken = default) => SendAsync(request, null, static (IList<User>? users) => new ListUsers.Response {
+            Users = users ?? []
+        }, cancellationToken);
 
     public Task<ListVehicles.Response> ListVehiclesAsync(
         CancellationToken cancellationToken = default) => ListVehiclesAsync(ListVehicles.Request.Default, cancellationToken);
 
-    public async Task<ListVehicles.Response> ListVehiclesAsync(
+    public Task<ListVehicles.Response> ListVehiclesAsync(
         ListVehicles.Request request,
-        CancellationToken cancellationToken = default) {
+        CancellationToken cancellationToken = default) => SendAsync(request, null, static (IList<Vehicle>? vehicles) => new ListVehicles.Response {
+            Vehicles = vehicles ?? []
+        }, cancellationToken);
+
+    //  ============================================================================
+    //  Pipeline
+    //  ============================================================================
+
+    //  The single request pipeline behind all six operations: cancellation
+    //  pre-check → optional validation → GET with headers-read → deserialize →
+    //  map. A null map result means "the API returned nothing usable" (Failed);
+    //  list mappers never return null, coalescing a null payload to empty.
+    private async Task<TResponse> SendAsync<TRequest, TModel, TResponse>(
+        TRequest request,
+        IValidator<TRequest>? validator,
+        Func<TModel?, TResponse?> map,
+        CancellationToken cancellationToken)
+        where TRequest : RequestBase
+        where TModel : class
+        where TResponse : ResponseBase<TResponse>, new() {
         if (cancellationToken.IsSupportedAndCancelled()) {
-            return ListVehicles.Response.Cancelled;
+            return ResponseBase<TResponse>.Cancelled;
+        }
+
+        if (validator is not null) {
+            // ReSharper disable once MethodHasAsyncOverloadWithCancellation
+            var validationResult = validator.Validate(request);
+
+            if (!validationResult.IsValid) {
+                return ResponseBase<TResponse>.Invalid(validationResult);
+            }
         }
 
         try {
             using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 
             if (!httpResponse.IsSuccessStatusCode) {
-                return ListVehicles.Response.FailedWith(GetStatusDetail(httpResponse));
+                return ResponseBase<TResponse>.FailedWith(GetStatusDetail(httpResponse));
             }
 
-            var vehicles = await httpResponse.Content.ReadFromJsonAsync<IList<Vehicle>>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+            var model = await httpResponse.Content.ReadFromJsonAsync<TModel>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
-            return new ListVehicles.Response {
-                Vehicles = vehicles ?? []
-            };
+            return map(model) ?? ResponseBase<TResponse>.Failed;
         } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
-            return ListVehicles.Response.Cancelled;
+            return ResponseBase<TResponse>.Cancelled;
         } catch (Exception e) {
-            return ListVehicles.Response.FailedWith(GetExceptionDetail(e));
+            return ResponseBase<TResponse>.FailedWith(GetExceptionDetail(e));
         }
     }
 
