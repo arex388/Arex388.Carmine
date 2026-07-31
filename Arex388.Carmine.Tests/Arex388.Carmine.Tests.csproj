@@ -4,6 +4,10 @@
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 		<UserSecretsId>6fcc1b1f-8ea6-4489-abc5-777a1536ac18</UserSecretsId>
+		<!-- xUnit1051 wants TestContext.Current.CancellationToken threaded through
+		     every client call; the offline suite runs against instant mock handlers,
+		     and tests that exercise cancellation pass their own tokens. -->
+		<NoWarn>$(NoWarn);xUnit1051</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -14,7 +18,7 @@
 		<PackageReference Include="FluentAssertions" Version="8.10.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.10" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
-		<PackageReference Include="xunit" Version="2.9.3" />
+		<PackageReference Include="xunit.v3" Version="3.2.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -32,7 +36,6 @@
 
 	<ItemGroup>
 		<Using Include="Xunit" />
-		<Using Include="Xunit.Abstractions" />
 	</ItemGroup>
 
 </Project>

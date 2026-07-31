@@ -1,6 +1,8 @@
 using System.Text.Json;
 
-namespace Xunit.Abstractions;
+//	ITestOutputHelper lives in the Xunit namespace under xunit.v3 (it moved out
+//	of Xunit.Abstractions), so the extensions are declared there to need no using.
+namespace Xunit;
 
 internal static class TestOutputHelperExtensions {
 	private static readonly JsonSerializerOptions _jsonSerializerOptions = new() {
@@ -39,7 +41,7 @@ internal static class TestOutputHelperExtensions {
 		string? json = _na) {
 		console.WriteLine($"=[ {header} ]{new string(_equals, 75 - header.Length)}");
 		console.WriteLine();
-		console.WriteLine(json);
+		console.WriteLine(json ?? _na);
 		console.WriteLine();
 	}
 }

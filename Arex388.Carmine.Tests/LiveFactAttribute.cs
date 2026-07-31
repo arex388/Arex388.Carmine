@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace Arex388.Carmine.Tests;
 
 /// <summary>
@@ -7,7 +9,10 @@ namespace Arex388.Carmine.Tests;
 /// </summary>
 public sealed class LiveFactAttribute :
 	FactAttribute {
-	public LiveFactAttribute() {
+	public LiveFactAttribute(
+		[CallerFilePath] string? sourceFilePath = null,
+		[CallerLineNumber] int sourceLineNumber = -1) :
+		base(sourceFilePath, sourceLineNumber) {
 		if (Environment.GetEnvironmentVariable("CARMINE_LIVE_TESTS") != "1") {
 			Skip = "Live Carmine.io tests are opt-in. Set CARMINE_LIVE_TESTS=1 and configure the key-1/key-2 user secrets to run them.";
 		} else if (string.IsNullOrEmpty(Config.Key1)) {
