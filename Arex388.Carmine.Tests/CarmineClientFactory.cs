@@ -83,8 +83,18 @@ public sealed class CarmineClientFactory {
 		//	Act
 		//	========================================================================
 
-		var clients = await Task.WhenAll(Enumerable.Range(0, 64).Select(
-			_ => Task.Run(() => _carmineFactory.CreateClient(options))));
+		//	Synchronized start so the first touches genuinely race the miss path.
+		var gate = new TaskCompletionSource();
+		var tasks = Enumerable.Range(0, 128).Select(
+			_ => Task.Run(async () => {
+				await gate.Task;
+
+				return _carmineFactory.CreateClient(options);
+			})).ToArray();
+
+		gate.SetResult();
+
+		var clients = await Task.WhenAll(tasks);
 
 		//	========================================================================
 		//	Assert

@@ -14,28 +14,38 @@ internal sealed class CarmineClientFactory(
 
     private readonly IServiceProvider _services = services;
     private readonly IMemoryCache _cache = cache;
+    private readonly object _missLock = new();
 
     /// <inheritdoc />
     public ICarmineClient CreateClient(
         CarmineClientOptions options) {
         var key = $"{nameof(Arex388)}.{nameof(Carmine)}.Key[{options.Key}]";
 
-        //  Fast path: cache hits skip GetOrCreate's closure and entry-options work.
+        //  Fast path: cache hits skip the lock and entry-options work entirely.
         if (_cache.TryGetValue<Lazy<ICarmineClient>>(key, out var cached)) {
             return cached!.Value;
         }
 
-        //  GetOrCreate's value factory is not synchronized — caching a Lazy with
-        //  ExecutionAndPublication guarantees one client per key under concurrency.
-        return _cache.GetOrCreate(key, entry => {
-            entry.SetOptions(_memoryCacheEntryOptions);
+        //  GetOrCreate's value factory is not synchronized, so two racing
+        //  first-touches could each publish their own Lazy and materialize
+        //  different clients. Double-checked locking serializes entry creation
+        //  (hit once per key per cache lifetime); the Lazy keeps client
+        //  construction outside the lock.
+        Lazy<ICarmineClient> lazy;
 
-            return new Lazy<ICarmineClient>(() => {
-                var httpClientFactory = _services.GetRequiredService<IHttpClientFactory>();
-                var httpClient = httpClientFactory.CreateClient(nameof(ICarmineClient));
+        lock (_missLock) {
+            if (!_cache.TryGetValue(key, out lazy!)) {
+                lazy = new Lazy<ICarmineClient>(() => {
+                    var httpClientFactory = _services.GetRequiredService<IHttpClientFactory>();
+                    var httpClient = httpClientFactory.CreateClient(nameof(ICarmineClient));
 
-                return new CarmineClient(_services, httpClient, options);
-            }, LazyThreadSafetyMode.ExecutionAndPublication);
-        })!.Value;
+                    return new CarmineClient(_services, httpClient, options);
+                }, LazyThreadSafetyMode.ExecutionAndPublication);
+
+                _cache.Set(key, lazy, _memoryCacheEntryOptions);
+            }
+        }
+
+        return lazy.Value;
     }
 }
