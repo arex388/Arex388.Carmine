@@ -20,18 +20,13 @@ internal sealed class CarmineClientFactory(
         CarmineClientOptions options) {
         var key = $"{nameof(Arex388)}.{nameof(Carmine)}.Key[{options.Key}]";
 
-        if (_cache.TryGetValue(key, out ICarmineClient? carmineClient)
-            && carmineClient is not null) {
-            return carmineClient;
-        }
+        return _cache.GetOrCreate(key, entry => {
+            entry.SetOptions(_memoryCacheEntryOptions);
 
-        var httpClientFactory = _services.GetRequiredService<IHttpClientFactory>();
-        var httpClient = httpClientFactory.CreateClient(nameof(ICarmineClient));
+            var httpClientFactory = _services.GetRequiredService<IHttpClientFactory>();
+            var httpClient = httpClientFactory.CreateClient(nameof(ICarmineClient));
 
-        carmineClient = new CarmineClient(_services, httpClient, options);
-
-        _cache.Set(key, carmineClient, _memoryCacheEntryOptions);
-
-        return carmineClient;
+            return new CarmineClient(_services, httpClient, options);
+        })!;
     }
 }

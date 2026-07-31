@@ -32,8 +32,9 @@ public static class ServiceCollectionExtensions {
         /// <param name="options">The client's configuration options.</param>
         /// <returns>The services collection.</returns>
         public IServiceCollection AddCarmine(CarmineClientOptions options) {
-            services.AddHttpClient<ICarmineClient>(
-                hc => hc.BaseAddress = _baseAddress);
+            services.AddHttpClient(nameof(ICarmineClient), hc => {
+                hc.BaseAddress = _baseAddress;
+            });
 
             return services.AddValidatorsFromAssemblyContaining<ICarmineClient>(includeInternalTypes: true, lifetime: ServiceLifetime.Singleton)
                            .AddSingleton(options)
