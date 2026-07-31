@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -135,13 +136,13 @@ internal sealed class VehicleJsonConverter :
                 reader.Read();
 
                 fuelConsumptionInMetersPerLiter = reader.TokenType == JsonTokenType.String
-                    ? int.Parse(reader.GetString()!)
+                    ? int.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
                     : reader.GetInt32();
             } else if (reader.ValueTextEquals(_fuelLevel)) {
                 reader.Read();
 
                 fuelRemaining = reader.TokenType == JsonTokenType.String
-                    ? byte.Parse(reader.GetString()!)
+                    ? byte.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
                     : reader.GetByte();
             } else if (reader.ValueTextEquals(_lastActivity)) {
                 reader.Read();
@@ -176,16 +177,18 @@ internal sealed class VehicleJsonConverter :
 
                 if (reader.TokenType != JsonTokenType.Null) {
                     odometerInMeters = reader.TokenType == JsonTokenType.String
-                        ? int.Parse(reader.GetString()!)
+                        ? int.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
                         : reader.GetInt32();
                 }
             } else if (reader.ValueTextEquals(_status)) {
                 reader.Read();
 
-                if (reader.ValueTextEquals(_active)) {
-                    status = VehicleStatus.Active;
-                } else if (reader.ValueTextEquals(_inactive)) {
-                    status = VehicleStatus.Inactive;
+                if (reader.TokenType == JsonTokenType.String) {
+                    if (reader.ValueTextEquals(_active)) {
+                        status = VehicleStatus.Active;
+                    } else if (reader.ValueTextEquals(_inactive)) {
+                        status = VehicleStatus.Inactive;
+                    }
                 }
             } else if (reader.ValueTextEquals(_vin)) {
                 reader.Read();
@@ -196,7 +199,7 @@ internal sealed class VehicleJsonConverter :
 
                 if (reader.TokenType != JsonTokenType.Null) {
                     year = reader.TokenType == JsonTokenType.String
-                        ? short.Parse(reader.GetString()!)
+                        ? short.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
                         : reader.GetInt16();
                 }
             } else {

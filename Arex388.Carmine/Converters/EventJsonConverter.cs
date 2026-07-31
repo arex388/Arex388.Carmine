@@ -16,7 +16,9 @@ internal sealed class EventJsonConverter :
     private static ReadOnlySpan<byte> _excessiveIdling => "excessive_idling"u8;
     private static ReadOnlySpan<byte> _extremeAcceleration => "extreme_acceleration"u8;
     private static ReadOnlySpan<byte> _extremeBraking => "extreme_braking"u8;
+    private static ReadOnlySpan<byte> _extremeBreaking => "extreme_breaking"u8;
     private static ReadOnlySpan<byte> _harshAcceleration => "harsh_acceleration"u8;
+    private static ReadOnlySpan<byte> _harshBraking => "harsh_braking"u8;
     private static ReadOnlySpan<byte> _harshBreaking => "harsh_breaking"u8;
     private static ReadOnlySpan<byte> _harshCornering => "harsh_cornering"u8;
     private static ReadOnlySpan<byte> _highRpm => "high_rpm"u8;
@@ -86,6 +88,10 @@ internal sealed class EventJsonConverter :
 
     private static EventType ParseEventType(
         ref Utf8JsonReader reader) {
+        if (reader.TokenType != JsonTokenType.String) {
+            return EventType.None;
+        }
+
         if (reader.ValueTextEquals(_afterHoursDriving)) {
             return EventType.AfterHoursDriving;
         }
@@ -98,7 +104,8 @@ internal sealed class EventJsonConverter :
             return EventType.ExtremeAcceleration;
         }
 
-        if (reader.ValueTextEquals(_extremeBraking)) {
+        if (reader.ValueTextEquals(_extremeBraking)
+            || reader.ValueTextEquals(_extremeBreaking)) {
             return EventType.ExtremeBreaking;
         }
 
@@ -106,7 +113,8 @@ internal sealed class EventJsonConverter :
             return EventType.HarshAcceleration;
         }
 
-        if (reader.ValueTextEquals(_harshBreaking)) {
+        if (reader.ValueTextEquals(_harshBraking)
+            || reader.ValueTextEquals(_harshBreaking)) {
             return EventType.HarshBraking;
         }
 

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -116,17 +117,19 @@ internal sealed class UserJsonConverter :
             } else if (reader.ValueTextEquals(_role)) {
                 reader.Read();
 
-                if (reader.ValueTextEquals(_administrator)) {
-                    role = UserRole.Administrator;
-                } else if (reader.ValueTextEquals(_driver)) {
-                    role = UserRole.Driver;
+                if (reader.TokenType == JsonTokenType.String) {
+                    if (reader.ValueTextEquals(_administrator)) {
+                        role = UserRole.Administrator;
+                    } else if (reader.ValueTextEquals(_driver)) {
+                        role = UserRole.Driver;
+                    }
                 }
             } else if (reader.ValueTextEquals(_sms)) {
                 reader.Read();
 
                 if (reader.TokenType != JsonTokenType.Null) {
                     phone = reader.TokenType == JsonTokenType.String
-                        ? long.Parse(reader.GetString()!)
+                        ? long.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
                         : reader.GetInt64();
                 }
             } else if (reader.ValueTextEquals(_validated)) {

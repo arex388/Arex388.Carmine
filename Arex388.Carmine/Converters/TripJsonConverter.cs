@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -57,7 +58,7 @@ internal sealed class TripJsonConverter :
                 reader.Read();
 
                 distanceTraveledInMeters = reader.TokenType == JsonTokenType.String
-                    ? int.Parse(reader.GetString()!)
+                    ? int.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
                     : reader.GetInt32();
             } else if (reader.ValueTextEquals(_endTime)) {
                 reader.Read();
@@ -86,7 +87,7 @@ internal sealed class TripJsonConverter :
 
                 if (reader.TokenType != JsonTokenType.Null) {
                     maxSpeedInMetersPerSecond = reader.TokenType == JsonTokenType.String
-                        ? decimal.Parse(reader.GetString()!)
+                        ? decimal.Parse(reader.GetString()!, NumberStyles.Number, CultureInfo.InvariantCulture)
                         : reader.GetDecimal();
                 }
             } else if (reader.ValueTextEquals(_startTime)) {
@@ -97,7 +98,7 @@ internal sealed class TripJsonConverter :
                 reader.Read();
 
                 parkedSeconds = reader.TokenType == JsonTokenType.String
-                    ? int.Parse(reader.GetString()!)
+                    ? int.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
                     : reader.GetInt32();
             } else {
                 JsonSerializer.Deserialize<JsonElement>(ref reader, options);

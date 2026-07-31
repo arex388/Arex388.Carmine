@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -51,39 +52,39 @@ internal sealed class WaypointJsonConverter :
                 reader.Read();
 
                 elevationInMeters = reader.TokenType == JsonTokenType.String
-                    ? decimal.Parse(reader.GetString()!)
+                    ? decimal.Parse(reader.GetString()!, NumberStyles.Number, CultureInfo.InvariantCulture)
                     : reader.GetDecimal();
             } else if (reader.ValueTextEquals(_distance)) {
                 reader.Read();
 
                 distanceTraveledInMeters = reader.TokenType == JsonTokenType.String
-                    ? int.Parse(reader.GetString()!)
+                    ? int.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
                     : reader.GetInt32();
             } else if (reader.ValueTextEquals(_latitude)) {
                 reader.Read();
 
                 latitude = reader.TokenType == JsonTokenType.String
-                    ? decimal.Parse(reader.GetString()!)
+                    ? decimal.Parse(reader.GetString()!, NumberStyles.Number, CultureInfo.InvariantCulture)
                     : reader.GetDecimal();
             } else if (reader.ValueTextEquals(_longitude)) {
                 reader.Read();
 
                 longitude = reader.TokenType == JsonTokenType.String
-                    ? decimal.Parse(reader.GetString()!)
+                    ? decimal.Parse(reader.GetString()!, NumberStyles.Number, CultureInfo.InvariantCulture)
                     : reader.GetDecimal();
             } else if (reader.ValueTextEquals(_rpm)) {
                 reader.Read();
 
                 if (reader.TokenType != JsonTokenType.Null) {
                     engineRpm = reader.TokenType == JsonTokenType.String
-                        ? int.Parse(reader.GetString()!)
+                        ? int.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
                         : reader.GetInt32();
                 }
             } else if (reader.ValueTextEquals(_speed)) {
                 reader.Read();
 
                 speedInMetersPerSecond = reader.TokenType == JsonTokenType.String
-                    ? decimal.Parse(reader.GetString()!)
+                    ? decimal.Parse(reader.GetString()!, NumberStyles.Number, CultureInfo.InvariantCulture)
                     : reader.GetDecimal();
             } else {
                 JsonSerializer.Deserialize<JsonElement>(ref reader, options);

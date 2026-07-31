@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -113,13 +114,13 @@ internal sealed class LocationJsonConverter :
                 reader.Read();
 
                 latitude = reader.TokenType == JsonTokenType.String
-                    ? decimal.Parse(reader.GetString()!)
+                    ? decimal.Parse(reader.GetString()!, NumberStyles.Number, CultureInfo.InvariantCulture)
                     : reader.GetDecimal();
             } else if (reader.ValueTextEquals(_longitude)) {
                 reader.Read();
 
                 longitude = reader.TokenType == JsonTokenType.String
-                    ? decimal.Parse(reader.GetString()!)
+                    ? decimal.Parse(reader.GetString()!, NumberStyles.Number, CultureInfo.InvariantCulture)
                     : reader.GetDecimal();
             } else if (reader.ValueTextEquals(_name)) {
                 reader.Read();
@@ -133,7 +134,7 @@ internal sealed class LocationJsonConverter :
                 reader.Read();
 
                 visitedCount = reader.TokenType == JsonTokenType.String
-                    ? int.Parse(reader.GetString()!)
+                    ? int.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
                     : reader.GetInt32();
             } else if (reader.ValueTextEquals(_type)) {
                 reader.Read();
@@ -172,6 +173,10 @@ internal sealed class LocationJsonConverter :
 
     private static LocationCategory ParseCategory(
         ref Utf8JsonReader reader) {
+        if (reader.TokenType != JsonTokenType.String) {
+            return LocationCategory.None;
+        }
+
         if (reader.ValueTextEquals(_businessRelatedInfrastructure)) {
             return LocationCategory.BusinessRelatedInfrastructure;
         }
@@ -225,6 +230,10 @@ internal sealed class LocationJsonConverter :
 
     private static LocationType ParseType(
         ref Utf8JsonReader reader) {
+        if (reader.TokenType != JsonTokenType.String) {
+            return LocationType.None;
+        }
+
         if (reader.ValueTextEquals(_cache)) {
             return LocationType.Cache;
         }
