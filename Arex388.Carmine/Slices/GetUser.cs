@@ -12,7 +12,9 @@ public static class GetUser {
     /// </summary>
     public sealed class Request :
         RequestBase {
-        internal override string Endpoint => $"users/{Id}?lang={Language.ToStringFast(true)}";
+        //  Explicit concatenation: on netstandard2.0 interpolation with a struct
+        //  hole lowers to string.Format and boxes the id.
+        internal override string Endpoint => "users/" + Id.ToString() + "?lang=" + Language.ToStringFast(true);
 
         /// <summary>
         /// The user's id.

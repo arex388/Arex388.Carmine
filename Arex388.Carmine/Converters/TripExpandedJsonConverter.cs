@@ -38,10 +38,12 @@ internal sealed class TripExpandedJsonConverter :
         // TripExpanded properties
         User? driver = null;
         Location? endLocation = null;
-        List<Event> events = [];
+        //  Lists start null — the payload usually carries the arrays, and fresh
+        //  instances here would be discarded; coalesced once at construction.
+        List<Event>? events = null;
         Location startLocation = null!;
         Vehicle vehicle = null!;
-        List<Waypoint> waypoints = [];
+        List<Waypoint>? waypoints = null;
 
         while (reader.Read()) {
             if (reader.TokenType == JsonTokenType.EndObject) {
@@ -118,7 +120,7 @@ internal sealed class TripExpandedJsonConverter :
             Driver = driver,
             EndAt = state.EndAt,
             EndLocation = endLocation,
-            Events = events,
+            Events = events ?? [],
             Id = state.Id,
             IsAfterHours = state.IsAfterHours,
             IsHidden = state.IsHidden,
@@ -129,7 +131,7 @@ internal sealed class TripExpandedJsonConverter :
             StartAt = state.StartAt,
             StartLocation = startLocation,
             Vehicle = vehicle,
-            Waypoints = waypoints
+            Waypoints = waypoints ?? []
         };
     }
 

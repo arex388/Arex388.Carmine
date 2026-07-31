@@ -1,6 +1,7 @@
 using Arex388.Carmine.Converters;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -158,7 +159,23 @@ internal sealed class CarmineClient(
         Exception exception) => $"{exception.GetType().Name}: {exception.Message}";
 
     private static string GetStatusDetail(
-        HttpResponseMessage response) => string.IsNullOrEmpty(response.ReasonPhrase)
-            ? $"HTTP {(int)response.StatusCode} {response.StatusCode}"
-            : $"HTTP {(int)response.StatusCode} {response.ReasonPhrase}";
+        HttpResponseMessage response) {
+        //  Explicit concatenation: interpolation lowers to string.Format on
+        //  netstandard2.0 and boxes the status code; Enum.ToString is also
+        //  reflection-based, so the name is resolved only when needed.
+        var code = ((int)response.StatusCode).ToString(CultureInfo.InvariantCulture);
+        var name = response.ReasonPhrase;
+
+        if (string.IsNullOrEmpty(name)) {
+            name = response.StatusCode.ToString();
+
+            //  An unnamed status code stringifies to its numeric value — don't
+            //  render it twice ("HTTP 599 599").
+            if (name == code) {
+                return "HTTP " + code;
+            }
+        }
+
+        return "HTTP " + code + " " + name;
+    }
 }
