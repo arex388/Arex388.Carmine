@@ -40,13 +40,13 @@ public static class CarmineClientExtensions {
         /// <summary>
         /// Returns a list of recently active vehicles.
         /// </summary>
-        /// <param name="minutes">A negative number indicating how far back to check the <c>LastActivityAt</c>.</param>
+        /// <param name="minutes">How many minutes back to check the <c>LastActivityAt</c>. Either sign is accepted.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A list of <c>Vehicle</c>.</returns>
         public async Task<IList<Vehicle>> ListRecentlyActiveVehiclesAsync(
             int minutes,
             CancellationToken cancellationToken = default) {
-            var at = DateTime.UtcNow.AddMinutes(minutes);
+            var at = DateTime.UtcNow.AddMinutes(-Math.Abs(minutes));
             var response = await carmine.ListVehiclesAsync(cancellationToken).ConfigureAwait(false);
 
             return response.Vehicles.Where(

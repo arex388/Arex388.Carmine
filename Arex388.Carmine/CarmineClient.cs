@@ -29,6 +29,7 @@ internal sealed class CarmineClient(
     private readonly IValidator<GetTrip.Request> _getTripRequestValidator = services.GetRequiredService<IValidator<GetTrip.Request>>();
     private readonly IValidator<GetUser.Request> _getUserRequestValidator = services.GetRequiredService<IValidator<GetUser.Request>>();
     private readonly IValidator<GetVehicle.Request> _getVehicleRequestValidator = services.GetRequiredService<IValidator<GetVehicle.Request>>();
+    private readonly IValidator<ListTrips.Request> _listTripsRequestValidator = services.GetRequiredService<IValidator<ListTrips.Request>>();
     private readonly HttpClient _httpClient = httpClient ?? services.GetRequiredService<IHttpClientFactory>().CreateClient(nameof(ICarmineClient));
     private readonly CarmineClientOptions _options = options ?? services.GetRequiredService<CarmineClientOptions>();
 
@@ -169,6 +170,13 @@ internal sealed class CarmineClient(
         CancellationToken cancellationToken = default) {
         if (cancellationToken.IsSupportedAndCancelled()) {
             return ListTrips.Response.Cancelled;
+        }
+
+        // ReSharper disable once MethodHasAsyncOverloadWithCancellation
+        var validationResult = _listTripsRequestValidator.Validate(request);
+
+        if (!validationResult.IsValid) {
+            return ListTrips.Response.Invalid(validationResult);
         }
 
         try {

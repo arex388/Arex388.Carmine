@@ -75,6 +75,40 @@ public sealed class ResponseContractTests {
 		response.Errors.Should().ContainSingle().Which.Should().Be("The request was cancelled.");
 	}
 
+	[Theory]
+	[InlineData(0)]
+	[InlineData(-5)]
+	public async Task ListTrips_NonPositiveTake_ReturnsInvalid_WithoutHttpCall(
+		int take) {
+		var carmine = TestClients.CreateWithJson("[]", out var handler);
+
+		var response = await carmine.ListTripsAsync(new ListTrips.Request {
+			Take = take
+		});
+
+		response.Success.Should().BeFalse();
+		response.Errors.Should().NotBeEmpty();
+		handler.Requests.Should().BeEmpty("validation failures must not reach the API");
+	}
+
+	[Theory]
+	[InlineData(-60)]
+	[InlineData(60)]
+	public async Task ListRecentlyActiveVehicles_AcceptsEitherSign(
+		int minutes) {
+		var json = $$"""
+			[{
+				"id": "8b320390-0f25-466a-81f6-f757a5891f36",
+				"created": "2023-09-19T13:19:08-07:00",
+				"last_activity": "{{DateTime.UtcNow.AddMinutes(-5):yyyy-MM-ddTHH:mm:ssZ}}"
+			}]
+			""";
+
+		var vehicles = await TestClients.CreateWithJson(json, out _).ListRecentlyActiveVehiclesAsync(minutes);
+
+		vehicles.Should().ContainSingle("a vehicle active 5 minutes ago is within the last 60 minutes for either input sign");
+	}
+
 	[Fact]
 	public async Task InvalidRequest_ReturnsInvalid_WithoutHttpCall() {
 		var carmine = TestClients.CreateWithJson("null", out var handler);

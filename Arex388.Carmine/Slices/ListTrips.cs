@@ -1,5 +1,7 @@
-﻿using System.Globalization;
+﻿using FluentValidation;
+using System.Globalization;
 using System.Text;
+using static Arex388.Carmine.ListTrips;
 
 namespace Arex388.Carmine;
 
@@ -85,5 +87,16 @@ public static class ListTrips {
         /// The matched trips.
         /// </summary>
         public IList<Trip> Trips { get; init; } = [];
+    }
+}
+
+//	================================================================================
+//	Validators
+//	================================================================================
+
+file sealed class RequestValidator :
+    AbstractValidator<Request> {
+    public RequestValidator() {
+        RuleFor(r => r.Take).GreaterThan(0);
     }
 }
