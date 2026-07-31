@@ -137,7 +137,7 @@ internal sealed class UserJsonConverter :
 
                 isEmailValidated = reader.GetBoolean();
             } else {
-                JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+                reader.Skip();
             }
         }
 

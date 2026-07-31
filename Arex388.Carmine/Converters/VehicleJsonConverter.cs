@@ -203,7 +203,7 @@ internal sealed class VehicleJsonConverter :
                         : reader.GetInt16();
                 }
             } else {
-                JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+                reader.Skip();
             }
         }
 

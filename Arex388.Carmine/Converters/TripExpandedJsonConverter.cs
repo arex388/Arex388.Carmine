@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -13,19 +12,7 @@ internal sealed class TripExpandedJsonConverter :
     private static readonly VehicleJsonConverter _vehicleConverter = new();
     private static readonly WaypointJsonConverter _waypointConverter = new();
 
-    // Property names (base Trip properties)
-    private static ReadOnlySpan<byte> _distance => "distance"u8;
-    private static ReadOnlySpan<byte> _endTime => "end_time"u8;
-    private static ReadOnlySpan<byte> _id => "id"u8;
-    private static ReadOnlySpan<byte> _isAfterHours => "is_after_hours"u8;
-    private static ReadOnlySpan<byte> _isHidden => "is_hidden"u8;
-    private static ReadOnlySpan<byte> _isPersonal => "is_personal"u8;
-    private static ReadOnlySpan<byte> _isStationary => "is_stationary"u8;
-    private static ReadOnlySpan<byte> _maxSpeed => "max_speed"u8;
-    private static ReadOnlySpan<byte> _startTime => "start_time"u8;
-    private static ReadOnlySpan<byte> _timeParked => "time_parked"u8;
-
-    // Property names (TripExpanded properties)
+    // Property names (TripExpanded properties; base Trip properties parse via TripJsonParser)
     private static ReadOnlySpan<byte> _driver => "driver"u8;
     private static ReadOnlySpan<byte> _endLocation => "end_location"u8;
     private static ReadOnlySpan<byte> _events => "events"u8;
@@ -46,16 +33,7 @@ internal sealed class TripExpandedJsonConverter :
         }
 
         // Base Trip properties
-        var distanceTraveledInMeters = 0;
-        DateTime? endAt = null;
-        TripId id = default;
-        var isAfterHours = false;
-        var isHidden = false;
-        var isPersonal = false;
-        var isStationary = false;
-        decimal? maxSpeedInMetersPerSecond = null;
-        var parkedSeconds = 0;
-        DateTime startAt = default;
+        var state = new TripJsonParser.State();
 
         // TripExpanded properties
         User? driver = null;
@@ -75,59 +53,12 @@ internal sealed class TripExpandedJsonConverter :
             }
 
             // Base Trip properties
-            if (reader.ValueTextEquals(_id)) {
-                reader.Read();
-
-                id = new TripId(reader.GetGuid());
-            } else if (reader.ValueTextEquals(_distance)) {
-                reader.Read();
-
-                distanceTraveledInMeters = reader.TokenType == JsonTokenType.String
-                    ? int.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
-                    : reader.GetInt32();
-            } else if (reader.ValueTextEquals(_endTime)) {
-                reader.Read();
-
-                if (reader.TokenType != JsonTokenType.Null) {
-                    endAt = reader.GetDateTime();
-                }
-            } else if (reader.ValueTextEquals(_isAfterHours)) {
-                reader.Read();
-
-                isAfterHours = reader.GetBoolean();
-            } else if (reader.ValueTextEquals(_isHidden)) {
-                reader.Read();
-
-                isHidden = reader.GetBoolean();
-            } else if (reader.ValueTextEquals(_isPersonal)) {
-                reader.Read();
-
-                isPersonal = reader.GetBoolean();
-            } else if (reader.ValueTextEquals(_isStationary)) {
-                reader.Read();
-
-                isStationary = reader.GetBoolean();
-            } else if (reader.ValueTextEquals(_maxSpeed)) {
-                reader.Read();
-
-                if (reader.TokenType != JsonTokenType.Null) {
-                    maxSpeedInMetersPerSecond = reader.TokenType == JsonTokenType.String
-                        ? decimal.Parse(reader.GetString()!, NumberStyles.Number, CultureInfo.InvariantCulture)
-                        : reader.GetDecimal();
-                }
-            } else if (reader.ValueTextEquals(_startTime)) {
-                reader.Read();
-
-                startAt = reader.GetDateTime();
-            } else if (reader.ValueTextEquals(_timeParked)) {
-                reader.Read();
-
-                parkedSeconds = reader.TokenType == JsonTokenType.String
-                    ? int.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
-                    : reader.GetInt32();
+            if (TripJsonParser.TryReadProperty(ref reader, ref state)) {
+                continue;
             }
+
             // TripExpanded properties
-            else if (reader.ValueTextEquals(_driver)) {
+            if (reader.ValueTextEquals(_driver)) {
                 reader.Read();
 
                 driver = _userConverter.Read(ref reader, typeof(User), options);
@@ -178,24 +109,24 @@ internal sealed class TripExpandedJsonConverter :
 
                 waypoints = waypointList;
             } else {
-                JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+                reader.Skip();
             }
         }
 
         return new TripExpanded {
-            DistanceTraveledInMeters = distanceTraveledInMeters,
+            DistanceTraveledInMeters = state.DistanceTraveledInMeters,
             Driver = driver,
-            EndAt = endAt,
+            EndAt = state.EndAt,
             EndLocation = endLocation,
             Events = events,
-            Id = id,
-            IsAfterHours = isAfterHours,
-            IsHidden = isHidden,
-            IsPersonal = isPersonal,
-            IsStationary = isStationary,
-            MaxSpeedInMetersPerSecond = maxSpeedInMetersPerSecond,
-            ParkedSeconds = parkedSeconds,
-            StartAt = startAt,
+            Id = state.Id,
+            IsAfterHours = state.IsAfterHours,
+            IsHidden = state.IsHidden,
+            IsPersonal = state.IsPersonal,
+            IsStationary = state.IsStationary,
+            MaxSpeedInMetersPerSecond = state.MaxSpeedInMetersPerSecond,
+            ParkedSeconds = state.ParkedSeconds,
+            StartAt = state.StartAt,
             StartLocation = startLocation,
             Vehicle = vehicle,
             Waypoints = waypoints

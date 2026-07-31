@@ -87,7 +87,7 @@ internal sealed class WaypointJsonConverter :
                     ? decimal.Parse(reader.GetString()!, NumberStyles.Number, CultureInfo.InvariantCulture)
                     : reader.GetDecimal();
             } else {
-                JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+                reader.Skip();
             }
         }
 

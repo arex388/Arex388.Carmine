@@ -141,7 +141,7 @@ internal sealed class LocationJsonConverter :
 
                 type = ParseType(ref reader);
             } else {
-                JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+                reader.Skip();
             }
         }
 

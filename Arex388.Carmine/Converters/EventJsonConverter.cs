@@ -64,8 +64,7 @@ internal sealed class EventJsonConverter :
                 reader.Read();
                 type = ParseEventType(ref reader);
             } else {
-                // Use JsonElement deserialization to skip unknown properties (streaming-compatible)
-                JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+                reader.Skip();
             }
         }
 
