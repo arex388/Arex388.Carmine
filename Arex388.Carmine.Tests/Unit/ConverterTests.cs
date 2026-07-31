@@ -236,6 +236,31 @@ public sealed class ConverterTests {
 		vehicles.Vehicles[0].Vin.Should().Be("TESTVIN0123456789");
 	}
 
+	[Theory]
+	[InlineData("\"2145550123\"", 2145550123L)]
+	[InlineData("\"+1 (214) 555-0123\"", 12145550123L)]
+	[InlineData("\"n/a\"", null)]
+	[InlineData("\"1234567890123456789\"", null)]
+	[InlineData("2145550123", 2145550123L)]
+	[InlineData("null", null)]
+	public async Task UserPhone_DegradesInsteadOfFailing(
+		string smsJson,
+		long? expected) {
+		var json = $$"""
+			[{
+				"id": "f42c7580-e66f-4daa-869e-44a2cd9ce6a7",
+				"sms": {{smsJson}},
+				"name": "Test User"
+			}]
+			""";
+
+		var response = await TestClients.CreateWithJson(json, out _).ListUsersAsync();
+
+		response.Success.Should().BeTrue("an unparseable phone must degrade to null, never fail the response");
+		response.Users[0].Phone.Should().Be(expected);
+		response.Users[0].Name.Should().Be("Test User");
+	}
+
 	[Fact]
 	public async Task UnknownProperties_AreSkipped() {
 		const string json = """

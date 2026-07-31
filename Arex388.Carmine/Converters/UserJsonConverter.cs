@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -129,10 +128,10 @@ internal sealed class UserJsonConverter :
             } else if (reader.ValueTextEquals(_sms)) {
                 reader.Read();
 
-                if (reader.TokenType != JsonTokenType.Null) {
-                    phone = reader.TokenType == JsonTokenType.String
-                        ? long.Parse(reader.GetString()!, NumberStyles.Integer, CultureInfo.InvariantCulture)
-                        : reader.GetInt64();
+                if (reader.TokenType == JsonTokenType.String) {
+                    phone = ParsePhone(ref reader);
+                } else if (reader.TokenType == JsonTokenType.Number) {
+                    phone = reader.GetInt64();
                 }
             } else if (reader.ValueTextEquals(_validated)) {
                 reader.Read();
@@ -165,4 +164,59 @@ internal sealed class UserJsonConverter :
         Utf8JsonWriter writer,
         User value,
         JsonSerializerOptions options) => throw new NotImplementedException();
+
+    //  ============================================================================
+    //  Utilities
+    //  ============================================================================
+
+    private static long? ParsePhone(
+        ref Utf8JsonReader reader) {
+        //  A phone string never legitimately needs JSON escapes, so the
+        //  allocation-free UTF-8 scan covers virtually all real payloads.
+        if (!reader.HasValueSequence
+            && !reader.ValueIsEscaped) {
+            return ParsePhone(reader.ValueSpan);
+        }
+
+        long phone = 0;
+        var digits = 0;
+
+        foreach (var c in reader.GetString()!) {
+            if (c is >= '0' and <= '9') {
+                if (++digits > 18) {
+                    return null;
+                }
+
+                phone = phone * 10 + (c - '0');
+            } else if (c is not ('+' or '-' or '(' or ')' or '.' or ' ')) {
+                return null;
+            }
+        }
+
+        return digits == 0
+            ? null
+            : phone;
+    }
+
+    private static long? ParsePhone(
+        ReadOnlySpan<byte> value) {
+        long phone = 0;
+        var digits = 0;
+
+        foreach (var b in value) {
+            if (b is >= (byte)'0' and <= (byte)'9') {
+                if (++digits > 18) {
+                    return null;
+                }
+
+                phone = phone * 10 + (b - '0');
+            } else if (b is not ((byte)'+' or (byte)'-' or (byte)'(' or (byte)')' or (byte)'.' or (byte)' ')) {
+                return null;
+            }
+        }
+
+        return digits == 0
+            ? null
+            : phone;
+    }
 }
