@@ -45,7 +45,10 @@ public static class ListVehicles {
                 sb.Append("&search=").Append(search);
             }
 
-            if (request.Status.HasValue) {
+            //  None is the unparsed-fallback member — treat it as "no filter",
+            //  same as null (previously it leaked "&status=None" to the API).
+            if (request.Status.HasValue
+                && request.Status.Value != VehicleStatus.None) {
                 sb.Append("&status=").Append(request.Status.Value.ToStringFast(true));
             }
 

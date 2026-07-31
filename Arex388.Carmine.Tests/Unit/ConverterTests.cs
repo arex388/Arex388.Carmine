@@ -263,14 +263,35 @@ public sealed class ConverterTests {
 
 	[Fact]
 	public void EventType_ByteValues_AreStable() {
+		//	Removing the obsolete ExtremeBreaking alias must not renumber the
+		//	remaining members — it shared ExtremeBraking's value.
 		((byte)EventType.None).Should().Be(0);
 		((byte)EventType.ExtremeAcceleration).Should().Be(3);
 		((byte)EventType.ExtremeBraking).Should().Be(4);
-#pragma warning disable CS0618 // the obsolete alias must share the value it replaced
-		((byte)EventType.ExtremeBreaking).Should().Be(4);
-#pragma warning restore CS0618
 		((byte)EventType.HarshAcceleration).Should().Be(5);
 		((byte)EventType.Speeding).Should().Be(10);
+	}
+
+	[Fact]
+	public void UserStatus_ByteValues_MatchTheRenumbering() {
+		((byte)UserStatus.None).Should().Be(0);
+		((byte)UserStatus.Active).Should().Be(1);
+		((byte)UserStatus.Inactive).Should().Be(2);
+	}
+
+	[Fact]
+	public async Task UserStatus_MissingActive_FallsBackToNone() {
+		const string json = """
+			[{
+				"id": "a1a1dee1-fdb6-4a55-9e48-1fd9882bf4f7",
+				"name": "Test User"
+			}]
+			""";
+
+		var response = await TestClients.CreateWithJson(json, out _).ListUsersAsync();
+
+		response.Success.Should().BeTrue();
+		response.Users[0].Status.Should().Be(UserStatus.None, "a payload without the active boolean is unknown, not Inactive");
 	}
 
 	[Theory]

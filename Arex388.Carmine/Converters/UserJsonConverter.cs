@@ -49,7 +49,7 @@ internal sealed class UserJsonConverter :
         long? phone = null;
         string? photoUrl = null;
         var role = UserRole.None;
-        var status = UserStatus.Inactive;
+        var status = UserStatus.None;
         VehicleId? vehicleId = null;
 
         while (reader.Read()) {

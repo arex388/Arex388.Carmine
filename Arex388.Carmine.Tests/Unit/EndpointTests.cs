@@ -78,6 +78,24 @@ public sealed class EndpointTests {
 	}
 
 	[Fact]
+	public async Task ListUsers_NoneStatus_SkipsTheFilter() {
+		var uri = await CaptureAsync(c => c.ListUsersAsync(new ListUsers.Request {
+			Status = UserStatus.None
+		}));
+
+		uri.Should().Be($"https://localhost:9/v2/users?lang=en&api_key={TestClients.ApiKey}", "the None fallback member means no preference, same as null");
+	}
+
+	[Fact]
+	public async Task ListVehicles_NoneStatus_SkipsTheFilter() {
+		var uri = await CaptureAsync(c => c.ListVehiclesAsync(new ListVehicles.Request {
+			Status = VehicleStatus.None
+		}));
+
+		uri.Should().Be($"https://localhost:9/v2/vehicles?lang=en&api_key={TestClients.ApiKey}", "None previously leaked &status=None to the API");
+	}
+
+	[Fact]
 	public async Task GetTrip_BuildsEndpoint_WithNonDefaultLanguage() {
 		var uri = await CaptureAsync(c => c.GetTripAsync(new GetTrip.Request {
 			Id = new TripId(_id),

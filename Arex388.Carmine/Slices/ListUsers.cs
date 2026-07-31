@@ -45,7 +45,10 @@ public static class ListUsers {
                 sb.Append("&search=").Append(search);
             }
 
-            if (request.Status.HasValue) {
+            //  None is the unparsed-fallback member — treat it as "no filter",
+            //  same as null.
+            if (request.Status.HasValue
+                && request.Status.Value != UserStatus.None) {
                 var active = request.Status == UserStatus.Active
                     ? "true"
                     : "false";
