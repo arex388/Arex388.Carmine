@@ -10,7 +10,7 @@ Correctness and robustness release driven by a full code audit. Returned values 
 - **Fixed:** `ListRecentlyActiveVehiclesAsync` compared the API's UTC timestamps against local time; now uses `DateTime.UtcNow`.
 - **Fixed:** All JSON converters parse number-as-string fallbacks with the invariant culture (comma-decimal hosts previously corrupted values), and unexpected enum-value tokens fall back to `None` instead of failing the whole response.
 - **Fixed:** `Cancelled` / `Failed` responses are fresh instances per call instead of shared mutable singletons, and cancellation observed mid-request is reported as `Cancelled` instead of `Failed`.
-- **Added:** `harsh_braking` / `extreme_braking` event spellings are matched alongside the existing `_breaking` spellings.
+- **Added:** `harsh_braking` / `extreme_braking` event spellings are matched alongside the existing `_breaking` spellings, and `EventType.ExtremeBraking` replaces the misspelled `ExtremeBreaking`, which remains as an `[Obsolete]` alias with the same value (removal deferred to v5).
 - **Added:** Failed responses append a human-readable detail entry to `Errors` — the HTTP status (`"HTTP 401 Unauthorized"`) or the exception type and message. The first entry remains exactly `"The request has failed."`, but consumers asserting on a single-element `Errors` list will see a second entry.
 - **Fixed:** Single-account `AddCarmine(options)` registered an unresolvable typed-client `ICarmineClient`; now uses the named registration, and the client factory cache is atomic.
 - **Optimized:** Converters skip unknown JSON properties with `Utf8JsonReader.Skip()` instead of allocating a throwaway `JsonElement`, and base-`Trip` parsing is shared between the trip converters.

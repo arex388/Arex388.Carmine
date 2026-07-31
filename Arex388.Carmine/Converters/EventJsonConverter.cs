@@ -111,7 +111,7 @@ internal sealed class EventJsonConverter :
 
         if (reader.ValueTextEquals(_extremeBraking)
             || reader.ValueTextEquals(_extremeBreaking)) {
-            return EventType.ExtremeBreaking;
+            return EventType.ExtremeBraking;
         }
 
         if (reader.ValueTextEquals(_harshAcceleration)) {

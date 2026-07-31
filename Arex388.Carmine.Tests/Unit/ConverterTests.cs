@@ -262,6 +262,41 @@ public sealed class ConverterTests {
 	}
 
 	[Fact]
+	public void EventType_ByteValues_AreStable() {
+		((byte)EventType.None).Should().Be(0);
+		((byte)EventType.ExtremeAcceleration).Should().Be(3);
+		((byte)EventType.ExtremeBraking).Should().Be(4);
+#pragma warning disable CS0618 // the obsolete alias must share the value it replaced
+		((byte)EventType.ExtremeBreaking).Should().Be(4);
+#pragma warning restore CS0618
+		((byte)EventType.HarshAcceleration).Should().Be(5);
+		((byte)EventType.Speeding).Should().Be(10);
+	}
+
+	[Theory]
+	[InlineData("extreme_braking")]
+	[InlineData("extreme_breaking")]
+	public async Task EventType_BothBrakingSpellings_Parse(
+		string spelling) {
+		var json = $$"""
+			{
+				"id": "a1a1dee1-fdb6-4a55-9e48-1fd9882bf4f7",
+				"start_time": "2026-01-07T08:10:58-07:00",
+				"events": [{
+					"event_type": "{{spelling}}",
+					"start_time": "2026-01-07T08:15:00-07:00",
+					"end_time": "2026-01-07T08:16:00-07:00"
+				}]
+			}
+			""";
+
+		var response = await TestClients.CreateWithJson(json, out _).GetTripAsync(new TripId(Guid.Parse("a1a1dee1-fdb6-4a55-9e48-1fd9882bf4f7")));
+
+		response.Success.Should().BeTrue();
+		response.Trip!.Events[0].Type.Should().Be(EventType.ExtremeBraking);
+	}
+
+	[Fact]
 	public async Task UnknownProperties_AreSkipped() {
 		const string json = """
 			[{

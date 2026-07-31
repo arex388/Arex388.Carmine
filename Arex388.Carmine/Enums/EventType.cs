@@ -26,9 +26,15 @@ public enum EventType :
 	ExtremeAcceleration,
 
 	/// <summary>
-	/// The event was for extreme breaking.
+	/// The event was for extreme braking.
 	/// </summary>
-	ExtremeBreaking,
+	ExtremeBraking,
+
+	/// <summary>
+	/// Misspelled alias of <see cref="ExtremeBraking"/>.
+	/// </summary>
+	[Obsolete("Use ExtremeBraking.")]
+	ExtremeBreaking = ExtremeBraking,
 
 	/// <summary>
 	/// The event was for harsh acceleration.
