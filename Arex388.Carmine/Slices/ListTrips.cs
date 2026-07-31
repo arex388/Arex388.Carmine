@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace Arex388.Carmine;
 
@@ -60,11 +61,11 @@ public static class ListTrips {
             }
 
             if (request.EndAtUtc.HasValue) {
-                sb.Append("&end_time=").AppendFormat("{0:yyyy-MM-ddThh:mm:ss}", request.EndAtUtc);
+                sb.Append("&end_time=").Append(request.EndAtUtc.Value.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
             }
 
             if (request.StartAtUtc.HasValue) {
-                sb.Append("&start_time=").AppendFormat("{0:yyyy-MM-ddThh:mm:ss}", request.StartAtUtc);
+                sb.Append("&start_time=").Append(request.StartAtUtc.Value.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
             }
 
             if (request.VehicleId.HasValue) {

@@ -15,7 +15,7 @@ public static class CarmineClientExtensions {
             /// <returns>An instance of <c>Vehicle</c>.</returns>
             public async Task<Vehicle?> GetActiveVehicleAsync(
                 string vin,
-                CancellationToken cancellationToken) {
+                CancellationToken cancellationToken = default) {
             var response = await carmine.ListVehiclesAsync(new ListVehicles.Request {
                 Search = vin,
                 Status = VehicleStatus.Active
@@ -29,7 +29,7 @@ public static class CarmineClientExtensions {
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A list of <c>Vehicle</c>.</returns>
-        public async Task<IList<Vehicle>> ListActiveVehiclesAsync(CancellationToken cancellationToken) {
+        public async Task<IList<Vehicle>> ListActiveVehiclesAsync(CancellationToken cancellationToken = default) {
             var response = await carmine.ListVehiclesAsync(new ListVehicles.Request {
                 Status = VehicleStatus.Active
             }, cancellationToken).ConfigureAwait(false);
@@ -40,13 +40,13 @@ public static class CarmineClientExtensions {
         /// <summary>
         /// Returns a list of recently active vehicles.
         /// </summary>
-        /// <param name="minutes">A negative number indicating how far back to check the <c>LastActivityAtUtc</c>.</param>
+        /// <param name="minutes">A negative number indicating how far back to check the <c>LastActivityAt</c>.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A list of <c>Vehicle</c>.</returns>
         public async Task<IList<Vehicle>> ListRecentlyActiveVehiclesAsync(
             int minutes,
             CancellationToken cancellationToken = default) {
-            var at = DateTime.Now.AddMinutes(minutes);
+            var at = DateTime.UtcNow.AddMinutes(minutes);
             var response = await carmine.ListVehiclesAsync(cancellationToken).ConfigureAwait(false);
 
             return response.Vehicles.Where(
