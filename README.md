@@ -1,8 +1,4 @@
 ﻿# Arex388.Carmine
-> [!CAUTION]
->
-> This README refers to the v4.0.0 version of the library only.
-
 
 
 Arex388.Carmine is a highly opinionated .NET Standard 2.0 library for the [Carmine.io](https://api.carmine.io/v2/docs) API. It's intended to be an easy, well structured, and highly performant client for interacting with the Carmine.io API for retrieving GPS fleet tracking information. It can be used in applications interacting with a single account using `ICarmineClient`, or with applications interacting with multiple accounts using `ICarmineClientFactory`.
@@ -25,9 +21,9 @@ For a single account, inject the `ICarmineClient`.
 ```c#
 private readonly ICarmineClient _carmine;
 
-_ = await _carmine.GetTripAsync("Id");
-_ = await _carmine.GetUserAsync("Id");
-_ = await _carmine.GetVehicleAsync("Id");
+_ = await _carmine.GetTripAsync(new TripId(Guid.Parse("...")));
+_ = await _carmine.GetUserAsync(new UserId(Guid.Parse("...")));
+_ = await _carmine.GetVehicleAsync(new VehicleId(Guid.Parse("...")));
 ```
 
 
@@ -41,9 +37,9 @@ var carmine = _carmineFactory.CreateClient(new CarmineClientOptions {
     Key = "Your key from Carmine.io"
 });
 
-_ = await _carmine.GetTripAsync("Id");
-_ = await _carmine.GetUserAsync("Id");
-_ = await _carmine.GetVehicleAsync("Id");
+_ = await carmine.GetTripAsync(new TripId(Guid.Parse("...")));
+_ = await carmine.GetUserAsync(new UserId(Guid.Parse("...")));
+_ = await carmine.GetVehicleAsync(new VehicleId(Guid.Parse("...")));
 ```
 
 

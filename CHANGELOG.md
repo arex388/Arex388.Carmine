@@ -1,5 +1,23 @@
 # CHANGELOG
 
+#### 4.2.0 (2026-07-30)
+
+Correctness and robustness release driven by a full code audit. Returned values change where the previous behavior was wrong.
+
+- **Fixed:** `Trip.MaxSpeedInKilometersPerHour` / `MaxSpeedInMilesPerHour` never applied their conversion factors due to an operator-precedence bug and returned the raw m/s value; a `null` max speed now returns `null` instead of `0.00`.
+- **Fixed:** Mile conversions used a truncated `1609` divisor (now `1609.344`); `Vehicle` odometer conversions now round instead of truncating.
+- **Fixed:** `ListTrips` sent `start_time` / `end_time` with a 12-hour clock (afternoon filters silently queried the wrong window) and culture-sensitive separators; now `HH` with the invariant culture.
+- **Fixed:** `ListRecentlyActiveVehiclesAsync` compared the API's UTC timestamps against local time; now uses `DateTime.UtcNow`.
+- **Fixed:** All JSON converters parse number-as-string fallbacks with the invariant culture (comma-decimal hosts previously corrupted values), and unexpected enum-value tokens fall back to `None` instead of failing the whole response.
+- **Fixed:** `Cancelled` / `Failed` responses are fresh instances per call instead of shared mutable singletons, and cancellation observed mid-request is reported as `Cancelled` instead of `Failed`.
+- **Added:** `harsh_braking` / `extreme_braking` event spellings are matched alongside the existing `_breaking` spellings.
+- **Fixed:** Single-account `AddCarmine(options)` registered an unresolvable typed-client `ICarmineClient`; now uses the named registration, and the client factory cache is atomic.
+- **Optimized:** Converters skip unknown JSON properties with `Utf8JsonReader.Skip()` instead of allocating a throwaway `JsonElement`, and base-`Trip` parsing is shared between the trip converters.
+- **Updated:** FluentValidation pinned to `[11.12.0,12.0.0)` (v12 dropped .NET Standard 2.0); NetEscapades.EnumGenerators to 1.0.0-beta21 (build is now warning-free); PolySharp to 1.16.0.
+- **Refactored:** Tests are offline-first — unit tests and benchmarks share JSON fixtures with mocked HTTP; live integration tests run only with an explicit `CARMINE_LIVE_TESTS=1` opt-in.
+
+
+
 #### 4.1.1 (2026-01-09)
 
 - **Updated:** NuGet packages.
