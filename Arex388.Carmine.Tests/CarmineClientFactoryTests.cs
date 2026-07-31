@@ -3,11 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Arex388.Carmine.Tests;
 
-public sealed class CarmineClientFactory {
+public sealed class CarmineClientFactoryTests {
 	private readonly ICarmineClientFactory _carmineFactory;
 	private readonly ITestOutputHelper _console;
 
-	public CarmineClientFactory(
+	public CarmineClientFactoryTests(
 		ITestOutputHelper console) {
 		var services = new ServiceCollection().AddCarmine().BuildServiceProvider();
 
