@@ -15,7 +15,12 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's CO2 emissions in tons per liter of fuel.
 	/// </summary>
-	public decimal? CarbonEmissionsInTonsPerLiter => field ??= CarbonEmissionsInTonsPerGallon / 3.785M;
+	/// <remarks>
+	/// Deliberately not rounded to two decimal places like the other derived
+	/// values: tons-per-liter magnitudes are around 0.002, so two-decimal
+	/// rounding would zero them out.
+	/// </remarks>
+	public decimal? CarbonEmissionsInTonsPerLiter => field ??= CarbonEmissionsInTonsPerGallon / UnitConversions.LitersPerGallon;
 
 	/// <summary>
 	/// The vehicle's color.
@@ -43,7 +48,7 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's fuel consumption in kilometers per liter, rounded to two decimal places.
 	/// </summary>
-	public decimal? FuelConsumptionInKilometersPerLiter => field ??= Math.Round(FuelConsumptionInMetersPerLiter * .001M, 2) + 0.00M;
+	public decimal? FuelConsumptionInKilometersPerLiter => field ??= Math.Round(FuelConsumptionInMetersPerLiter * UnitConversions.MetersPerLiterToKilometersPerLiter, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's fuel consumption in meters per liter.
@@ -54,7 +59,7 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's fuel consumption in miles per gallon, rounded to two decimal places.
 	/// </summary>
-	public decimal? FuelConsumptionInMilesPerGallon => field ??= Math.Round(FuelConsumptionInMetersPerLiter * .0023521442146661M, 2) + 0.00M;
+	public decimal? FuelConsumptionInMilesPerGallon => field ??= Math.Round(FuelConsumptionInMetersPerLiter * UnitConversions.MetersPerLiterToMilesPerGallon, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's current remaining fuel.
@@ -117,7 +122,7 @@ public sealed class Vehicle {
 	/// </summary>
 	public int? OdometerInKilometers => field ??= OdometerInMeters is null
 		? null
-		: (int)Math.Round(OdometerInMeters.Value / 1000M);
+		: (int)Math.Round(OdometerInMeters.Value / UnitConversions.MetersPerKilometer);
 
 	/// <summary>
 	/// The vehicle's odometer in meters.
@@ -130,7 +135,7 @@ public sealed class Vehicle {
 	/// </summary>
 	public int? OdometerInMiles => field ??= OdometerInMeters is null
 		? null
-		: (int)Math.Round(OdometerInMeters.Value / 1609.344M);
+		: (int)Math.Round(OdometerInMeters.Value / UnitConversions.MetersPerMile);
 
 	/// <summary>
 	/// The vehicle's status.

@@ -18,7 +18,7 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The trip's distance traveled at this waypoint in kilometers.
 	/// </summary>
-	public decimal DistanceTraveledInKilometers => Math.Round(DistanceTraveledInMeters / 1000M, 2) + 0.00M;
+	public decimal DistanceTraveledInKilometers => Math.Round(DistanceTraveledInMeters / UnitConversions.MetersPerKilometer, 2) + 0.00M;
 
 	/// <summary>
 	/// The trip's distance traveled at this waypoint in meters.
@@ -29,12 +29,12 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The trip's distance traveled at this waypoint in miles.
 	/// </summary>
-	public decimal DistanceTraveledInMiles => Math.Round(DistanceTraveledInMeters / 1609.344M, 2) + 0.00M;
+	public decimal DistanceTraveledInMiles => Math.Round(DistanceTraveledInMeters / UnitConversions.MetersPerMile, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's elevation above sea level in kilometers.
 	/// </summary>
-	public decimal ElevationInKilometers => Math.Round(ElevationInMeters / 1000M, 2) + 0.00M;
+	public decimal ElevationInKilometers => Math.Round(ElevationInMeters / UnitConversions.MetersPerKilometer, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's elevation above sea level in meters.
@@ -45,7 +45,7 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The vehicle's elevation above sea level in miles.
 	/// </summary>
-	public decimal ElevationInMiles => Math.Round(ElevationInMeters / 1609.344M, 2) + 0.00M;
+	public decimal ElevationInMiles => Math.Round(ElevationInMeters / UnitConversions.MetersPerMile, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's engine's RPM at this waypoint.
@@ -66,7 +66,7 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The vehicle's speed at this waypoint in kilometers per hour, rounded to two decimal places.
 	/// </summary>
-	public decimal SpeedInKilometersPerHour => Math.Round(SpeedInMetersPerSecond * 3.6M, 2) + 0.00M;
+	public decimal SpeedInKilometersPerHour => Math.Round(SpeedInMetersPerSecond * UnitConversions.MetersPerSecondToKilometersPerHour, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's speed at this waypoint in meters per second.
@@ -77,5 +77,5 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The vehicle's speed at this waypoint in miles per hour, rounded to two decimal places.
 	/// </summary>
-	public decimal SpeedInMilesPerHour => Math.Round(SpeedInMetersPerSecond * 2.237M, 2) + 0.00M;
+	public decimal SpeedInMilesPerHour => Math.Round(SpeedInMetersPerSecond * UnitConversions.MetersPerSecondToMilesPerHour, 2) + 0.00M;
 }

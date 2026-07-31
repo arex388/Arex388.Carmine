@@ -14,6 +14,17 @@ public sealed class ModelConversionTests {
 	}
 
 	[Fact]
+	public void Trip_MaxSpeed_UsesFullPrecisionMphFactor() {
+		var trip = new Trip {
+			MaxSpeedInMetersPerSecond = 15M
+		};
+
+		//	15 × 2.2369362920544 = 33.554… → 33.55; the old truncated 2.237
+		//	factor gave 33.555 → 33.56.
+		trip.MaxSpeedInMilesPerHour.Should().Be(33.55M);
+	}
+
+	[Fact]
 	public void Trip_MaxSpeed_PropagatesNull() {
 		var trip = new Trip();
 
