@@ -123,6 +123,8 @@ internal sealed class UserJsonConverter :
                     } else if (reader.ValueTextEquals(_driver)) {
                         role = UserRole.Driver;
                     }
+                } else if (reader.TokenType is JsonTokenType.StartObject or JsonTokenType.StartArray) {
+                    reader.Skip();
                 }
             } else if (reader.ValueTextEquals(_sms)) {
                 reader.Read();

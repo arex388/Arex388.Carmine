@@ -87,6 +87,12 @@ internal sealed class EventJsonConverter :
 
     private static EventType ParseEventType(
         ref Utf8JsonReader reader) {
+        if (reader.TokenType is JsonTokenType.StartObject or JsonTokenType.StartArray) {
+            reader.Skip();
+
+            return EventType.None;
+        }
+
         if (reader.TokenType != JsonTokenType.String) {
             return EventType.None;
         }

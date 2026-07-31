@@ -173,6 +173,12 @@ internal sealed class LocationJsonConverter :
 
     private static LocationCategory ParseCategory(
         ref Utf8JsonReader reader) {
+        if (reader.TokenType is JsonTokenType.StartObject or JsonTokenType.StartArray) {
+            reader.Skip();
+
+            return LocationCategory.None;
+        }
+
         if (reader.TokenType != JsonTokenType.String) {
             return LocationCategory.None;
         }
@@ -230,6 +236,12 @@ internal sealed class LocationJsonConverter :
 
     private static LocationType ParseType(
         ref Utf8JsonReader reader) {
+        if (reader.TokenType is JsonTokenType.StartObject or JsonTokenType.StartArray) {
+            reader.Skip();
+
+            return LocationType.None;
+        }
+
         if (reader.TokenType != JsonTokenType.String) {
             return LocationType.None;
         }

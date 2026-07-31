@@ -169,6 +169,74 @@ public sealed class ConverterTests {
 	}
 
 	[Fact]
+	public async Task ContainerEnumTokens_DegradeToNone_InExpandedTrip() {
+		const string json = """
+			{
+				"id": "a1a1dee1-fdb6-4a55-9e48-1fd9882bf4f7",
+				"start_time": "2026-01-07T08:10:58-07:00",
+				"events": [{
+					"event_type": { "code": 3 },
+					"start_time": "2026-01-07T08:15:00-07:00",
+					"end_time": "2026-01-07T08:16:00-07:00"
+				}],
+				"start_location": {
+					"category": { "code": 1 },
+					"type": ["poi"],
+					"address": "123 Test St",
+					"popularity": 4
+				},
+				"distance": 12
+			}
+			""";
+
+		var carmine = TestClients.CreateWithJson(json, out _);
+
+		var response = await carmine.GetTripAsync(new TripId(Guid.Parse("a1a1dee1-fdb6-4a55-9e48-1fd9882bf4f7")));
+
+		response.Success.Should().BeTrue("a container token on an enum property must degrade, not fail the response");
+
+		var trip = response.Trip!;
+
+		trip.Events[0].Type.Should().Be(EventType.None);
+		trip.StartLocation.Category.Should().Be(LocationCategory.None);
+		trip.StartLocation.Type.Should().Be(LocationType.None);
+		trip.StartLocation.VisitedCount.Should().Be(4, "properties after the degraded containers must still parse");
+		trip.DistanceTraveledInMeters.Should().Be(12, "properties after the degraded containers must still parse");
+	}
+
+	[Fact]
+	public async Task ContainerEnumTokens_DegradeToDefault_ForUserRoleAndVehicleStatus() {
+		const string usersJson = """
+			[{
+				"id": "f42c7580-e66f-4daa-869e-44a2cd9ce6a7",
+				"role": { "code": 1 },
+				"name": "Test User"
+			}]
+			""";
+
+		var users = await TestClients.CreateWithJson(usersJson, out _).ListUsersAsync();
+
+		users.Success.Should().BeTrue();
+		users.Users[0].Role.Should().Be(UserRole.None);
+		users.Users[0].Name.Should().Be("Test User");
+
+		const string vehiclesJson = """
+			[{
+				"id": "8b320390-0f25-466a-81f6-f757a5891f36",
+				"created": "2023-09-19T13:19:08-07:00",
+				"status": ["active"],
+				"vin": "TESTVIN0123456789"
+			}]
+			""";
+
+		var vehicles = await TestClients.CreateWithJson(vehiclesJson, out _).ListVehiclesAsync();
+
+		vehicles.Success.Should().BeTrue();
+		vehicles.Vehicles[0].Status.Should().Be(VehicleStatus.None);
+		vehicles.Vehicles[0].Vin.Should().Be("TESTVIN0123456789");
+	}
+
+	[Fact]
 	public async Task UnknownProperties_AreSkipped() {
 		const string json = """
 			[{

@@ -189,6 +189,8 @@ internal sealed class VehicleJsonConverter :
                     } else if (reader.ValueTextEquals(_inactive)) {
                         status = VehicleStatus.Inactive;
                     }
+                } else if (reader.TokenType is JsonTokenType.StartObject or JsonTokenType.StartArray) {
+                    reader.Skip();
                 }
             } else if (reader.ValueTextEquals(_vin)) {
                 reader.Read();
