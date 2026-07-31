@@ -115,7 +115,9 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's odometer in kilometers.
 	/// </summary>
-	public int? OdometerInKilometers => field ??= OdometerInMeters / 1000;
+	public int? OdometerInKilometers => field ??= OdometerInMeters is null
+		? null
+		: (int)Math.Round(OdometerInMeters.Value / 1000M);
 
 	/// <summary>
 	/// The vehicle's odometer in meters.
@@ -126,7 +128,9 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's odometer in miles.
 	/// </summary>
-	public int? OdometerInMiles => field ??= OdometerInMeters / 1609;
+	public int? OdometerInMiles => field ??= OdometerInMeters is null
+		? null
+		: (int)Math.Round(OdometerInMeters.Value / 1609.344M);
 
 	/// <summary>
 	/// The vehicle's status.

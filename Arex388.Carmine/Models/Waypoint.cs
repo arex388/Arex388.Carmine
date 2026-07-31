@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Arex388.Carmine;
 
@@ -6,13 +6,6 @@ namespace Arex388.Carmine;
 /// Waypoint object.
 /// </summary>
 public sealed class Waypoint {
-	private decimal? _distanceTraveledInKilometers;
-	private decimal? _distanceTraveledInMiles;
-	private decimal? _elevationInKilometers;
-	private decimal? _elevationInMiles;
-	private decimal? _speedInKilometersPerHour;
-	private decimal? _speedInMilesPerHour;
-
 	/// <summary>
 	/// The waypoint's timestamp in UTC.
 	/// </summary>
@@ -22,7 +15,7 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The trip's distance traveled at this waypoint in kilometers.
 	/// </summary>
-	public decimal DistanceTraveledInKilometers => _distanceTraveledInKilometers ??= Math.Round(DistanceTraveledInMeters / 1000M, 2) + 0.00M;
+	public decimal DistanceTraveledInKilometers => Math.Round(DistanceTraveledInMeters / 1000M, 2) + 0.00M;
 
 	/// <summary>
 	/// The trip's distance traveled at this waypoint in meters.
@@ -33,12 +26,12 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The trip's distance traveled at this waypoint in miles.
 	/// </summary>
-	public decimal DistanceTraveledInMiles => _distanceTraveledInMiles ??= Math.Round(DistanceTraveledInMeters / 1609M, 2) + 0.00M;
+	public decimal DistanceTraveledInMiles => Math.Round(DistanceTraveledInMeters / 1609.344M, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's elevation above sea level in kilometers.
 	/// </summary>
-	public decimal ElevationInKilometers => _elevationInKilometers ??= Math.Round(ElevationInMeters / 1000M, 2) + 0.00M;
+	public decimal ElevationInKilometers => Math.Round(ElevationInMeters / 1000M, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's elevation above sea level in meters.
@@ -49,7 +42,7 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The vehicle's elevation above sea level in miles.
 	/// </summary>
-	public decimal ElevationInMiles => _elevationInMiles ??= Math.Round(ElevationInMeters / 1609M, 2) + 0.00M;
+	public decimal ElevationInMiles => Math.Round(ElevationInMeters / 1609.344M, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's engine's RPM at this waypoint.
@@ -70,7 +63,7 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The vehicle's speed at this waypoint in kilometers per hour, rounded to two decimal places.
 	/// </summary>
-	public decimal SpeedInKilometersPerHour => _speedInKilometersPerHour ??= Math.Round(SpeedInMetersPerSecond * 3.6M, 2) + 0.00M;
+	public decimal SpeedInKilometersPerHour => Math.Round(SpeedInMetersPerSecond * 3.6M, 2) + 0.00M;
 
 	/// <summary>
 	/// The vehicle's speed at this waypoint in meters per second.
@@ -81,5 +74,5 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The vehicle's speed at this waypoint in miles per hour, rounded to two decimal places.
 	/// </summary>
-	public decimal SpeedInMilesPerHour => _speedInMilesPerHour ??= Math.Round(SpeedInMetersPerSecond * 2.237M, 2) + 0.00M;
+	public decimal SpeedInMilesPerHour => Math.Round(SpeedInMetersPerSecond * 2.237M, 2) + 0.00M;
 }
