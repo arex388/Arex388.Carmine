@@ -7,7 +7,7 @@ namespace Arex388.Carmine;
 /// </summary>
 public class Trip {
     /// <summary>
-	/// The trip's distance traveled in kilometeres, rounded to two decimal places.
+	/// The trip's distance traveled in kilometers, rounded to two decimal places.
 	/// </summary>
 	public decimal DistanceTraveledInKilometers => Math.Round(DistanceTraveledInMeters / 1000M, 2) + 0.00M;
 
@@ -49,7 +49,7 @@ public class Trip {
 	public bool IsPersonal { get; init; }
 
 	/// <summary>
-	/// Flag indicating if the vehicle actually moved during the trip.
+	/// Flag indicating if the vehicle did not move during the trip.
 	/// </summary>
 	public bool IsStationary { get; init; }
 

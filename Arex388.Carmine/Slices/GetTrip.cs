@@ -31,7 +31,7 @@ public static class GetTrip {
     public sealed class Response :
         ResponseBase<Response> {
         /// <summary>
-        /// The matched user.
+        /// The matched trip.
         /// </summary>
         public TripExpanded? Trip { get; init; }
     }

@@ -17,7 +17,7 @@ public interface ICarmineClient {
 	/// <summary>
 	/// Returns a trip.
 	/// </summary>
-	/// <param name="request">The <see cref="GetTrip.Request"/>> request.</param>
+	/// <param name="request">The <see cref="GetTrip.Request"/> request.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The <see cref="GetTrip.Response"/> response.</returns>
 	Task<GetTrip.Response> GetTripAsync(

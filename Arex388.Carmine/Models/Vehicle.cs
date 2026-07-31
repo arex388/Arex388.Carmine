@@ -52,7 +52,7 @@ public sealed class Vehicle {
 	public int FuelConsumptionInMetersPerLiter { get; init; }
 
 	/// <summary>
-	/// The vehicle's fuel consumption in miles per galon, rounded to two decimal places.
+	/// The vehicle's fuel consumption in miles per gallon, rounded to two decimal places.
 	/// </summary>
 	public decimal? FuelConsumptionInMilesPerGallon => field ??= Math.Round(FuelConsumptionInMetersPerLiter * .0023521442146661M, 2) + 0.00M;
 
