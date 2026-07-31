@@ -23,6 +23,32 @@ public sealed class ResponseContractTests {
 		c.Success.Should().BeFalse();
 	}
 
+	[Theory]
+	[InlineData(HttpStatusCode.Unauthorized, "HTTP 401 Unauthorized")]
+	[InlineData(HttpStatusCode.InternalServerError, "HTTP 500 Internal Server Error")]
+	public async Task FailedResponses_CarryStatusDetail(
+		HttpStatusCode statusCode,
+		string expectedDetail) {
+		var carmine = TestClients.Create(new CapturingHandler("{}", statusCode));
+
+		var response = await carmine.ListTripsAsync();
+
+		response.Success.Should().BeFalse();
+		response.Errors[0].Should().Be("The request has failed.", "the first entry must stay stable for existing consumer string-matches");
+		response.Errors[1].Should().Be(expectedDetail);
+	}
+
+	[Fact]
+	public async Task FailedResponses_CarryExceptionDetail() {
+		var carmine = TestClients.CreateWithJson("{ broken", out _);
+
+		var response = await carmine.ListTripsAsync();
+
+		response.Success.Should().BeFalse();
+		response.Errors[0].Should().Be("The request has failed.");
+		response.Errors[1].Should().StartWith("JsonException: ");
+	}
+
 	[Fact]
 	public async Task PreCancelledToken_ReturnsCancelled() {
 		var carmine = TestClients.CreateWithFixtures();

@@ -32,6 +32,13 @@ public abstract class ResponseBase<TResponse>
 			"The request has failed."
 		]
 	};
+	internal static TResponse FailedWith(
+		string detail) => new() {
+			Errors = [
+				"The request has failed.",
+				detail
+			]
+		};
 	internal static TResponse Invalid(
 		ValidationResult validationResult) => new() {
 			Errors = validationResult.ToErrors()

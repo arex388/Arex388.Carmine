@@ -11,6 +11,7 @@ Correctness and robustness release driven by a full code audit. Returned values 
 - **Fixed:** All JSON converters parse number-as-string fallbacks with the invariant culture (comma-decimal hosts previously corrupted values), and unexpected enum-value tokens fall back to `None` instead of failing the whole response.
 - **Fixed:** `Cancelled` / `Failed` responses are fresh instances per call instead of shared mutable singletons, and cancellation observed mid-request is reported as `Cancelled` instead of `Failed`.
 - **Added:** `harsh_braking` / `extreme_braking` event spellings are matched alongside the existing `_breaking` spellings.
+- **Added:** Failed responses append a human-readable detail entry to `Errors` — the HTTP status (`"HTTP 401 Unauthorized"`) or the exception type and message. The first entry remains exactly `"The request has failed."`, but consumers asserting on a single-element `Errors` list will see a second entry.
 - **Fixed:** Single-account `AddCarmine(options)` registered an unresolvable typed-client `ICarmineClient`; now uses the named registration, and the client factory cache is atomic.
 - **Optimized:** Converters skip unknown JSON properties with `Utf8JsonReader.Skip()` instead of allocating a throwaway `JsonElement`, and base-`Trip` parsing is shared between the trip converters.
 - **Updated:** FluentValidation pinned to `[11.12.0,12.0.0)` (v12 dropped .NET Standard 2.0); NetEscapades.EnumGenerators to 1.0.0-beta21 (build is now warning-free); PolySharp to 1.16.0.

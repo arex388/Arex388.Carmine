@@ -53,7 +53,13 @@ internal sealed class CarmineClient(
         }
 
         try {
-            var trip = await _httpClient.GetFromJsonAsync<TripExpanded>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+
+            if (!httpResponse.IsSuccessStatusCode) {
+                return GetTrip.Response.FailedWith(GetStatusDetail(httpResponse));
+            }
+
+            var trip = await httpResponse.Content.ReadFromJsonAsync<TripExpanded>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
             if (trip is null) {
                 return GetTrip.Response.Failed;
@@ -64,8 +70,8 @@ internal sealed class CarmineClient(
             };
         } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
             return GetTrip.Response.Cancelled;
-        } catch {
-            return GetTrip.Response.Failed;
+        } catch (Exception e) {
+            return GetTrip.Response.FailedWith(GetExceptionDetail(e));
         }
     }
 
@@ -90,7 +96,13 @@ internal sealed class CarmineClient(
         }
 
         try {
-            var user = await _httpClient.GetFromJsonAsync<User>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+
+            if (!httpResponse.IsSuccessStatusCode) {
+                return GetUser.Response.FailedWith(GetStatusDetail(httpResponse));
+            }
+
+            var user = await httpResponse.Content.ReadFromJsonAsync<User>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
             if (user is null) {
                 return GetUser.Response.Failed;
@@ -101,8 +113,8 @@ internal sealed class CarmineClient(
             };
         } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
             return GetUser.Response.Cancelled;
-        } catch {
-            return GetUser.Response.Failed;
+        } catch (Exception e) {
+            return GetUser.Response.FailedWith(GetExceptionDetail(e));
         }
     }
 
@@ -127,7 +139,13 @@ internal sealed class CarmineClient(
         }
 
         try {
-            var vehicle = await _httpClient.GetFromJsonAsync<Vehicle>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+
+            if (!httpResponse.IsSuccessStatusCode) {
+                return GetVehicle.Response.FailedWith(GetStatusDetail(httpResponse));
+            }
+
+            var vehicle = await httpResponse.Content.ReadFromJsonAsync<Vehicle>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
             if (vehicle is null) {
                 return GetVehicle.Response.Failed;
@@ -138,8 +156,8 @@ internal sealed class CarmineClient(
             };
         } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
             return GetVehicle.Response.Cancelled;
-        } catch {
-            return GetVehicle.Response.Failed;
+        } catch (Exception e) {
+            return GetVehicle.Response.FailedWith(GetExceptionDetail(e));
         }
     }
 
@@ -154,15 +172,21 @@ internal sealed class CarmineClient(
         }
 
         try {
-            var trips = await _httpClient.GetFromJsonAsync<IList<Trip>>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+
+            if (!httpResponse.IsSuccessStatusCode) {
+                return ListTrips.Response.FailedWith(GetStatusDetail(httpResponse));
+            }
+
+            var trips = await httpResponse.Content.ReadFromJsonAsync<IList<Trip>>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
             return new ListTrips.Response {
                 Trips = trips ?? []
             };
         } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
             return ListTrips.Response.Cancelled;
-        } catch {
-            return ListTrips.Response.Failed;
+        } catch (Exception e) {
+            return ListTrips.Response.FailedWith(GetExceptionDetail(e));
         }
     }
 
@@ -177,15 +201,21 @@ internal sealed class CarmineClient(
         }
 
         try {
-            var users = await _httpClient.GetFromJsonAsync<IList<User>>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+
+            if (!httpResponse.IsSuccessStatusCode) {
+                return ListUsers.Response.FailedWith(GetStatusDetail(httpResponse));
+            }
+
+            var users = await httpResponse.Content.ReadFromJsonAsync<IList<User>>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
             return new ListUsers.Response {
                 Users = users ?? []
             };
         } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
             return ListUsers.Response.Cancelled;
-        } catch {
-            return ListUsers.Response.Failed;
+        } catch (Exception e) {
+            return ListUsers.Response.FailedWith(GetExceptionDetail(e));
         }
     }
 
@@ -200,15 +230,35 @@ internal sealed class CarmineClient(
         }
 
         try {
-            var vehicles = await _httpClient.GetFromJsonAsync<IList<Vehicle>>(request.GetEndpoint(_options), _jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+            using var httpResponse = await _httpClient.GetAsync(request.GetEndpoint(_options), HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+
+            if (!httpResponse.IsSuccessStatusCode) {
+                return ListVehicles.Response.FailedWith(GetStatusDetail(httpResponse));
+            }
+
+            var vehicles = await httpResponse.Content.ReadFromJsonAsync<IList<Vehicle>>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
             return new ListVehicles.Response {
                 Vehicles = vehicles ?? []
             };
         } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
             return ListVehicles.Response.Cancelled;
-        } catch {
-            return ListVehicles.Response.Failed;
+        } catch (Exception e) {
+            return ListVehicles.Response.FailedWith(GetExceptionDetail(e));
         }
     }
+
+    //  ============================================================================
+    //  Utilities
+    //  ============================================================================
+
+    //  Detail strings are appended to Errors after "The request has failed." —
+    //  never echo the endpoint URL, which carries the api_key.
+    private static string GetExceptionDetail(
+        Exception exception) => $"{exception.GetType().Name}: {exception.Message}";
+
+    private static string GetStatusDetail(
+        HttpResponseMessage response) => string.IsNullOrEmpty(response.ReasonPhrase)
+            ? $"HTTP {(int)response.StatusCode} {response.StatusCode}"
+            : $"HTTP {(int)response.StatusCode} {response.ReasonPhrase}";
 }
