@@ -15,7 +15,7 @@ Correctness and robustness release driven by a full code audit. Returned values 
 - **Fixed:** Single-account `AddCarmine(options)` registered an unresolvable typed-client `ICarmineClient`; now uses the named registration, and the client factory cache is atomic.
 - **Added:** `ListTrips.Request.Take` is validated (`> 0`) and returns `Invalid` locally instead of sending a bad `per_page` to the API, and `ListRecentlyActiveVehiclesAsync` accepts either sign for `minutes` (a positive value previously returned an empty list).
 - **Optimized:** Converters skip unknown JSON properties with `Utf8JsonReader.Skip()` instead of allocating a throwaway `JsonElement`, and base-`Trip` parsing is shared between the trip converters.
-- **Updated:** FluentValidation pinned to `[11.12.0,12.0.0)` (v12 dropped .NET Standard 2.0); NetEscapades.EnumGenerators to 1.0.0-beta21 (build is now warning-free); PolySharp to 1.16.0.
+- **Updated:** FluentValidation pinned to `[11.12.0,12.0.0)` (v12 dropped .NET Standard 2.0); NetEscapades.EnumGenerators to 1.0.0-beta21 (build is now warning-free); PolySharp to 1.16.0; Microsoft.Extensions.* / System.Net.Http.Json / System.Text.Json to 10.0.10 — consumers on the 9.x Microsoft.Extensions stack should stay on 4.1.2.
 - **Refactored:** Tests are offline-first — unit tests and benchmarks share JSON fixtures with mocked HTTP; live integration tests run only with an explicit `CARMINE_LIVE_TESTS=1` opt-in.
 
 
