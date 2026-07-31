@@ -68,4 +68,28 @@ public sealed class CarmineClientFactory {
 
 		client1.Should().NotBeSameAs(client2);
 	}
+
+	[Fact]
+	public async Task CreateClient_IsAtomicUnderConcurrency() {
+		//	========================================================================
+		//	Arrange
+		//	========================================================================
+
+		var options = new CarmineClientOptions {
+			Key = "factory-concurrency-key"
+		};
+
+		//	========================================================================
+		//	Act
+		//	========================================================================
+
+		var clients = await Task.WhenAll(Enumerable.Range(0, 64).Select(
+			_ => Task.Run(() => _carmineFactory.CreateClient(options))));
+
+		//	========================================================================
+		//	Assert
+		//	========================================================================
+
+		clients.Should().AllSatisfy(c => c.Should().BeSameAs(clients[0]));
+	}
 }

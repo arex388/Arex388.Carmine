@@ -20,13 +20,17 @@ internal sealed class CarmineClientFactory(
         CarmineClientOptions options) {
         var key = $"{nameof(Arex388)}.{nameof(Carmine)}.Key[{options.Key}]";
 
+        //  GetOrCreate's value factory is not synchronized — caching a Lazy with
+        //  ExecutionAndPublication guarantees one client per key under concurrency.
         return _cache.GetOrCreate(key, entry => {
             entry.SetOptions(_memoryCacheEntryOptions);
 
-            var httpClientFactory = _services.GetRequiredService<IHttpClientFactory>();
-            var httpClient = httpClientFactory.CreateClient(nameof(ICarmineClient));
+            return new Lazy<ICarmineClient>(() => {
+                var httpClientFactory = _services.GetRequiredService<IHttpClientFactory>();
+                var httpClient = httpClientFactory.CreateClient(nameof(ICarmineClient));
 
-            return new CarmineClient(_services, httpClient, options);
-        })!;
+                return new CarmineClient(_services, httpClient, options);
+            }, LazyThreadSafetyMode.ExecutionAndPublication);
+        })!.Value;
     }
 }
