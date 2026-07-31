@@ -2,7 +2,6 @@ using Arex388.Carmine.Converters;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
-using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace Arex388.Carmine;
@@ -136,7 +135,13 @@ internal sealed class CarmineClient(
                 return ResponseBase<TResponse>.FailedWith(GetStatusDetail(httpResponse));
             }
 
-            var model = await httpResponse.Content.ReadFromJsonAsync<TModel>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+            //  Buffer the full body before deserializing: async stream
+            //  deserialization can invoke the converters on partially buffered
+            //  JSON, where their unknown-property Skip() throws (observed
+            //  against the live API on .NET 10). A complete buffer makes
+            //  isFinalBlock true, so Skip is always safe.
+            var body = await httpResponse.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var model = JsonSerializer.Deserialize<TModel>(body, _jsonSerializerOptions);
 
             return map(model) ?? ResponseBase<TResponse>.Failed;
         } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {

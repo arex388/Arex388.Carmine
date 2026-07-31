@@ -1,5 +1,38 @@
 ﻿# BENCHMARKS
 
+#### 2026-07-30 (v4.2.0 live-deserialization fix)
+
+- BenchmarkDotNet v0.15.8, Windows 10 (10.0.19045.6466/22H2/2022Update)
+- Intel Core i7-4790K CPU 4.00GHz (Haswell), 1 CPU, 8 logical and 4 physical cores
+- .NET SDK 10.0.302
+  - [Host]     : .NET 10.0.10, X64 RyuJIT x86-64-v3
+  - DefaultJob : .NET 10.0.10, X64 RyuJIT x86-64-v3
+
+Re-run after the live-API deserialization fix (#40): the client now buffers the response body (`ReadAsByteArrayAsync`) and deserializes synchronously instead of streaming through `ReadFromJsonAsync`, because async stream deserialization invoked the converters on partially buffered JSON where their unknown-property `Skip()` throws. The trade-off versus the previous entry is deliberate and quantified: **means improve 5–10%** (the synchronous parse drops the async deserialization state machine), while **`Allocated` rises by roughly the payload size** now held as a byte array — Trips Get 10.0 → 16.3 KB, Trips List 5.2 → 7.1 KB, Users Get 4.5 → 5.2 KB, Users List 4.1 → 5.6 KB, Vehicles Get 5.3 → 6.3 KB, Vehicles List 5.3 → 7.5 KB. Correctness against the live API is the driver; payloads are modest (~35 KB for a 107-vehicle fleet).
+
+###### Trips
+
+| Method    |      Mean |     Error |    StdDev | Allocated |
+| --------- | --------: | --------: | --------: | --------: |
+| GetAsync  | 12.019 us | 73.603 ns | 68.849 ns |   16.3 KB |
+| ListAsync |  4.612 us | 18.418 ns | 15.379 ns |    7.1 KB |
+
+###### Users
+
+| Method    |     Mean |     Error |    StdDev | Allocated |
+| --------- | -------: | --------: | --------: | --------: |
+| GetAsync  | 2.933 us |  6.140 ns |  5.743 ns |    5.2 KB |
+| ListAsync | 3.553 us | 12.190 ns | 11.403 ns |    5.6 KB |
+
+###### Vehicles
+
+| Method    |     Mean |     Error |    StdDev | Allocated |
+| --------- | -------: | --------: | --------: | --------: |
+| GetAsync  | 4.013 us | 13.199 ns | 12.346 ns |    6.3 KB |
+| ListAsync | 5.282 us |  8.355 ns |  7.406 ns |    7.5 KB |
+
+
+
 #### 2026-07-30 (v4.2.0 Performance & Quality milestone)
 
 - BenchmarkDotNet v0.15.8, Windows 10 (10.0.19045.6466/22H2/2022Update)
