@@ -44,6 +44,22 @@ _ = await carmine.GetVehicleAsync(new VehicleId(Guid.Parse("...")));
 
 
 
+#### Deployment Guidance for Long-Running Services
+
+The client resolves its `HttpClient` once and holds it for the client's lifetime — zero per-request overhead, but it means `IHttpClientFactory`'s handler rotation never engages, so warm connections don't re-resolve DNS. If your deployment is a busy, long-running service and the Carmine.io endpoint's DNS can change under you, configure the connection pool on the named client instead:
+
+```c#
+services.AddCarmine(options);
+services.AddHttpClient(nameof(ICarmineClient))
+        .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler {
+            PooledConnectionLifetime = TimeSpan.FromMinutes(15)
+        });
+```
+
+Connections are then recycled at the pool level, picking up DNS changes without any per-request cost. `SocketsHttpHandler` exists on .NET Core 2.1+ / .NET 5+ only — on .NET Framework, use the `ServicePoint` machinery instead (`ServicePoint.ConnectionLeaseTimeout` for the Carmine.io endpoint).
+
+
+
 #### Extensions
 
 There are some extension methods on `ICarmineClient` to help with what I consider to be common tasks:

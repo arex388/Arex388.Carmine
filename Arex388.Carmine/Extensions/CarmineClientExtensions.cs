@@ -13,6 +13,12 @@ public static class CarmineClientExtensions {
             /// <param name="vin">The vehicle's VIN.</param>
             /// <param name="cancellationToken">The cancellation token.</param>
             /// <returns>An instance of <c>Vehicle</c>.</returns>
+            /// <remarks>
+            /// Returns <c>null</c> both when no active vehicle matches and when the
+            /// underlying request failed — the two are indistinguishable here. Use
+            /// <see cref="ICarmineClient.ListVehiclesAsync(ListVehicles.Request, CancellationToken)"/>
+            /// when error visibility matters.
+            /// </remarks>
             public async Task<Vehicle?> GetActiveVehicleAsync(
                 string vin,
                 CancellationToken cancellationToken = default) {
@@ -31,6 +37,12 @@ public static class CarmineClientExtensions {
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A list of <c>Vehicle</c>.</returns>
+        /// <remarks>
+        /// Returns an empty list both when there are no active vehicles and when the
+        /// underlying request failed — the two are indistinguishable here. Use
+        /// <see cref="ICarmineClient.ListVehiclesAsync(ListVehicles.Request, CancellationToken)"/>
+        /// when error visibility matters.
+        /// </remarks>
         public async Task<IReadOnlyList<Vehicle>> ListActiveVehiclesAsync(CancellationToken cancellationToken = default) {
             var response = await carmine.ListVehiclesAsync(new ListVehicles.Request {
                 Status = VehicleStatus.Active
@@ -45,6 +57,12 @@ public static class CarmineClientExtensions {
         /// <param name="minutes">How many minutes back to check the <c>LastActivityAt</c>. Either sign is accepted.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A list of <c>Vehicle</c>.</returns>
+        /// <remarks>
+        /// Returns an empty list both when no vehicles were recently active and when
+        /// the underlying request failed — the two are indistinguishable here. Use
+        /// <see cref="ICarmineClient.ListVehiclesAsync(ListVehicles.Request, CancellationToken)"/>
+        /// when error visibility matters.
+        /// </remarks>
         public async Task<IReadOnlyList<Vehicle>> ListRecentlyActiveVehiclesAsync(
             int minutes,
             CancellationToken cancellationToken = default) {
