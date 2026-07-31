@@ -3,8 +3,8 @@
 
 Arex388.Carmine is a highly opinionated .NET Standard 2.0 library for the [Carmine.io](https://api.carmine.io/v2/docs) API. It's intended to be an easy, well structured, and highly performant client for interacting with the Carmine.io API for retrieving GPS fleet tracking information. It can be used in applications interacting with a single account using `ICarmineClient`, or with applications interacting with multiple accounts using `ICarmineClientFactory`.
 
-- [Changelog](CHANGELOG.md)
-- [Benchmarks](BENCHMARKS.md)
+- [Changelog](https://github.com/arex388/Arex388.Carmine/blob/master/CHANGELOG.md)
+- [Benchmarks](https://github.com/arex388/Arex388.Carmine/blob/master/BENCHMARKS.md)
 
 
 
