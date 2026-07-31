@@ -8,7 +8,11 @@ Correctness and robustness release driven by a full code audit. Returned values 
 - **Fixed:** Mile conversions used a truncated `1609` divisor (now `1609.344`); `Vehicle` odometer conversions now round instead of truncating.
 - **Fixed:** `ListTrips` sent `start_time` / `end_time` with a 12-hour clock (afternoon filters silently queried the wrong window) and culture-sensitive separators; now `HH` with the invariant culture.
 - **Fixed:** `ListRecentlyActiveVehiclesAsync` compared the API's UTC timestamps against local time; now uses `DateTime.UtcNow`.
-- **Fixed:** All JSON converters parse number-as-string fallbacks with the invariant culture (comma-decimal hosts previously corrupted values), and unexpected enum-value tokens fall back to `None` instead of failing the whole response.
+- **Fixed:** All JSON converters parse number-as-string fallbacks with the invariant culture (comma-decimal hosts previously corrupted values), and unexpected enum-value tokens — including object or array values — fall back to `None` instead of failing the whole response.
+- **Fixed:** `User.Phone` number-as-string parsing accepts formatted values (`"+1 (214) 555-0123"`) and degrades to `null` on unparseable input instead of failing the whole response.
+- **Fixed:** `StronglyTypedId` no longer flows to consumers as a package dependency (it is a compile-time source generator, and its prerelease pin broke feeds that reject prerelease packages).
+- **Added:** NuGet package metadata — MIT license expression, embedded README, repository type, and a SourceLink `.snupkg` symbol package.
+- **Added:** .NET SDK analyzers (`latest-recommended`) with warnings-as-errors across the solution.
 - **Fixed:** `Cancelled` / `Failed` responses are fresh instances per call instead of shared mutable singletons, and cancellation observed mid-request is reported as `Cancelled` instead of `Failed`.
 - **Added:** `harsh_braking` / `extreme_braking` event spellings are matched alongside the existing `_breaking` spellings, and `EventType.ExtremeBraking` replaces the misspelled `ExtremeBreaking`, which remains as an `[Obsolete]` alias with the same value (removal deferred to v5).
 - **Added:** Failed responses append a human-readable detail entry to `Errors` — the HTTP status (`"HTTP 401 Unauthorized"`) or the exception type and message. The first entry remains exactly `"The request has failed."`, but consumers asserting on a single-element `Errors` list will see a second entry.
@@ -17,6 +21,14 @@ Correctness and robustness release driven by a full code audit. Returned values 
 - **Optimized:** Converters skip unknown JSON properties with `Utf8JsonReader.Skip()` instead of allocating a throwaway `JsonElement`, and base-`Trip` parsing is shared between the trip converters.
 - **Updated:** FluentValidation pinned to `[11.12.0,12.0.0)` (v12 dropped .NET Standard 2.0); NetEscapades.EnumGenerators to 1.0.0-beta21 (build is now warning-free); PolySharp to 1.16.0; Microsoft.Extensions.* / System.Net.Http.Json / System.Text.Json to 10.0.10 — consumers on the 9.x Microsoft.Extensions stack should stay on 4.1.2.
 - **Refactored:** Tests are offline-first — unit tests and benchmarks share JSON fixtures with mocked HTTP; live integration tests run only with an explicit `CARMINE_LIVE_TESTS=1` opt-in.
+
+
+
+#### 4.1.2 (2026-01-12)
+
+- **Updated:** Enums to use `MetadataSource.DisplayAttribute` with the matching `ToStringFast(true)` overload for endpoint values.
+- **Refactored:** `List*` request static instances renamed to `Default`.
+- **Added:** Integration tests for the `ICarmineClient` extension methods.
 
 
 
