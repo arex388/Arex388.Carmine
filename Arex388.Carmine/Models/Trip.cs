@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace Arex388.Carmine;
 
 /// <summary>
@@ -21,7 +19,6 @@ public class Trip {
 	/// <summary>
 	/// The trip's distance traveled in meters.
 	/// </summary>
-	[JsonPropertyName("distance")]
 	public int DistanceTraveledInMeters { get; init; }
 
 	/// <summary>
@@ -32,7 +29,6 @@ public class Trip {
 	/// <summary>
 	/// The trip's end timestamp.
 	/// </summary>
-	[JsonPropertyName("end_time")]
 	public DateTime? EndAt { get; init; }
 
 	/// <summary>
@@ -70,7 +66,6 @@ public class Trip {
 	/// <summary>
 	/// The trip's maximum speed in meters per second.
 	/// </summary>
-	[JsonPropertyName("max_speed")]
 	public decimal? MaxSpeedInMetersPerSecond { get; init; }
 
 	/// <summary>
@@ -83,12 +78,10 @@ public class Trip {
 	/// <summary>
 	/// The amount of time, in seconds, the vehicle was parked before the trip's start.
 	/// </summary>
-	[JsonPropertyName("time_parked")]
 	public int ParkedSeconds { get; init; }
 
 	/// <summary>
 	/// The trip's start timestamp.
 	/// </summary>
-	[JsonPropertyName("start_time")]
 	public DateTime StartAt { get; init; }
 }

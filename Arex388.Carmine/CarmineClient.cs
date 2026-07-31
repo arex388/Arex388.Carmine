@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
 using System.Net.Http.Json;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Arex388.Carmine;
 
@@ -22,9 +21,7 @@ internal sealed class CarmineClient(
             new UserJsonConverter(),
             new VehicleJsonConverter(),
             new WaypointJsonConverter()
-        },
-        NumberHandling = JsonNumberHandling.AllowReadingFromString,
-        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+        }
     };
 
     private readonly IValidator<GetTrip.Request> _getTripRequestValidator = services.GetRequiredService<IValidator<GetTrip.Request>>();

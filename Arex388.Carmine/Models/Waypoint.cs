@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace Arex388.Carmine;
 
 /// <summary>
@@ -12,7 +10,6 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The waypoint's timestamp in UTC.
 	/// </summary>
-	[JsonPropertyName("time")]
 	public DateTime AtUtc { get; init; }
 
 	/// <summary>
@@ -23,7 +20,6 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The trip's distance traveled at this waypoint in meters.
 	/// </summary>
-	[JsonPropertyName("distance")]
 	public int DistanceTraveledInMeters { get; init; }
 
 	/// <summary>
@@ -39,7 +35,6 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The vehicle's elevation above sea level in meters.
 	/// </summary>
-	[JsonPropertyName("altitude")]
 	public decimal ElevationInMeters { get; init; }
 
 	/// <summary>
@@ -50,7 +45,6 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The vehicle's engine's RPM at this waypoint.
 	/// </summary>
-	[JsonPropertyName("rpm")]
 	public int? EngineRpm { get; init; }
 	
 	/// <summary>
@@ -71,7 +65,6 @@ public sealed class Waypoint {
 	/// <summary>
 	/// The vehicle's speed at this waypoint in meters per second.
 	/// </summary>
-	[JsonPropertyName("speed")]
 	public decimal SpeedInMetersPerSecond { get; init; }
 
 	/// <summary>

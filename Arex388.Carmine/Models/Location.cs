@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Arex388.Carmine;
+﻿namespace Arex388.Carmine;
 
 /// <summary>
 /// Location object.
@@ -19,7 +17,6 @@ public sealed class Location {
 	/// <summary>
 	/// The location's created timestamp in UTC.
 	/// </summary>
-	[JsonPropertyName("created")]
 	public DateTime CreatedAtUtc { get; init; }
 
 	/// <summary>
@@ -40,7 +37,6 @@ public sealed class Location {
 	/// <summary>
 	/// The location's last activity timestamp.
 	/// </summary>
-	[JsonPropertyName("last_activity_time")]
 	public DateTime? LastActivityAt { get; init; }
 
 	/// <summary>
@@ -66,7 +62,6 @@ public sealed class Location {
 	/// <summary>
 	/// The location's visit count.
 	/// </summary>
-	[JsonPropertyName("popularity")]
 	public int VisitedCount { get; init; }
 
 	/// <summary>

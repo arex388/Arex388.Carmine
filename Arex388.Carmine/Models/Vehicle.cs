@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Arex388.Carmine;
+﻿namespace Arex388.Carmine;
 
 /// <summary>
 /// Vehicle object.
@@ -9,7 +7,6 @@ public sealed class Vehicle {
     /// <summary>
 	/// The vehicle's CO2 emissions in tons per gallon of fuel.
 	/// </summary>
-	[JsonPropertyName("carbon_footprint")]
 	public decimal? CarbonEmissionsInTonsPerGallon { get; init; }
 
 	/// <summary>
@@ -30,19 +27,16 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's created timestamp in UTC.
 	/// </summary>
-	[JsonPropertyName("created")]
 	public DateTime CreatedAtUtc { get; init; }
 
 	/// <summary>
 	/// The vehicle's current driver id.
 	/// </summary>
-	[JsonPropertyName("current_driver")]
 	public UserId? DriverId { get; init; }
 
 	/// <summary>
 	/// Diagnostic fault codes.
 	/// </summary>
-	[JsonPropertyName("fault_codes")]
 	public IReadOnlyDictionary<string, string>? Faults { get; init; }
 
 	/// <summary>
@@ -53,7 +47,6 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's fuel consumption in meters per liter.
 	/// </summary>
-	[JsonPropertyName("fuel_economy")]
 	public int FuelConsumptionInMetersPerLiter { get; init; }
 
 	/// <summary>
@@ -64,7 +57,6 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's current remaining fuel.
 	/// </summary>
-	[JsonPropertyName("fuel_level")]
 	public byte FuelRemaining { get; init; }
 
 	/// <summary>
@@ -75,31 +67,26 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's last activity timestamp.
 	/// </summary>
-	[JsonPropertyName("last_activity")]
 	public DateTime? LastActivityAt { get; init; }
 
 	/// <summary>
 	/// The vehicle's last trip id.
 	/// </summary>
-	[JsonPropertyName("last_trip")]
 	public TripId? LastTripId { get; init; }
 
 	/// <summary>
 	/// The vehicle's current latitude.
 	/// </summary>
-	[JsonPropertyName("current_latitude")]
 	public decimal? Latitude { get; init; }
 
 	/// <summary>
 	/// The vehicle's license plate number.
 	/// </summary>
-	[JsonPropertyName("license_plate")]
 	public string? LicensePlateNumber { get; init; }
 
 	/// <summary>
 	/// The vehicle's current longitude.
 	/// </summary>
-	[JsonPropertyName("current_longitude")]
 	public decimal? Longitude { get; init; }
 
 	/// <summary>
@@ -127,7 +114,6 @@ public sealed class Vehicle {
 	/// <summary>
 	/// The vehicle's odometer in meters.
 	/// </summary>
-	[JsonPropertyName("odometer")]
 	public int? OdometerInMeters { get; init; }
 
 	/// <summary>
