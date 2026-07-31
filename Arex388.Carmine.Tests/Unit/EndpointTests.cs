@@ -63,6 +63,30 @@ public sealed class EndpointTests {
 		uri.Should().Be($"https://localhost:9/v2/users?lang=en&api_key={TestClients.ApiKey}");
 	}
 
+	[Theory]
+	[InlineData(UserStatus.Active, "true")]
+	[InlineData(UserStatus.Inactive, "false")]
+	public async Task ListUsers_BuildsEndpoint_WithEncodedSearchAndStatus(
+		UserStatus status,
+		string active) {
+		var uri = await CaptureAsync(c => c.ListUsersAsync(new ListUsers.Request {
+			Search = "John Smith",
+			Status = status
+		}));
+
+		uri.Should().Be($"https://localhost:9/v2/users?lang=en&search=John+Smith&active={active}&api_key={TestClients.ApiKey}");
+	}
+
+	[Fact]
+	public async Task GetTrip_BuildsEndpoint_WithNonDefaultLanguage() {
+		var uri = await CaptureAsync(c => c.GetTripAsync(new GetTrip.Request {
+			Id = new TripId(_id),
+			Language = Language.German
+		}), "null");
+
+		uri.Should().Be($"https://localhost:9/v2/trips/{_id}?lang=de&api_key={TestClients.ApiKey}");
+	}
+
 	[Fact]
 	public async Task ListVehicles_BuildsEndpoint_WithEncodedSearch() {
 		var uri = await CaptureAsync(c => c.ListVehiclesAsync(new ListVehicles.Request {

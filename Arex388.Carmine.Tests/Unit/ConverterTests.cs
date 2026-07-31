@@ -274,10 +274,13 @@ public sealed class ConverterTests {
 	}
 
 	[Theory]
-	[InlineData("extreme_braking")]
-	[InlineData("extreme_breaking")]
+	[InlineData("extreme_braking", EventType.ExtremeBraking)]
+	[InlineData("extreme_breaking", EventType.ExtremeBraking)]
+	[InlineData("harsh_braking", EventType.HarshBraking)]
+	[InlineData("harsh_breaking", EventType.HarshBraking)]
 	public async Task EventType_BothBrakingSpellings_Parse(
-		string spelling) {
+		string spelling,
+		EventType expected) {
 		var json = $$"""
 			{
 				"id": "a1a1dee1-fdb6-4a55-9e48-1fd9882bf4f7",
@@ -293,7 +296,7 @@ public sealed class ConverterTests {
 		var response = await TestClients.CreateWithJson(json, out _).GetTripAsync(new TripId(Guid.Parse("a1a1dee1-fdb6-4a55-9e48-1fd9882bf4f7")));
 
 		response.Success.Should().BeTrue();
-		response.Trip!.Events[0].Type.Should().Be(EventType.ExtremeBraking);
+		response.Trip!.Events[0].Type.Should().Be(expected);
 	}
 
 	[Fact]
