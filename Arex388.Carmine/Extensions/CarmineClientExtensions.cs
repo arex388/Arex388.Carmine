@@ -21,7 +21,9 @@ public static class CarmineClientExtensions {
                 Status = VehicleStatus.Active
             }, cancellationToken).ConfigureAwait(false);
 
-            return response.Vehicles.FirstOrDefault();
+            return response.Vehicles.Count == 0
+                ? null
+                : response.Vehicles[0];
         }
 
         /// <summary>
@@ -29,7 +31,7 @@ public static class CarmineClientExtensions {
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A list of <c>Vehicle</c>.</returns>
-        public async Task<IList<Vehicle>> ListActiveVehiclesAsync(CancellationToken cancellationToken = default) {
+        public async Task<IReadOnlyList<Vehicle>> ListActiveVehiclesAsync(CancellationToken cancellationToken = default) {
             var response = await carmine.ListVehiclesAsync(new ListVehicles.Request {
                 Status = VehicleStatus.Active
             }, cancellationToken).ConfigureAwait(false);
@@ -43,7 +45,7 @@ public static class CarmineClientExtensions {
         /// <param name="minutes">How many minutes back to check the <c>LastActivityAt</c>. Either sign is accepted.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A list of <c>Vehicle</c>.</returns>
-        public async Task<IList<Vehicle>> ListRecentlyActiveVehiclesAsync(
+        public async Task<IReadOnlyList<Vehicle>> ListRecentlyActiveVehiclesAsync(
             int minutes,
             CancellationToken cancellationToken = default) {
             var at = DateTime.UtcNow.AddMinutes(-Math.Abs(minutes));

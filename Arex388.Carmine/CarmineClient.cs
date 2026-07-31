@@ -80,7 +80,7 @@ internal sealed class CarmineClient(
 
     public Task<ListTrips.Response> ListTripsAsync(
         ListTrips.Request request,
-        CancellationToken cancellationToken = default) => SendAsync(request, _listTripsRequestValidator, static (IList<Trip>? trips) => new ListTrips.Response {
+        CancellationToken cancellationToken = default) => SendAsync(request, _listTripsRequestValidator, static (List<Trip>? trips) => new ListTrips.Response {
             Trips = trips ?? []
         }, cancellationToken);
 
@@ -89,7 +89,7 @@ internal sealed class CarmineClient(
 
     public Task<ListUsers.Response> ListUsersAsync(
         ListUsers.Request request,
-        CancellationToken cancellationToken = default) => SendAsync(request, null, static (IList<User>? users) => new ListUsers.Response {
+        CancellationToken cancellationToken = default) => SendAsync(request, null, static (List<User>? users) => new ListUsers.Response {
             Users = users ?? []
         }, cancellationToken);
 
@@ -98,7 +98,7 @@ internal sealed class CarmineClient(
 
     public Task<ListVehicles.Response> ListVehiclesAsync(
         ListVehicles.Request request,
-        CancellationToken cancellationToken = default) => SendAsync(request, null, static (IList<Vehicle>? vehicles) => new ListVehicles.Response {
+        CancellationToken cancellationToken = default) => SendAsync(request, null, static (List<Vehicle>? vehicles) => new ListVehicles.Response {
             Vehicles = vehicles ?? []
         }, cancellationToken);
 

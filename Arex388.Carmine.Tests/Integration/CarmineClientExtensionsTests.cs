@@ -29,7 +29,7 @@ public sealed class CarmineClientExtensionsTests {
 
 		listResponse.Vehicles.Should().NotBeEmpty("need at least one active vehicle for this test");
 
-		var expectedVehicle = listResponse.Vehicles.First();
+		var expectedVehicle = listResponse.Vehicles[0];
 
 		//	========================================================================
 		//	Act

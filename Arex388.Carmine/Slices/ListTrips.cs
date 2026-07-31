@@ -86,7 +86,7 @@ public static class ListTrips {
         /// <summary>
         /// The matched trips.
         /// </summary>
-        public IList<Trip> Trips { get; init; } = [];
+        public IReadOnlyList<Trip> Trips { get; init; } = [];
     }
 }
 

@@ -4,6 +4,7 @@
 
 Correctness and robustness release driven by a full code audit. Returned values change where the previous behavior was wrong.
 
+- **Breaking:** The response surface is read-only. `ResponseBase<TResponse>.Errors`, `ListTrips.Response.Trips`, `ListUsers.Response.Users`, `ListVehicles.Response.Vehicles`, `TripExpanded.Events`, and `TripExpanded.Waypoints` are now `IReadOnlyList<T>` (previously `IList<T>`); `Vehicle.Faults` is now `IReadOnlyDictionary<string, string>?` (previously `IDictionary<string, string>?`); and the `ListActiveVehiclesAsync` / `ListRecentlyActiveVehiclesAsync` extensions return `IReadOnlyList<Vehicle>`. Consumers declaring variables as `IList<T>` / `IDictionary<K,V>` against these members, or mutating response collections, must retype to the read-only interfaces. Empty payloads no longer allocate fresh lists.
 - **Fixed:** `Trip.MaxSpeedInKilometersPerHour` / `MaxSpeedInMilesPerHour` never applied their conversion factors due to an operator-precedence bug and returned the raw m/s value; a `null` max speed now returns `null` instead of `0.00`.
 - **Fixed:** Mile conversions used a truncated `1609` divisor (now `1609.344`); `Vehicle` odometer conversions now round instead of truncating.
 - **Fixed:** `ListTrips` sent `start_time` / `end_time` with a 12-hour clock (afternoon filters silently queried the wrong window) and culture-sensitive separators; now `HH` with the invariant culture.

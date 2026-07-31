@@ -18,7 +18,7 @@ public sealed class TripExpanded :
 	/// <summary>
 	/// The trip's events.
 	/// </summary>
-	public IList<Event> Events { get; init; } = [];
+	public IReadOnlyList<Event> Events { get; init; } = [];
 
 	/// <summary>
 	/// The trip's vehicle.
@@ -33,5 +33,5 @@ public sealed class TripExpanded :
 	/// <summary>
 	/// The trip's waypoints.
 	/// </summary>
-	public IList<Waypoint> Waypoints { get; init; } = [];
+	public IReadOnlyList<Waypoint> Waypoints { get; init; } = [];
 }

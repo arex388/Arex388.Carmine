@@ -20,7 +20,9 @@ public class VehiclesBenchmarks {
         // Get a vehicle ID from the cached list response for the Get benchmark
         var list = _carmine.ListVehiclesAsync().GetAwaiter().GetResult();
 
-        _vehicleId = list.Vehicles.FirstOrDefault()?.Id ?? default;
+        _vehicleId = list.Vehicles.Count == 0
+            ? default
+            : list.Vehicles[0].Id;
     }
 
     [Benchmark]

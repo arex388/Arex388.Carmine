@@ -24,7 +24,7 @@ public sealed class VehiclesTests {
 		//	========================================================================
 
 		var list = await _carmine.ListVehiclesAsync();
-		var vehicle = list.Vehicles.First();
+		var vehicle = list.Vehicles[0];
 
 		//	========================================================================
 		//	Act

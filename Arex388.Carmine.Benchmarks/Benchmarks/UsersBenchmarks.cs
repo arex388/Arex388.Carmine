@@ -20,7 +20,9 @@ public class UsersBenchmarks {
         // Get a user ID from the cached list response for the Get benchmark
         var list = _carmine.ListUsersAsync().GetAwaiter().GetResult();
 
-        _userId = list.Users.FirstOrDefault()?.Id ?? default;
+        _userId = list.Users.Count == 0
+            ? default
+            : list.Users[0].Id;
     }
 
     [Benchmark]

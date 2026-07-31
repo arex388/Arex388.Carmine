@@ -24,7 +24,7 @@ public sealed class TripsTest {
 		//	========================================================================
 
 		var list = await _carmine.ListTripsAsync();
-		var trip = list.Trips.First();
+		var trip = list.Trips[0];
 
 		//	========================================================================
 		//	Act

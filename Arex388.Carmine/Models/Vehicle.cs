@@ -38,7 +38,7 @@ public sealed class Vehicle {
 	/// Diagnostic fault codes.
 	/// </summary>
 	[JsonPropertyName("fault_codes")]
-	public IDictionary<string, string>? Faults { get; init; }
+	public IReadOnlyDictionary<string, string>? Faults { get; init; }
 
 	/// <summary>
 	/// The vehicle's fuel consumption in kilometers per liter, rounded to two decimal places.

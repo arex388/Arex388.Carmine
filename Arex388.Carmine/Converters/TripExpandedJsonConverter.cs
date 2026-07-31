@@ -38,10 +38,10 @@ internal sealed class TripExpandedJsonConverter :
         // TripExpanded properties
         User? driver = null;
         Location? endLocation = null;
-        IList<Event> events = [];
+        List<Event> events = [];
         Location startLocation = null!;
         Vehicle vehicle = null!;
-        IList<Waypoint> waypoints = [];
+        List<Waypoint> waypoints = [];
 
         while (reader.Read()) {
             if (reader.TokenType == JsonTokenType.EndObject) {

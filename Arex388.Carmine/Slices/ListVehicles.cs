@@ -61,6 +61,6 @@ public static class ListVehicles {
         /// <summary>
         /// The matched vehicles.
         /// </summary>
-        public IList<Vehicle> Vehicles { get; init; } = [];
+        public IReadOnlyList<Vehicle> Vehicles { get; init; } = [];
     }
 }

@@ -20,7 +20,9 @@ public class TripsBenchmarks {
         // Get a trip ID from the cached list response for the Get benchmark
         var list = _carmine.ListTripsAsync().GetAwaiter().GetResult();
 
-        _tripId = list.Trips.FirstOrDefault()?.Id ?? default;
+        _tripId = list.Trips.Count == 0
+            ? default
+            : list.Trips[0].Id;
     }
 
     [Benchmark]

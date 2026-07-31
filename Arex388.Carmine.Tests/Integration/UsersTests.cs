@@ -24,7 +24,7 @@ public sealed class UsersTests {
 		//	========================================================================
 
 		var list = await _carmine.ListUsersAsync();
-		var user = list.Users.First();
+		var user = list.Users[0];
 
 		//	========================================================================
 		//	Act

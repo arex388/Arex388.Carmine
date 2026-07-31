@@ -64,6 +64,6 @@ public static class ListUsers {
         /// <summary>
         /// The matched users.
         /// </summary>
-        public IList<User> Users { get; init; } = [];
+        public IReadOnlyList<User> Users { get; init; } = [];
     }
 }

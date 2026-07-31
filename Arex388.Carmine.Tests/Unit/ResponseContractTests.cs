@@ -15,12 +15,10 @@ public sealed class ResponseContractTests {
 		b.Success.Should().BeFalse();
 		a.Should().NotBeSameAs(b);
 
-		//	Consumer mutation of one response must not corrupt later responses.
-		a.Errors.Clear();
-
-		var c = await carmine.ListTripsAsync();
-
-		c.Success.Should().BeFalse();
+		//	Each failed response carries its own Errors instance — the surface is
+		//	read-only, so shared state between responses would be unobservable but
+		//	still wrong.
+		a.Errors.Should().NotBeSameAs(b.Errors);
 	}
 
 	[Theory]
