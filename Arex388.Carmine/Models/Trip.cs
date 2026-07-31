@@ -6,10 +6,13 @@ namespace Arex388.Carmine;
 /// Trip object.
 /// </summary>
 public class Trip {
+	private decimal? _distanceTraveledInKilometers;
+	private decimal? _distanceTraveledInMiles;
+
     /// <summary>
 	/// The trip's distance traveled in kilometers, rounded to two decimal places.
 	/// </summary>
-	public decimal DistanceTraveledInKilometers => Math.Round(DistanceTraveledInMeters / 1000M, 2) + 0.00M;
+	public decimal DistanceTraveledInKilometers => _distanceTraveledInKilometers ??= Math.Round(DistanceTraveledInMeters / 1000M, 2) + 0.00M;
 
 	/// <summary>
 	/// The trip's distance traveled in meters.
@@ -20,7 +23,7 @@ public class Trip {
 	/// <summary>
 	/// The trip's distance traveled in miles, rounded to two decimal places.
 	/// </summary>
-	public decimal DistanceTraveledInMiles => Math.Round(DistanceTraveledInMeters / 1609.344M, 2) + 0.00M;
+	public decimal DistanceTraveledInMiles => _distanceTraveledInMiles ??= Math.Round(DistanceTraveledInMeters / 1609.344M, 2) + 0.00M;
 
 	/// <summary>
 	/// The trip's end timestamp.

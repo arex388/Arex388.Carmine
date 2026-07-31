@@ -59,7 +59,7 @@ public static class ListTrips {
             sb.Append("&per_page=").Append(request.Take);
 
             if (request.DriverId.HasValue) {
-                sb.Append("&driver[]=").Append(request.DriverId);
+                sb.Append("&driver[]=").Append(request.DriverId.Value.ToString());
             }
 
             if (request.EndAtUtc.HasValue) {
@@ -71,7 +71,7 @@ public static class ListTrips {
             }
 
             if (request.VehicleId.HasValue) {
-                sb.Append("&vehicle[]=").Append(request.VehicleId);
+                sb.Append("&vehicle[]=").Append(request.VehicleId.Value.ToString());
             }
 
             return sb.ToString();

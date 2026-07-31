@@ -20,6 +20,11 @@ internal sealed class CarmineClientFactory(
         CarmineClientOptions options) {
         var key = $"{nameof(Arex388)}.{nameof(Carmine)}.Key[{options.Key}]";
 
+        //  Fast path: cache hits skip GetOrCreate's closure and entry-options work.
+        if (_cache.TryGetValue<Lazy<ICarmineClient>>(key, out var cached)) {
+            return cached!.Value;
+        }
+
         //  GetOrCreate's value factory is not synchronized — caching a Lazy with
         //  ExecutionAndPublication guarantees one client per key under concurrency.
         return _cache.GetOrCreate(key, entry => {

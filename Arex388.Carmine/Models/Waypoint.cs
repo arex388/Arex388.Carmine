@@ -5,6 +5,9 @@ namespace Arex388.Carmine;
 /// <summary>
 /// Waypoint object.
 /// </summary>
+//	Unlike Trip, the unit conversions here are deliberately uncached: backing
+//	fields would add ~20 bytes to each of the thousands of waypoints a trip can
+//	carry, and recomputing is cheaper than that memory.
 public sealed class Waypoint {
 	/// <summary>
 	/// The waypoint's timestamp in UTC.
