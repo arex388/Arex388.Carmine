@@ -1,4 +1,4 @@
-﻿using Arex388.Carmine.Converters;
+using Arex388.Carmine.Converters;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Json;
@@ -62,6 +62,8 @@ internal sealed class CarmineClient(
             return new GetTrip.Response {
                 Trip = trip
             };
+        } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
+            return GetTrip.Response.Cancelled;
         } catch {
             return GetTrip.Response.Failed;
         }
@@ -97,6 +99,8 @@ internal sealed class CarmineClient(
             return new GetUser.Response {
                 User = user
             };
+        } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
+            return GetUser.Response.Cancelled;
         } catch {
             return GetUser.Response.Failed;
         }
@@ -132,6 +136,8 @@ internal sealed class CarmineClient(
             return new GetVehicle.Response {
                 Vehicle = vehicle
             };
+        } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
+            return GetVehicle.Response.Cancelled;
         } catch {
             return GetVehicle.Response.Failed;
         }
@@ -153,6 +159,8 @@ internal sealed class CarmineClient(
             return new ListTrips.Response {
                 Trips = trips ?? []
             };
+        } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
+            return ListTrips.Response.Cancelled;
         } catch {
             return ListTrips.Response.Failed;
         }
@@ -174,6 +182,8 @@ internal sealed class CarmineClient(
             return new ListUsers.Response {
                 Users = users ?? []
             };
+        } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
+            return ListUsers.Response.Cancelled;
         } catch {
             return ListUsers.Response.Failed;
         }
@@ -195,6 +205,8 @@ internal sealed class CarmineClient(
             return new ListVehicles.Response {
                 Vehicles = vehicles ?? []
             };
+        } catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) {
+            return ListVehicles.Response.Cancelled;
         } catch {
             return ListVehicles.Response.Failed;
         }

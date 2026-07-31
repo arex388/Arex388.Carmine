@@ -22,12 +22,12 @@ public abstract class ResponseBase<TResponse>
 	//	Responses
 	//	============================================================================
 
-	internal static readonly TResponse Cancelled = new() {
+	internal static TResponse Cancelled => new() {
 		Errors = [
 			"The request was cancelled."
 		]
 	};
-	internal static readonly TResponse Failed = new() {
+	internal static TResponse Failed => new() {
 		Errors = [
 			"The request has failed."
 		]
