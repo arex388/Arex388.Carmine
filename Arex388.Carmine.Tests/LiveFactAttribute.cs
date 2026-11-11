@@ -14,7 +14,7 @@ public sealed class LiveFactAttribute :
 		[CallerLineNumber] int sourceLineNumber = -1) :
 		base(sourceFilePath, sourceLineNumber) {
 		if (Environment.GetEnvironmentVariable("CARMINE_LIVE_TESTS") != "1") {
-			Skip = "Live Carmine.io tests are opt-in. Set CARMINE_LIVE_TESTS=1 and configure the key-1/key-2 user secrets to run them.";
+			Skip = "Live Carmine.io tests are opt-in. Set CARMINE_LIVE_TESTS=1 and configure the key-1 user secret to run them.";
 		} else if (string.IsNullOrEmpty(Config.Key1)) {
 			Skip = "CARMINE_LIVE_TESTS is set but the key-1 user secret is missing.";
 		}

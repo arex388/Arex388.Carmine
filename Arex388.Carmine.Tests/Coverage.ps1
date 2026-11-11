@@ -3,7 +3,7 @@
 #
 #	Requires the local tools from ../.config/dotnet-tools.json ('dotnet tool restore').
 #	The default run is offline (unit tests only); live integration tests are skipped
-#	unless CARMINE_LIVE_TESTS=1 is set and the 'key-1'/'key-2' user secrets exist.
+#	unless CARMINE_LIVE_TESTS=1 is set and the 'key-1' user secret exists.
 
 Remove-Item -Path 'reports' -Recurse -ErrorAction SilentlyContinue;
 Remove-Item -Path 'TestResults' -Recurse -ErrorAction SilentlyContinue;
